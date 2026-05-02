@@ -1,6 +1,6 @@
 import {FaEnvelope} from 'react-icons/fa'
 import React, { useEffect } from "react"
-import './reset-password.css'
+import './styling/reset-password.css'
 
 function ResetPassword() {
 
