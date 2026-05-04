@@ -1,0 +1,122 @@
+.parking-container {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 2rem;
+  width: 100%;
+  max-width: 600px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+}
+
+.parking-container h2 {
+  font-size: 22px;
+  font-weight: 600;
+  color: #1a1a2e;
+  margin-bottom: 0.5rem;
+}
+
+.legend {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #555;
+}
+
+.legend-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+}
+
+.slots-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 12px;
+  margin-bottom: 1.5rem;
+}
+
+.slot {
+  padding: 1rem;
+  border-radius: 10px;
+  border: 1.5px solid transparent;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  user-select: none;
+}
+
+.slot:not(.booked):hover {
+  transform: scale(1.05);
+}
+
+.slot.available {
+  background: #EAF3DE;
+  border-color: #639922;
+  color: #3B6D11;
+}
+
+.slot.selected {
+  background: #E6F1FB;
+  border-color: #185FA5;
+  color: #0C447C;
+}
+
+.slot.booked {
+  background: #FCEBEB;
+  border-color: #A32D2D;
+  color: #791F1F;
+  cursor: not-allowed;
+}
+
+.info {
+  background: #f8f9fb;
+  border: 1px solid #e0e4ea;
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.info span,
+.info {
+  font-size: 14px;
+  color: #444;
+}
+
+.info b {
+  color: #1a1a2e;
+  font-weight: 600;
+}
+
+.info button {
+  padding: 8px 20px;
+  border-radius: 8px;
+  border: 1.5px solid #185FA5;
+  background: #E6F1FB;
+  color: #0C447C;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.1s ease;
+}
+
+.info button:hover {
+  background: #B5D4F4;
+  transform: scale(1.02);
+}
+
+.info button:active {
+  transform: scale(0.98);
+}

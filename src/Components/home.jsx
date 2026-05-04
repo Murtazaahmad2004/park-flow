@@ -132,14 +132,14 @@ transition={{ duration: 0.8 }}
    transition={{ duration: 0.1 }}
    >
    <h2>Basic</h2>
-   <p className="price">Rs 600<span>/hour</span></p>
+   <p className="price">Rs 600<span>/day</span></p>
    <ul>
       <li>🅿️ Standard parking slot</li>
-      <li>⏰ Max 2 hours usage</li>
+      <li>⏰ Unlimited parking duration</li>
       <li>🧾 Digital parking ticket</li>
       <li>📷 QR code entry</li>
       <li>🚗 Suitable for short visits</li>
-      <li className="disabled">❌ No reservation</li>
+      <li className="disabled">❌ No priority support</li>
       <li className="disabled">❌ No security monitoring</li>
    </ul>
    <NavLink to="#" className="plan-buttons">Get Basic Plan</NavLink>
@@ -158,7 +158,7 @@ transition={{ duration: 0.8 }}
    <p className="price">Rs 1500<span>/month</span></p>
    <ul>
       <li>🅿️ Reserved parking slot</li>
-      <li>⏰ Up to 5 hours per day</li>
+      <li>⏰ Unlimited parking duration</li>
       <li>📱 Online booking access</li>
       <li>🧾 Digital + printable ticket</li>
       <li>📷 QR code access</li>
@@ -182,7 +182,7 @@ transition={{ duration: 0.8 }}
    <p className="price">Rs 2500<span>/month</span></p>
    <ul>
       <li>🅿️ Priority parking slot</li>
-      <li>⏰ Up to 10 hours per day</li>
+      <li>⏰ Unlimited parking duration</li>
       <li>📱 Instant online booking</li>
       <li>🔐 CCTV security monitoring</li>
       <li>🔔 SMS & Email notifications</li>
