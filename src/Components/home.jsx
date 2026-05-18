@@ -1,14 +1,16 @@
 import { FaGlobe, FaTicketAlt, FaTachometerAlt, FaCreditCard, FaShieldAlt, FaClock, FaHeadset } from "react-icons/fa";
-import { FaHome, FaParking, FaCalendarCheck, FaSignInAlt } from 'react-icons/fa'
+import { FaCalendarCheck, FaSignInAlt } from 'react-icons/fa'
 import React, { useEffect } from "react"
 import { NavLink } from 'react-router-dom'
 import { motion } from "framer-motion";
 import "./styling/home.css"
 
+// main banner animations //
 const fadeUp = {
 hidden: { opacity: 0, y: 60 },
 visible: { opacity: 1, y: 0 }
 };
+// childern part animations //
 const container = {
 hidden: {},
 visible: {
@@ -17,12 +19,14 @@ staggerChildren: 0.2
 }
 }
 };
+// screen scroll top //
 const scrollToTop = () => {
 window.scrollTo({
 top: 0,
 behavior: "smooth"
 });
 };
+// page title //
 function Home() {
 useEffect(() => {
 document.title = "Home Page";
@@ -39,24 +43,6 @@ return (
       </div>
       <h1>ParkFlow</h1>
       <ul className="nav-links">
-         <NavLink to="/" className="nav-item" onClick={scrollToTop}>
-            <li>
-               <FaHome className="icon"/>
-               Home
-            </li>
-         </NavLink>
-         <NavLink to="/available-parking" className="nav-item">
-            <li>
-               <FaParking className="icon"/>
-               Available Parking
-            </li>
-         </NavLink>
-         <NavLink to="/my-bookings" className="nav-item">
-            <li>
-               <FaCalendarCheck className="icon"/>
-               My Bookings
-            </li>
-         </NavLink>
          <NavLink to="/loginsignup" className="nav-item">
             <li>
                <FaSignInAlt className="icon"/>
@@ -117,7 +103,7 @@ transition={{ duration: 0.8 }}
       “Our system provides real-time updates on parking space availability, <br></br> allowing users to find and reserve
       parking spots with ease. <br></br> Say goodbye to circling the block and hello to stress-free parking!”
    </p>
-   <NavLink to="/available-parking" className="available-cta-button">Browser Parking Location</NavLink>
+   <NavLink to="#" className="available-cta-button">Browser Parking Location</NavLink>
 </motion.div>
 {/* Pricing Plans */}
 <div className="pricing-container">
@@ -142,7 +128,7 @@ transition={{ duration: 0.8 }}
       <li className="disabled">❌ No priority support</li>
       <li className="disabled">❌ No security monitoring</li>
    </ul>
-   <NavLink to="#" className="plan-buttons">Get Basic Plan</NavLink>
+   <NavLink to="/payment-screen" className="plan-buttons">Get Basic Plan</NavLink>
    </motion.div>
    {/* STANDARD */}
    <motion.div
@@ -165,7 +151,7 @@ transition={{ duration: 0.8 }}
       <li>🔐 Basic security monitoring</li>
       <li className="disabled">❌ No priority support</li>
    </ul>
-   <NavLink to="#" className="plan-buttons">Get Standard Plan</NavLink>
+   <NavLink to="/payment-screen" className="plan-buttons">Get Standard Plan</NavLink>
    </motion.div>
    {/* ADVANCED */}
    <motion.div
@@ -189,7 +175,7 @@ transition={{ duration: 0.8 }}
       <li>🧾 Digital + printable ticket</li>
       <li>📷 QR code access</li>
    </ul>
-   <NavLink to="#" className="plan-buttons">Get Advanced Plan</NavLink>
+   <NavLink to="/payment-screen" className="plan-buttons">Get Advanced Plan</NavLink>
    </motion.div>
    {/* PREMIUM */}
    <motion.div
@@ -212,7 +198,7 @@ transition={{ duration: 0.8 }}
       <li>🛎️ Priority customer support</li>
       <li>🔔 Real-time alerts & updates</li>
    </ul>
-   <NavLink to="#" className="plan-buttons">Get Premium Plan</NavLink>
+   <NavLink to="/payment-screen" className="plan-buttons">Get Premium Plan</NavLink>
    </motion.div>
 </div>
 {/* Product & Services Card */}
@@ -244,22 +230,22 @@ transition={{ duration: 0.8 }}
       >
       <h3>Our Products</h3>
       <ul>
-         <li>
+         <motion.li whileHover={{ x: 5 }}>
             <FaGlobe className="icon product" />
             Smart Web App
-         </li>
-         <li>
+         </motion.li>
+         <motion.li whileHover={{ x: 5 }}>
             <FaTicketAlt className="icon product" />
             Ticket System
-         </li>
-         <li>
+         </motion.li>
+         <motion.li whileHover={{ x: 5 }}>
             <FaTachometerAlt className="icon product" />
             Dashboard
-         </li>
-         <li>
+         </motion.li>
+         <motion.li whileHover={{ x: 5 }}>
             <FaCreditCard className="icon product" />
             Payment System
-         </li>
+         </motion.li>
       </ul>
    </motion.div>
 </motion.div>
@@ -310,21 +296,7 @@ transition={{ duration: 0.8 }}
          </div>
          <p>Smart parking solution to find and book parking spaces efficiently.</p>
       </div>
-      {/* CENTER */}
-      <div className="footer-section">
-         <h3>Quick Links</h3>
-         <ul>
-            <li>
-               <NavLink to="/">Home</NavLink>
-            </li>
-            <li>
-               <NavLink to="/available-parking">Parking</NavLink>
-            </li>
-            <li>
-               <NavLink to="/my-bookings">Bookings</NavLink>
-            </li>
-         </ul>
-      </div>
+      
       {/* CENTER */}
       <div className="footer-section">
          <div className="company-policies">

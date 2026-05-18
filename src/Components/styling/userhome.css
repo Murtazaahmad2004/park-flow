@@ -1,0 +1,295 @@
+.user-home-header {
+    background: linear-gradient(90deg, #3d3c3c, #8b8a88);
+    color: #fff;
+    width: 100%;
+    height: 110px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+.nav-bar {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    box-sizing: border-box;
+}
+
+/* Logo */
+.logo img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 2px solid #c59d5f;
+}
+
+.logo-link {
+    background: none !important;
+    padding: 0;
+}
+
+.logo-link.active {
+    background: none !important;
+}
+
+/* Title */
+h1 {
+    font-size: 30px;
+    margin-left: 10px;
+}
+
+/* Nav links */
+.user-nav-links {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    font-size: 18px;
+    list-style: none;
+}
+
+/* Link style */
+.user-nav-item {
+    gap: 6px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    text-decoration: none;
+    color: white;
+    transition: 0.3s;
+}
+
+/* Hover */
+.user-nav-item:hover {
+    background-color: #c59d5f;
+}
+
+/* 🔥 ACTIVE LINK */
+.user-nav-item.active {
+    font-weight: bold;
+}
+
+/* SIDE BAR */
+.side-bar {
+    width: 250px;
+    min-height: 100vh;
+    background: linear-gradient(180deg, #2c2c2c, #1a1a1a);
+    padding: 20px 15px;
+    box-sizing: border-box;
+    position: fixed;
+}
+
+/* CONTAINER */
+.side-bar-container {
+    width: 100%;
+}
+
+/* LINKS WRAPPER */
+.side-bar-links {
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* NAVLINK */
+.side-bar-item {
+    text-decoration: none;
+    background: none !important;  /* ← yeh add karein */
+}
+/* LIST ITEM */
+.side-bar-item li {
+    list-style: none;
+    color: #ffffff;
+    padding: 14px 18px;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: 600;
+    transition: 0.3s ease;
+    cursor: pointer;
+}
+
+/* HOVER */
+.side-bar-item li:hover {
+    background: #c59d5f;
+    color: #1a1a1a;
+    transform: translateX(5px);
+}
+
+/* ACTIVE LINK */
+.side-bar-item.active li {
+    background: #c59d5f;
+}
+
+.main-dashboard {
+    width: 100%;
+    min-height: 100vh;
+    background: #f4f7fb;
+    padding: 40px;
+    box-sizing: border-box;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+/* CONTAINER */
+.dashboard-container {
+    width: 100%;
+}
+
+/* CARD WRAPPER */
+.dashboard-cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;   /* 🔥 center horizontally */
+    align-items: center;
+    gap: 25px; /* spacing instead of margin */
+    width: 100%;
+}
+
+/* SINGLE CARD */
+.total-parking-cards {
+    width: 280px;
+    margin: 0;
+    background: linear-gradient(135deg, #42a5d3, #14595e);
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+    transition: 0.3s ease;
+    cursor: pointer;
+}
+
+/* HOVER EFFECT */
+.total-parking-cards:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+/* LIST */
+.total-parking-cards ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* TITLE */
+.total-parking-cards li:first-child {
+    color: #ffffff;
+    font-size: 18px;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+/* NUMBER */
+.total-parking-cards li:last-child {
+    color: #ffffff;
+    font-size: 38px;
+    font-weight: bold;
+}
+
+/* SINGLE CARD */
+.booked-parking-cards {
+    width: 280px;
+    margin: 0;
+    background: linear-gradient(135deg, #225ecc, #07406e);
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+    transition: 0.3s ease;
+    cursor: pointer;
+}
+
+/* HOVER EFFECT */
+.booked-parking-cards:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+/* LIST */
+.booked-parking-cards ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* TITLE */
+.booked-parking-cards li:first-child {
+    color: #ffffff;
+    font-size: 18px;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+/* NUMBER */
+.booked-parking-cards li:last-child {
+    color: #ffffff;
+    font-size: 38px;
+    font-weight: bold;
+}
+
+/* SINGLE CARD */
+.free-parking-cards {
+    width: 280px;
+    margin: 0;
+    background: linear-gradient(135deg, #23640f, #29b864);
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+    transition: 0.3s ease;
+    cursor: pointer;
+}
+
+/* HOVER EFFECT */
+.free-parking-cards:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+/* LIST */
+.free-parking-cards ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* TITLE */
+.free-parking-cards li:first-child {
+    color: #ffffff;
+    font-size: 18px;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+/* NUMBER */
+.free-parking-cards li:last-child {
+    color: #ffffff;
+    font-size: 38px;
+    font-weight: bold;
+}
+
+/* GRAPHS */
+.graphs-section {
+    display: grid;
+    grid-template-columns: repeat(2, max-content); /* 🔥 2 columns fixed */
+    gap: 30px;
+    padding: 40px;
+    margin-left: 300px;
+    justify-items: center; /* center each card */
+}
+
+/* CHART CARD */
+.chart-card {
+    width: auto;
+    background: #ffffff;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+    transition: 0.3s ease;
+}
+
+.chart-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+/* TITLE */
+.chart-card h2 {
+    text-align: center;
+    margin-bottom: 15px;
+    color: #2c2c2c;
+}

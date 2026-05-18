@@ -1,0 +1,241 @@
+.booking-page {
+    width: 100%;
+    min-height: 100vh;
+    background: #f4f7fb;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 20px;
+    padding: 80px 40px 40px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.booking-row {
+    display: flex;
+    gap: 40px;
+    align-items: stretch;
+    width: 100%;
+    max-width: 1100px;
+}
+
+/* LEFT SIDE */
+.booking-form-left {
+    width: 300px;
+}
+
+/* RIGHT SIDE */
+.booking-form-right {
+    flex: 1;
+    max-width: 500px;
+}
+
+/* LEFT CARD */
+.booking-container {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+/* LEFT TITLE LIST */
+.vehical-info ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.vehical-info li {
+    padding: 14px 0;
+    border-bottom: 1px solid #ececec;
+    font-size: 17px;
+    font-weight: 600;
+    color: #333;
+}
+
+.vehical-info li:last-child {
+    border-bottom: none;
+}
+
+/* RIGHT CARD */
+.booking-data-container {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+/* DATA LIST */
+.vehical-data ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.vehical-data li {
+    padding: 14px 0;
+    border-bottom: 1px solid #ececec;
+    font-size: 16px;
+    color: #444;
+}
+
+.vehical-data li:last-child {
+    border-bottom: none;
+}
+
+/* ROW */
+.row {
+    width: 100%;
+}
+
+/* HOVER EFFECT */
+.booking-container:hover,
+.booking-data-container:hover {
+    transform: translateY(-3px);
+    transition: 0.3s ease;
+}
+
+.booking-header {
+    background: linear-gradient(90deg, #3d3c3c, #8b8a88);
+    color: #fff;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+.nav-bar {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    box-sizing: border-box;
+}
+
+/* Logo */
+.logo img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 2px solid #c59d5f;
+}
+
+.logo-link {
+    background: none !important;
+    padding: 0;
+}
+
+.logo-link.active {
+    background: none !important; /* 🔥 remove active bg */
+}
+
+/* FOOTER */
+.footer {
+  background: #2c2c2c;
+  color: white;
+  padding: 50px 20px 20px;
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: auto;
+}
+
+/* FOOTER CONTAINER */
+.footer-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-left: 20px;
+}
+
+/* FOOTER SECTION */
+.footer-section {
+  flex: 1;
+  min-width: 200px;
+}
+
+/* CONTACT LINKS */
+.gmail,
+.whatsapp {
+  color: white;
+  text-decoration: none;
+  font-size: 15px;
+}
+
+.gmail:hover,
+.whatsapp:hover {
+  color: #c59d5f;
+}
+
+/* FOOTER TEXT */
+.footer-section h2,
+.footer-section h3 {
+  margin-bottom: 15px;
+}
+
+.footer-section p {
+  font-size: 14px;
+  color: #ccc;
+}
+
+/* FOOTER LINKS */
+.footer-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-section ul li {
+  margin-bottom: 8px;
+}
+
+.footer-section ul li a {
+  text-decoration: none;
+  color: #ccc;
+}
+
+.footer-section ul li a:hover {
+  color: #c59d5f;
+}
+
+.footer-section ul li .active {
+  background: transparent
+}
+
+/* FOOTER BRAND */
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.footer-brand .logo img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 2px solid #c59d5f;
+}
+
+/* FOOTER BOTTOM */
+.footer-bottom {
+  text-align: center;
+  margin-top: 30px;
+  border-top: 1px solid #444;
+  padding-top: 10px;
+  font-size: 14px;
+  color: #aaa;
+}
+
+/* COMPANY POLICIES */
+.company-policies {
+  margin-top: 10px;
+}
+
+.company-policies a {
+  color: #aaa;
+  text-decoration: none;
+}
+
+.company-policies a:hover {
+  color: #c59d5f;
+}
