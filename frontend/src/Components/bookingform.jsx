@@ -99,6 +99,7 @@ const handleSubmit = async (e) => {
                 <img src="/logo.png" alt="Logo" />
               </div>
             </NavLink>
+            
           </div>
           <h1>ParkFlow</h1>
         </div>
