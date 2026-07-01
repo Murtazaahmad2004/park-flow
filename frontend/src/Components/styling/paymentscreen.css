@@ -1,0 +1,271 @@
+/* ═══════════════════════════════════════
+   PARKFLOW — PAYMENT SCREEN
+   Prefix: pay-
+═══════════════════════════════════════ */
+
+.payment-form-section {
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    gap: 30px;
+    min-height: 100vh;
+    padding: 120px 40px 60px;
+    background: linear-gradient(145deg, #f0f2f5 0%, #e8eaf0 100%);
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.payment-form-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+        radial-gradient(circle at 20% 30%, rgba(197,157,95,0.06) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(24,95,165,0.06) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+/* LEFT SIDE — CARD FORM */
+.payment-form-left {
+    width: 420px;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+}
+
+.payment-container {
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e8eaf0;
+    position: relative;
+}
+
+.payment-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, #c59d5f, #e0b56d);
+    border-radius: 0 0 4px 4px;
+}
+
+/* CARD ICONS */
+.card-icons {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.card-icon { font-size: 40px; }
+.visa       { color: #1a1f71; }
+.mastercard { color: #eb001b; }
+
+/* INPUTS */
+.pay-inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.pay-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.pay-input-group label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #8a8fa8;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+}
+
+.pay-input {
+    display: flex;
+    align-items: center;
+    border: 1.5px solid #e8eaf0;
+    border-radius: 10px;
+    padding: 12px 16px;
+    background: #f8f9fc;
+    transition: all 0.25s ease;
+}
+
+.pay-input:focus-within {
+    border-color: #c59d5f;
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(197, 157, 95, 0.1);
+}
+
+.pay-icon {
+    color: #a0a0b8;
+    margin-right: 12px;
+    font-size: 17px;
+    flex-shrink: 0;
+    transition: color 0.25s ease;
+}
+
+.pay-input:focus-within .pay-icon {
+    color: #c59d5f;
+}
+
+.pay-input input {
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 14px;
+    background: transparent;
+    color: #1a1a2e;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.pay-input input::placeholder {
+    color: #b0b0c8;
+}
+
+/* RIGHT SIDE — PLAN DETAIL */
+.payment-form-right {
+    width: 340px;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+}
+
+.plan-detail-container {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 32px;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e8eaf0;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.plan-detail-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, #c59d5f, #e0b56d);
+    border-radius: 0 0 4px 4px;
+}
+
+.features {
+    margin-bottom: 20px;
+}
+
+.features h1 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 4px;
+}
+
+.features h2 {
+    font-size: 13px;
+    font-weight: 600;
+    color: #8a8fa8;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    margin-bottom: 14px;
+}
+
+.features ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.features li {
+    font-size: 14px;
+    color: #3a3a55;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    line-height: 1.5;
+}
+
+.divider {
+    height: 1px;
+    background: #e8eaf0;
+    margin: 14px 0;
+}
+
+.pay-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 0;
+    font-size: 13px;
+    color: #5a5a72;
+}
+
+.pay-row.pay-total {
+    font-weight: 700;
+    font-size: 15px;
+    color: #1a1a2e;
+}
+
+.pay-subscribe-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%);
+    color: #ffffff;
+    padding: 13px 20px;
+    width: 100%;
+    margin-top: 20px;
+    border: none;
+    border-radius: 50px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    letter-spacing: 0.4px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 14px rgba(26, 26, 46, 0.3);
+}
+
+.pay-subscribe-btn:hover {
+    background: linear-gradient(135deg, #c59d5f 0%, #e0b56d 100%);
+    box-shadow: 0 6px 20px rgba(197, 157, 95, 0.35);
+    transform: translateY(-2px);
+    color: #ffffff;
+}
+
+.pay-subscribe-btn:active {
+    transform: scale(0.98);
+}
+
+.pay-subscribe-btn .pay-icon {
+    font-size: 16px;
+    color: inherit;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+    .payment-form-section {
+        flex-direction: column;
+        align-items: center;
+        padding: 120px 20px 60px;
+    }
+    .payment-form-left,
+    .payment-form-right {
+        width: 100%;
+        max-width: 420px;
+    }
+}
