@@ -5,9 +5,18 @@ const LoginHistorySchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "signup",
   },
-  name: String,
-  email: String,
-  role: String,
+  name: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+  },
+  role: {
+    type: String,
+    required: true,
+  },
   loginTime: {
     type: Date,
     default: Date.now,

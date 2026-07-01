@@ -41,28 +41,28 @@ const BookingForm = () => {
     });
   };
 
-const [userid, setUserid] = useState("");
-const [bookingid, setBookingid] = useState("");
-const [name, setName] = useState("");
-const [email, setEmail] = useState("");
-const [cnic, setCnic] = useState("");
-const [vehiclenumber, setVehiclenumber] = useState("");
-const [vehicletype, setVehicletype] = useState("");
-const [slot, setSlot] = useState("");
-const [plan, setPlan] = useState("");
-const [price, setPrice] = useState("");
-const [bookingday, setBookingday] = useState("");
-const [bookingdate, setBookingdate] = useState("");
-const [enddate, setEnddate] = useState("");
-const [bookingtime, setBookingtime] = useState("");
-const [endtime, setEndtime] = useState("");
-const [duration, setDuration] = useState("");
- 
-const handleSubmit = async (e) => {
+  const [userid, setUserid] = useState("");
+  const [bookingid, setBookingid] = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [cnic, setCnic] = useState("");
+  const [vehiclenumber, setVehiclenumber] = useState("");
+  const [vehicletype, setVehicletype] = useState("");
+  const [slot, setSlot] = useState("");
+  const [area, setArea] = useState("");
+  const [plan, setPlan] = useState("");
+  const [price, setPrice] = useState("");
+  const [bookingdate, setBookingdate] = useState("");
+  const [enddate, setEnddate] = useState("");
+  const [bookingtime, setBookingtime] = useState("");
+  const [endtime, setEndtime] = useState("");
+  const [duration, setDuration] = useState("");
+
+  const handleSubmit = async (e) => {
   e.preventDefault();
 
   try {
-    const result = await axios.post("http://localhost:3001/booking", {
+    const result = await axios.post("http://localhost:3001/bookingform", {
       userid,
       bookingid,
       name,
@@ -71,9 +71,9 @@ const handleSubmit = async (e) => {
       vehiclenumber,
       vehicletype,
       slot,
+      area,
       plan,
       price,
-      bookingday,
       bookingdate,
       enddate,
       bookingtime,
@@ -82,7 +82,25 @@ const handleSubmit = async (e) => {
     });
 
     console.log(result.data);
+
     alert("Booking Successful!");
+
+    setUserid("");
+    setBookingid("");
+    setName("");
+    setEmail("");
+    setCnic("");
+    setVehiclenumber("");
+    setVehicletype("");
+    setSlot("");
+    setArea("");
+    setPlan("");
+    setPrice("");
+    setBookingdate("");
+    setEnddate("");
+    setBookingtime("");
+    setEndtime("");
+    setDuration("");
   } catch (err) {
     console.log(err);
     alert("Booking Failed!");
@@ -90,7 +108,7 @@ const handleSubmit = async (e) => {
 };
   return (
     <>
-      {/* HEADER AND NAVIGATION */} 
+      {/* HEADER AND NAVIGATION */}
       <div className="home-header">
         <div className="home-nav-bar">
           <div className="home-logo">
@@ -99,7 +117,6 @@ const handleSubmit = async (e) => {
                 <img src="/logo.png" alt="Logo" />
               </div>
             </NavLink>
-            
           </div>
           <h1>ParkFlow</h1>
         </div>
@@ -172,7 +189,7 @@ const handleSubmit = async (e) => {
           <h2>Booking Form</h2>
           <form onSubmit={handleSubmit}>
             <motion.div
-              className="login-form-wrapper"
+              className="booking-form-wrapper"
               variants={fadeUp}
               initial="hidden"
               animate="visible"
@@ -240,7 +257,13 @@ const handleSubmit = async (e) => {
                 />
 
                 <label htmlFor="v-type">Vehicle Type:</label>
-                <select id="v-type" name="v-type" value={vehicletype} onChange={(e) => setVehicletype(e.target.value)} required>
+                <select
+                  id="v-type"
+                  name="v-type"
+                  value={vehicletype}
+                  onChange={(e) => setVehicletype(e.target.value)}
+                  required
+                >
                   <option value="">Select Vehicle Type</option>
                   <option value="car">Car</option>
                   <option value="bike">Bike</option>
@@ -249,7 +272,13 @@ const handleSubmit = async (e) => {
                 </select>
 
                 <label htmlFor="slot">Choose Slot:</label>
-                <select id="slot" name="slot" value={slot} onChange={(e) => setSlot(e.target.value)} required>
+                <select
+                  id="slot"
+                  name="slot"
+                  value={slot}
+                  onChange={(e) => setSlot(e.target.value)}
+                  required
+                >
                   <option value="">Select Slot</option>
                   {slots.map((slot, index) => (
                     <option key={index} value={slot.id}>
@@ -258,8 +287,29 @@ const handleSubmit = async (e) => {
                   ))}
                 </select>
 
+                <label htmlFor="area">Parking Area:</label>
+                <select
+                  id="area"
+                  name="area"
+                  value={area}
+                  onChange={(e) => setArea(e.target.value)}
+                  required
+                >
+                  <option value="">Select Area</option>
+                  <option value="basement">Basement</option>
+                  <option value="groundfloor">Ground Floor</option>
+                  <option value="firstfloor">First Floor</option>
+                  <option value="secondfloor">Second Floor</option>
+                </select>
+
                 <label htmlFor="plan">Choose Plan:</label>
-                <select id="plan" name="plan" value={plan} onChange={(e) => setPlan(e.target.value)} required>
+                <select
+                  id="plan"
+                  name="plan"
+                  value={plan}
+                  onChange={(e) => setPlan(e.target.value)}
+                  required
+                >
                   <option value="">Select Plan</option>
                   <option value="basic">Basic</option>
                   <option value="standard">Standard</option>
@@ -278,17 +328,6 @@ const handleSubmit = async (e) => {
                   required
                 />
 
-                <label htmlFor="booking-day">Booking Day:</label>
-                <input
-                  type="text"
-                  id="booking-day"
-                  name="booking-day"
-                  value={bookingday}
-                  onChange={(e) => setBookingday(e.target.value)}
-                  placeholder="Booking Day"
-                  required
-                />
-
                 <label htmlFor="booking-date">Booking Date:</label>
                 <input
                   type="date"
@@ -300,7 +339,14 @@ const handleSubmit = async (e) => {
                 />
 
                 <label htmlFor="end-date">Ending Date:</label>
-                <input type="date" id="end-date" name="end-date" value={enddate} onChange={(e) => setEnddate(e.target.value)} required />
+                <input
+                  type="date"
+                  id="end-date"
+                  name="end-date"
+                  value={enddate}
+                  onChange={(e) => setEnddate(e.target.value)}
+                  required
+                />
 
                 <label htmlFor="Booking-time">Booking Time:</label>
                 <input
@@ -313,7 +359,14 @@ const handleSubmit = async (e) => {
                 />
 
                 <label htmlFor="end-time">Ending Time:</label>
-                <input type="time" id="end-time" name="end-time" value={endtime} onChange={(e) => setEndtime(e.target.value)} required />
+                <input
+                  type="time"
+                  id="end-time"
+                  name="end-time"
+                  value={endtime}
+                  onChange={(e) => setEndtime(e.target.value)}
+                  required
+                />
 
                 <label htmlFor="duration">Duration (hours):</label>
                 <input

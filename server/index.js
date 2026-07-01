@@ -3,6 +3,8 @@ const mongoose = require("mongoose"); // Ye MongoDB ko use karne ke liye hai Mon
 const cors = require("cors"); // Frontend ko backend se request bhejne ki permission hai
 const SignupModel = require("./models/signup");
 const LoginHistory = require("./models/loginhistory");
+const BookingForm = require("./models/booking");
+const AddStaff = require("./models/addstaff");
 
 const app = express(); //Express ko use karke application banai ja rahi hai.
 app.use(express.json()); // Frontend say data JSON format ma send krna
@@ -46,10 +48,10 @@ app.post("/signup", async (req, res) => {
 });
 
 // ---------- LOGIN ----------
-// async function ka use kiya gaya hai kyunki database se data fetch karna time-consuming ho 
+// async function ka use kiya gaya hai kyunki database se data fetch karna time-consuming ho
 // sakta hai aur hum chahte hain ki server is process ke complete hone tak wait kare.
 
-app.post("/login", async (req, res) => { 
+app.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
 
@@ -92,7 +94,7 @@ app.post("/login", async (req, res) => {
 });
 
 // ---------- BOOKING FORM ----------
-app.post("/booking", async (req, res) => {
+app.post("/bookingform", async (req, res) => {
   try {
     const {
       userid,
@@ -103,6 +105,7 @@ app.post("/booking", async (req, res) => {
       vehiclenumber,
       vehicletype,
       slot,
+      area,
       plan,
       price,
       bookingday,
@@ -113,7 +116,7 @@ app.post("/booking", async (req, res) => {
       duration,
     } = req.body;
 
-    const booking = await BookingModel.create({
+    const bookingform = await BookingForm.create({
       userid,
       bookingid,
       name,
@@ -122,9 +125,9 @@ app.post("/booking", async (req, res) => {
       vehiclenumber,
       vehicletype,
       slot,
+      area,
       plan,
       price,
-      bookingday,
       bookingdate,
       enddate,
       bookingtime,
@@ -133,11 +136,44 @@ app.post("/booking", async (req, res) => {
     });
     res.json({
       status: "Success",
-      booking,
+      bookingform,
     });
   } catch (err) {
     res.status(500).json(err);
   }
+});
+
+// ---------- ADD STAFF ----------
+app.post("/addstaff", async (req, res) => {
+  try {
+    const {
+      staffid,
+      name,
+      email,
+      role,
+      salary,
+      cnic,
+      phone,
+      age,
+    } = req.body;
+
+    const addstaff = await AddStaff.create ({
+      staffid,
+      name,
+      email,
+      role,
+      salary,
+      cnic,
+      phone,
+      age,
+    });
+    res.json({
+      status: "Success",
+      addstaff,
+    });
+    } catch(err) {
+      res.status(500).json(err);
+    }
 });
 
 app.listen(3001, () => {

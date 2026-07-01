@@ -179,6 +179,7 @@ const billings = [
                     <thead>
                         <tr>
                             <th>Sr.No</th>
+                            <th>User ID</th>
                             <th>Billing ID</th>
                             <th>Plan Name</th>
                             <th>Plan Price</th>
@@ -192,6 +193,7 @@ const billings = [
                     <tbody>
                         {billings.map((billing, index) => 
                             <tr key={billing.id}>
+                            <td>{index + 1}</td>
                             <td>{billing.userid}</td>
                             <td>{billing.billingid}</td>
                             <td>{billing.name}</td>

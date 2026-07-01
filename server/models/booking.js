@@ -1,0 +1,75 @@
+const mongoose = require("mongoose");
+
+const BookingFormSchema = new mongoose.Schema({
+  userid: {
+    type: String,
+    required: true,
+    unique:true,
+  },
+  bookingid: {
+    type: String,
+    required: true,
+    unique:true,
+  },
+  name: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+    unique:true,
+  },
+  cnic: {
+    type: String,
+    required: true,
+    unique:true,
+  },
+  vehiclenumber: {
+    type: String,
+    required: true,
+  },
+  vehicletype: {
+    type: String,
+    required: true,
+  },
+  slot: {
+    type: String,
+    required: true,
+    unique:true,
+  },
+  area: {
+    type: String,
+    required: true,
+  },
+  plan: {
+    type: String,
+    required: true,
+  },
+  price: {
+    type: Number,
+    required: true,
+  },
+  bookingdate: {
+    type: Date,
+    required: true,
+  },
+  enddate: {
+    type: Date,
+    required: true,
+  },
+  bookingtime: {
+    type: String,
+    required: true,
+  },
+  endtime: {
+    type: String,
+    required: true,
+  },
+  duration: {
+    type: Number,
+    required: true,
+  },
+});
+ 
+module.exports = mongoose.model("booking", BookingFormSchema);

@@ -1,12 +1,19 @@
 const mongoose = require("mongoose");
 
 const SignupSchema = new mongoose.Schema({
-  name: String,
+  name: {
+    type: String,
+    required: true,
+  },
   email: {
     type: String,
     unique: true,
+    required: true,
   },
-  password: String,
+  password: {
+    type: String,
+    required: true,
+  },
   role: {
     type: String,
     default: "user",

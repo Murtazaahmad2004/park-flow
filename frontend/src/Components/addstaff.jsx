@@ -1,7 +1,8 @@
 import { FaFileInvoiceDollar, FaParking, FaPlus, FaSignOutAlt, FaUserPlus, FaUserTie } from 'react-icons/fa';
 import { NavLink } from 'react-router-dom';
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from 'framer-motion';
+import axios from 'axios';
 import { MdDashboard } from 'react-icons/md';
 import "./styling/addstaff.css";
 
@@ -31,6 +32,47 @@ const AddStaff = () => {
   useEffect (() => {
     document.title = "Add Staff - ParkFlow";
   })
+
+  const [staffid, setUserid] = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [role, setRole] = useState("");
+  const [salary, setSalary] = useState("");
+  const [cnic, setCnic] = useState("");
+  const [phone, setPhone] = useState("");
+  const [age, setAge] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const result = await axios.post("http://localhost:3001/addstaff", {
+        staffid,
+        name,
+        email,
+        role,
+        salary,
+        cnic,
+        phone,
+        age,
+      });
+      console.log(result.data);
+
+      alert("Staff added successfully!");
+
+      setUserid("");
+      setName("");
+      setEmail("");
+      setRole("");
+      setSalary("");
+      setCnic("");
+      setPhone("");
+      setAge("");
+    } catch (err) {
+      console.log(err);
+      alert("Error adding staff. Please try again.");
+    }
+  };
   return (
    <>
     {/* HEADER AND NAVIGATION */}
@@ -164,43 +206,112 @@ const AddStaff = () => {
 <div className="add-staff-form-container">
     <div className="add-staff-form">
         <h2>Add Staff</h2>
-    <label htmlFor="staffId">ID:</label>
-    <input type="text" id="sid" name="staffid" placeholder="Staff ID" required />
+    <form onSubmit={handleSubmit}>
+  <motion.div
+    className="staff-form-wrapper"
+    variants={fadeUp}
+    initial="hidden"
+    animate="visible"
+    transition={{ duration: 0.8 }}
+  >
+    <div className="staff-form-content">
+      <label htmlFor="staffId">ID:</label>
+      <input
+        type="text"
+        id="sid"
+        name="staffid"
+        value={staffid}
+        onChange={(e) => setUserid(e.target.value)}
+        placeholder="Staff ID"
+        required
+      />
 
-    <label htmlFor="staffName">Name:</label>
-    <input type="text" id="sname" name="staffName" placeholder="Staff Name" required />
+      <label htmlFor="staffName">Name:</label>
+      <input
+        type="text"
+        id="sname"
+        name="staffName"
+         value={name}
+        onChange={(e) => setName(e.target.value)}
+        placeholder="Staff Name"
+        required
+      />
 
-    <label htmlFor="staffEmail">Email:</label>
-    <input type="text" id="semail" email="staffemail" placeholder="Staff Email" required />
+      <label htmlFor="staffEmail">Email:</label>
+      <input
+        type="email"
+        id="semail"
+        name="staffemail"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        placeholder="Staff Email"
+        required
+      />
 
-    <label htmlFor="staffRole">Role:</label>
-    <select id="staffrole" name="staffrole">
-      <option value="">Select Option</option>
-      <option>Employee</option>
-      <option>Security Gaurd</option>
-      <option>IT Operator</option>
-      <option>Parking Manager</option>
-      <option>Parking Attendent</option>
-      <option>Cashier</option>
-      <option>Customer Support Staff</option>
-    </select>
-    
-    <label htmlFor="staffSalary">Salary:</label>
-    <input type="number" id="salary" name="salary" placeholder="Staff Salary" />
+      <label htmlFor="staffRole">Role:</label>
+      <select id="staffrole" name="staffrole"  value={role}
+        onChange={(e) => setRole(e.target.value)} required>
+        <option value="">Select Option</option>
+        <option>Employee</option>
+        <option>Security Guard</option>
+        <option>IT Operator</option>
+        <option>Parking Manager</option>
+        <option>Parking Attendant</option>
+        <option>Cashier</option>
+        <option>Customer Support Staff</option>
+      </select>
 
-    <label htmlFor="staffCnic">CNIC:</label>
-    <input type="number" id="scnic" name="scnic" placeholder="Staff CNIC" />
+      <label htmlFor="staffSalary">Salary:</label>
+      <input
+        type="number"
+        id="salary"
+        name="salary"
+        value={salary}
+        onChange={(e) => setSalary(e.target.value)}
+        placeholder="Staff Salary"
+        required
+      />
 
-    <label htmlsFor="staffPhone">Phone Number:</label>
-    <input typr="number" id="pno" name="pno" placeholder="Staff Phone Number" />
+      <label htmlFor="staffCnic">CNIC:</label>
+      <input
+        type="number"
+        id="scnic"
+        name="scnic"
+        value={cnic}
+        onChange={(e) => setCnic(e.target.value)}
+        placeholder="Staff CNIC"
+        required
+      />
 
-    <label htmlFor="staffAge">Age:</label>
-    <input type="number" id="sage" name="sage" placeholder="Staff Age" />
+      <label htmlFor="staffPhone">Phone Number:</label>
+      <input
+        type="number"
+        id="pno"
+        name="pno"
+        value={phone}
+        onChange={(e) => setPhone(e.target.value)}
+        placeholder="Staff Phone Number"
+        required
+      />
 
-    <button className="pay-subscribe-btn">
-      <FaPlus className="pay-icon"/>
+      <label htmlFor="staffAge">Age:</label>
+      <input
+        type="number"
+        id="sage"
+        name="sage"
+        value={age}
+        onChange={(e) => setAge(e.target.value)}
+        placeholder="Staff Age"
+        required
+      />
+
+      <button type="submit" className="pay-subscribe-btn">
+        <FaPlus className="pay-icon" />
         Add Staff
-    </button>
+      </button>
+    </div>
+  </motion.div>
+</form>
     </div>
 </div>
 {/* FOOTER */}
