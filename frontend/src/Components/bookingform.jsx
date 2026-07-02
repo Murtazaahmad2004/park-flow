@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import axios from "axios";
 import {
@@ -33,6 +33,15 @@ const BookingForm = () => {
     document.title = "Booking Form - ParkFlow";
   }, []);
 
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("role");
+
+    navigate("/loginsignup");
+  };
+
   // SCROLL TOP
   const scrollToTop = () => {
     window.scrollTo({
@@ -59,53 +68,53 @@ const BookingForm = () => {
   const [duration, setDuration] = useState("");
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  try {
-    const result = await axios.post("http://localhost:3001/bookingform", {
-      userid,
-      bookingid,
-      name,
-      email,
-      cnic,
-      vehiclenumber,
-      vehicletype,
-      slot,
-      area,
-      plan,
-      price,
-      bookingdate,
-      enddate,
-      bookingtime,
-      endtime,
-      duration,
-    });
+    try {
+      const result = await axios.post("http://localhost:3001/bookingform", {
+        userid,
+        bookingid,
+        name,
+        email,
+        cnic,
+        vehiclenumber,
+        vehicletype,
+        slot,
+        area,
+        plan,
+        price,
+        bookingdate,
+        enddate,
+        bookingtime,
+        endtime,
+        duration,
+      });
 
-    console.log(result.data);
+      console.log(result.data);
 
-    alert("Booking Successful!");
+      alert("Booking Successful!");
 
-    setUserid("");
-    setBookingid("");
-    setName("");
-    setEmail("");
-    setCnic("");
-    setVehiclenumber("");
-    setVehicletype("");
-    setSlot("");
-    setArea("");
-    setPlan("");
-    setPrice("");
-    setBookingdate("");
-    setEnddate("");
-    setBookingtime("");
-    setEndtime("");
-    setDuration("");
-  } catch (err) {
-    console.log(err);
-    alert("Booking Failed!");
-  }
-};
+      setUserid("");
+      setBookingid("");
+      setName("");
+      setEmail("");
+      setCnic("");
+      setVehiclenumber("");
+      setVehicletype("");
+      setSlot("");
+      setArea("");
+      setPlan("");
+      setPrice("");
+      setBookingdate("");
+      setEnddate("");
+      setBookingtime("");
+      setEndtime("");
+      setDuration("");
+    } catch (err) {
+      console.log(err);
+      alert("Booking Failed!");
+    }
+  };
   return (
     <>
       {/* HEADER AND NAVIGATION */}
@@ -171,7 +180,10 @@ const BookingForm = () => {
                 <NavLink
                   to="/loginsignup"
                   className="user-nav-item"
-                  onClick={scrollToTop}
+                  onClick={() => {
+                    scrollToTop();
+                    handleLogout();
+                  }}
                 >
                   <li>
                     <FaSignOutAlt className="icon" />

@@ -1,18 +1,8 @@
-import {
-  FaCar,
-  FaEdit,
-  FaFileInvoiceDollar,
-  FaParking,
-  FaSignOutAlt,
-  FaTicketAlt,
-  FaTrash,
-  FaUserPlus,
-  FaUserTie,
-} from "react-icons/fa";
 import React, { useEffect } from "react";
 import { motion } from "framer-motion";
 import { NavLink, useNavigate } from "react-router-dom";
-import "./styling/billingmanagement.css";
+import "./styling/mybooking.css";
+import { FaCar, FaFileInvoiceDollar, FaParking, FaSignOutAlt, FaTicketAlt, FaUserPlus, FaUserTie } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
 
 const fadeUp = {
@@ -21,24 +11,21 @@ const fadeUp = {
 };
 
 const container = {
-  hidden: [],
+  hidden: {},
   visible: {
     transition: {
-      staggerChildren: 0.2,
+      staggerChildren: 0.2, // har child element 0.2 seconds ke gap se animate hoga
     },
   },
 };
 
 const scrollToTop = () => {
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth",
-  });
+  window.scrollTo({ top: 0, behavior: "smooth" });
 };
 
-const BillingManagement = () => {
+const MyBooking = () => {
   useEffect(() => {
-    document.title = "Billing  Management - ParkFlow";
+    document.title = "My Booking - ParkFlow";
   }, []);
 
   const navigate = useNavigate();
@@ -50,36 +37,41 @@ const BillingManagement = () => {
     navigate("/loginsignup");
   };
 
-  const billings = [
+  const bookings = [
     {
-      userid: "1234567890",
-      billingid: "BILLING-2004",
-      name: "Basic",
-      price: "600",
-      sdate: "11 May 2026",
-      edate: "12 May 2026",
-      stime: "06:00 PM",
+      id: "BOOKING-1020",
+      vehicle: "ABC-1234",
+      area: "Basement",
+      slot: "Slot 1",
+      date: "17 May 2026",
+      day: "Sunday",
+      entry: "10:00 AM",
+      exit: "03:00 PM",
+      status: "confirmed",
     },
     {
-      userid: "6789054321",
-      billingid: "BILLING-6545",
-      name: "Premium",
-      price: "7500",
-      sdate: "17 April 2026",
-      edate: "17 April 2027",
-      stime: "09:00 PM",
+      id: "BOOKING-5678",
+      vehicle: "XYZ-5678",
+      area: "Ground Floor",
+      slot: "Slot 5",
+      date: "18 May 2026",
+      day: "Monday",
+      entry: "09:00 AM",
+      exit: "01:00 PM",
+      status: "confirmed",
     },
     {
-      userid: "1289034567",
-      billingid: "BILLING-3404",
-      name: "Standard",
-      price: "1500",
-      sdate: "19 June 2026",
-      edate: "19 July 2026",
-      stime: "06:00 AM",
+      id: "BOOKING-9999",
+      vehicle: "LMN-9999",
+      area: "Roof Top",
+      slot: "Slot 8",
+      date: "19 May 2026",
+      day: "Tuesday",
+      entry: "11:00 AM",
+      exit: "02:00 PM",
+      status: "pending",
     },
   ];
-
   return (
     <>
       {/* HEADER */}
@@ -95,6 +87,7 @@ const BillingManagement = () => {
           <h1>ParkFlow</h1>
         </div>
       </div>
+
       {/* SIDEBAR */}
       <div className="side-bar">
         <div className="side-bar-container">
@@ -205,48 +198,56 @@ const BillingManagement = () => {
         </div>
       </div>
 
-      {/* BILLING MANAGEMENT TABLE */}
-      <div className="billing-management-page">
+      {/* BOOKING ROWS */}
+      <div className="booking-page">
         <motion.div
-          className="billing-table-container"
+          className="booking-table-container"
           variants={fadeUp}
           initial="hidden"
           animate="visible"
           transition={{ duration: 0.6 }}
         >
-          <table className="billing-table">
+          <table className="booking-table">
             <thead>
               <tr>
                 <th>Sr.No</th>
-                <th>User ID</th>
-                <th>Billing ID</th>
-                <th>Plan Name</th>
-                <th>Plan Price</th>
-                <th>Plan Starting Date</th>
-                <th>Plan Ending Date</th>
-                <th>Plan Starting Time</th>
-                <th>Action</th>
+                <th>Booking ID</th>
+                <th>Vehicle No</th>
+                <th>Parking Area</th>
+                <th>Slot No</th>
+                <th>Date</th>
+                <th>Day</th>
+                <th>Entry Time</th>
+                <th>Exit Time</th>
+                <th>Status</th>
+                <th>QR Code</th>
               </tr>
             </thead>
 
             <tbody>
-              {billings.map((billing, index) => (
-                <tr key={billing.id}>
-                  <td>{index + 1}</td>
-                  <td>{billing.userid}</td>
-                  <td>{billing.billingid}</td>
-                  <td>{billing.name}</td>
-                  <td>{billing.price}</td>
-                  <td>{billing.sdate}</td>
-                  <td>{billing.edate}</td>
-                  <td>{billing.stime}</td>
+              {/* booking current item ha */}
+              {/* bookings array ha */}
+              {/* index current item ka number ha */}
+              {bookings.map((booking, index) => (
+                <tr key={booking.id}>
+                  <td>{index + 1}</td> {/* ✅ Auto Sr.No */}
+                  <td>{booking.id}</td>
+                  <td>{booking.vehicle}</td>
+                  <td>{booking.area}</td>
+                  <td>{booking.slot}</td>
+                  <td>{booking.date}</td>
+                  <td>{booking.day}</td>
+                  <td>{booking.entry}</td>
+                  <td>{booking.exit}</td>
                   <td>
-                    <button className="billing-button-primary btn-primary">
-                      <FaEdit className="icon" />
-                    </button>
-                    <button className="billing-button-danger btn-danger">
-                      <FaTrash className="icon" />
-                    </button>
+                    <span className={`status ${booking.status}`}>
+                      {booking.status.charAt(0).toUpperCase() +
+                        booking.status.slice(1)}
+                    </span>
+                  </td>
+                  {/* charAt(0) means k first index character ko capital kr do or slice(1) means k index 1 say end tak value ko combine kr do */}
+                  <td>
+                    <button className="qr-btn">Download</button>
                   </td>
                 </tr>
               ))}
@@ -254,6 +255,7 @@ const BillingManagement = () => {
           </table>
         </motion.div>
       </div>
+
       {/* FOOTER */}
       <footer className="login-footer">
         <div className="login-footer-container">
@@ -322,4 +324,4 @@ const BillingManagement = () => {
   );
 };
 
-export default BillingManagement;
+export default MyBooking;

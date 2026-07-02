@@ -51,11 +51,11 @@ const BookingFormSchema = new mongoose.Schema({
     required: true,
   },
   bookingdate: {
-    type: Date,
+    type: String,
     required: true,
   },
   enddate: {
-    type: Date,
+    type: String,
     required: true,
   },
   bookingtime: {

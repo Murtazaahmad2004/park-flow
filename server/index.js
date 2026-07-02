@@ -146,18 +146,9 @@ app.post("/bookingform", async (req, res) => {
 // ---------- ADD STAFF ----------
 app.post("/addstaff", async (req, res) => {
   try {
-    const {
-      staffid,
-      name,
-      email,
-      role,
-      salary,
-      cnic,
-      phone,
-      age,
-    } = req.body;
+    const { staffid, name, email, role, salary, cnic, phone, age } = req.body;
 
-    const addstaff = await AddStaff.create ({
+    const addstaff = await AddStaff.create({
       staffid,
       name,
       email,
@@ -171,9 +162,18 @@ app.post("/addstaff", async (req, res) => {
       status: "Success",
       addstaff,
     });
-    } catch(err) {
-      res.status(500).json(err);
-    }
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+app.get("/bookings", async (req, res) => {
+  try {
+    const bookings = await BookingForm.find();
+    res.json(bookings);
+  } catch (err) {
+    res.status(500).json(err);
+  }
 });
 
 app.listen(3001, () => {

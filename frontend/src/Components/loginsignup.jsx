@@ -87,6 +87,9 @@ function LoginSignup() {
       })
       .then((result) => {
         if (result.data.status === "Success") {
+          localStorage.setItem("isLoggedIn", "true");
+          localStorage.setItem("role", result.data.role);
+          
           if (result.data.role === "admin") {
             navigate("/admindashboard");
           } else {

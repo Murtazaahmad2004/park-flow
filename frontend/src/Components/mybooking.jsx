@@ -1,22 +1,22 @@
 import React, { useEffect } from "react";
 import { motion } from "framer-motion";
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from "react-router-dom";
 import "./styling/mybooking.css";
-import { FaCalendarCheck, FaParking, FaSignOutAlt } from "react-icons/fa";
+import { FaCalendarCheck, FaEdit, FaParking, FaSignOutAlt, FaTrash } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 60 },
-  visible: { opacity: 1, y: 0 }
+  visible: { opacity: 1, y: 0 },
 };
 
 const container = {
-hidden: {},
-visible: {
-transition: {
-staggerChildren: 0.2 // har child element 0.2 seconds ke gap se animate hoga
-}
-}
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.2, // har child element 0.2 seconds ke gap se animate hoga
+    },
+  },
 };
 
 const scrollToTop = () => {
@@ -28,212 +28,301 @@ const MyBooking = () => {
     document.title = "My Booking - ParkFlow";
   }, []);
 
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("role");
+
+    navigate("/loginsignup");
+  };
+
   const bookings = [
-  { id: "BOOKING-1020", vehicle: "ABC-1234", area: "Basement", slot: "Slot 1", date: "17 May 2026", day: "Sunday", entry: "10:00 AM", exit: "03:00 PM", status: "confirmed" },
-  { id: "BOOKING-5678", vehicle: "XYZ-5678", area: "Ground Floor", slot: "Slot 5", date: "18 May 2026", day: "Monday", entry: "09:00 AM", exit: "01:00 PM", status: "confirmed" },
-  { id: "BOOKING-9999", vehicle: "LMN-9999", area: "Roof Top", slot: "Slot 8", date: "19 May 2026", day: "Tuesday", entry: "11:00 AM", exit: "02:00 PM", status: "pending" },
+  {
+    userid: "USER-1001",
+    bookingid: "BOOK-2001",
+    name: "Ali Khan",
+    email: "ali@example.com",
+    cnic: "35202-1234567-1",
+    vehiclenumber: "ABC-1234",
+    vehicletype: "Car",
+    slot: "A-01",
+    area: "Basement",
+    plan: "Hourly",
+    price: 300,
+    bookingdate: "03 Jul 2026",
+    bookingtime: "10:00 AM",
+    enddate: "03 Jul 2026",
+    endtime: "01:00 PM",
+    duration: "3 Hours",
+    status: "confirmed",
+  },
+  {
+    userid: "USER-1002",
+    bookingid: "BOOK-2002",
+    name: "Ahmed Raza",
+    email: "ahmed@example.com",
+    cnic: "37405-9876543-2",
+    vehiclenumber: "XYZ-5678",
+    vehicletype: "Bike",
+    slot: "B-05",
+    area: "Ground Floor",
+    plan: "Daily",
+    price: 800,
+    bookingdate: "04 Jul 2026",
+    bookingtime: "09:30 AM",
+    enddate: "05 Jul 2026",
+    endtime: "09:30 AM",
+    duration: "1 Day",
+    status: "pending",
+  },
+  {
+    userid: "USER-1003",
+    bookingid: "BOOK-2003",
+    name: "Usman Ali",
+    email: "usman@example.com",
+    cnic: "35201-1112233-4",
+    vehiclenumber: "LMN-9999",
+    vehicletype: "Truck",
+    slot: "C-10",
+    area: "Roof Top",
+    plan: "Weekly",
+    price: 3500,
+    bookingdate: "05 Jul 2026",
+    bookingtime: "08:00 AM",
+    enddate: "12 Jul 2026",
+    endtime: "08:00 AM",
+    duration: "7 Days",
+    status: "confirmed",
+  },
 ];
   return (
     <>
       {/* HEADER */}
-<div className="home-header">
-   <div className="home-nav-bar">
-      <div className="home-logo">
-         <NavLink to="#" className="home-logo-link" onClick={scrollToTop}>
-            <div className="home-logo">
-               <img src="/logo.png" alt="Logo" />
-            </div>
-         </NavLink>
-      </div>
-      <h1>ParkFlow</h1>
-   </div>
-</div>
-
-{/* sidebar */}
-<div className="side-bar">
-   <div className="side-bar-container">
-      <motion.div
-         className="side-bar-links"
-         variants={container}
-         initial="hidden"
-         animate="visible"
-         >
-         <motion.ul className="user-nav-links">
-            <motion.div
-            variants={fadeUp}
-            whileHover={{ x: 10 }} // Hover karne pe element 10px right move karega
-            >
-            <NavLink
-               to="/userhome"
-               className="user-nav-item"
-               >
-               <li>
-                  <MdDashboard className="icon" />
-                  DashBoard
-               </li>
+      <div className="home-header">
+        <div className="home-nav-bar">
+          <div className="home-logo">
+            <NavLink to="#" className="home-logo-link" onClick={scrollToTop}>
+              <div className="home-logo">
+                <img src="/logo.png" alt="Logo" />
+              </div>
             </NavLink>
-      </motion.div>
-      <motion.div
-      variants={fadeUp}
-      whileHover={{ x: 10 }} // Hover karne pe element 10px right move karega
-      >
-      <NavLink
-         to="/bookingform"
-         className="user-nav-item"
-         >
-      <li>
-      <FaParking className="icon" />
-      Book Parking
-      </li>
-      </NavLink>
-      </motion.div>
-      <motion.div
-      variants={fadeUp}
-      whileHover={{ x: 10 }} // Hover karne pe element 10px right move karega
-      >
-      <NavLink
-         to="/mybooking"
-         className="user-nav-item"
-         >
-      <li>
-      <FaCalendarCheck className="icon" />
-      My Booking
-      </li>
-      </NavLink>
-      </motion.div>
-      <motion.div
-      variants={fadeUp}
-      whileHover={{ x: 10 }} // Hover karne pe element 10px right move karega
-      >
-      <NavLink 
-         to="/loginsignup" 
-         className="user-nav-item" 
-         onClick={scrollToTop}
-         >
-      <li>
-      <FaSignOutAlt className="icon"/>
-      Logout
-      </li>
-      </NavLink>
-      </motion.div>
-      </motion.ul>
-      </motion.div>
-   </div>
-</div>
+          </div>
+          <h1>ParkFlow</h1>
+        </div>
+      </div>
+
+      {/* sidebar */}
+      <div className="side-bar">
+        <div className="side-bar-container">
+          <motion.div
+            className="side-bar-links"
+            variants={container}
+            initial="hidden"
+            animate="visible"
+          >
+            <motion.ul className="user-nav-links">
+              <motion.div
+                variants={fadeUp}
+                whileHover={{ x: 10 }} // Hover karne pe element 10px right move karega
+              >
+                <NavLink to="/userhome" className="user-nav-item">
+                  <li>
+                    <MdDashboard className="icon" />
+                    DashBoard
+                  </li>
+                </NavLink>
+              </motion.div>
+              <motion.div
+                variants={fadeUp}
+                whileHover={{ x: 10 }} // Hover karne pe element 10px right move karega
+              >
+                <NavLink to="/bookingform" className="user-nav-item">
+                  <li>
+                    <FaParking className="icon" />
+                    Book Parking
+                  </li>
+                </NavLink>
+              </motion.div>
+              <motion.div
+                variants={fadeUp}
+                whileHover={{ x: 10 }} // Hover karne pe element 10px right move karega
+              >
+                <NavLink to="/mybooking" className="user-nav-item">
+                  <li>
+                    <FaCalendarCheck className="icon" />
+                    My Booking
+                  </li>
+                </NavLink>
+              </motion.div>
+              <motion.div
+                variants={fadeUp}
+                whileHover={{ x: 10 }} // Hover karne pe element 10px right move karega
+              >
+                <NavLink
+                  to="/loginsignup"
+                  className="user-nav-item"
+                  onClick={() => {
+                    scrollToTop();
+                    handleLogout();
+                  }}
+                >
+                  <li>
+                    <FaSignOutAlt className="icon" />
+                    Logout
+                  </li>
+                </NavLink>
+              </motion.div>
+            </motion.ul>
+          </motion.div>
+        </div>
+      </div>
 
       {/* BOOKING ROWS */}
-<div className="booking-page">
+      <div className="booking-page">
+        <motion.div
+          className="booking-table-container"
+          variants={fadeUp}
+          initial="hidden"
+          animate="visible"
+          transition={{ duration: 0.6 }}
+        >
+          <table className="booking-table">
+            <thead>
+              <tr>
+                <th>Sr.No</th>
+                <th>User ID</th>
+                <th>Booking ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>CNIC</th>
+                <th>Vehicle Number</th>
+                <th>Vehicle Type</th>
+                <th>Slot Number</th>
+                <th>Parking Area</th>
+                <th>Plan</th>
+                <th>Price</th>                
+                <th>Booking Date</th>
+                <th>Booking Time</th>
+                <th>Ending Date</th>
+                <th>Ending Time</th>
+                <th>Duration</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
 
-  <motion.div
-    className="booking-table-container"
-    variants={fadeUp}
-    initial="hidden"
-    animate="visible"
-    transition={{ duration: 0.6 }}
-  >
-
-    <table className="booking-table">
-
-      <thead>
-        <tr>
-          <th>Sr.No</th>
-          <th>Booking ID</th>
-          <th>Vehicle No</th>
-          <th>Parking Area</th>
-          <th>Slot No</th>
-          <th>Date</th>
-          <th>Day</th>
-          <th>Entry Time</th>
-          <th>Exit Time</th>
-          <th>Status</th>
-          <th>QR Code</th>
-        </tr>
-      </thead>
-
-      <tbody>
-        {/* booking current item ha */}
-        {/* bookings array ha */}
-        {/* index current item ka number ha */}
+            <tbody>
+                        {/* booking current item ha */}
+              {/* bookings array ha */}
+              {/* index current item ka number ha */}
   {bookings.map((booking, index) => (
-    <tr key={booking.id}>
-      <td>{index + 1}</td>         {/* ✅ Auto Sr.No */}
-      <td>{booking.id}</td>
-      <td>{booking.vehicle}</td>
-      <td>{booking.area}</td>
+    <tr key={booking.bookingid}>
+      <td>{index + 1}</td>
+      <td>{booking.userid}</td>
+      <td>{booking.bookingid}</td>
+      <td>{booking.name}</td>
+      <td>{booking.email}</td>
+      <td>{booking.cnic}</td>
+      <td>{booking.vehiclenumber}</td>
+      <td>{booking.vehicletype}</td>
       <td>{booking.slot}</td>
-      <td>{booking.date}</td>
-      <td>{booking.day}</td>
-      <td>{booking.entry}</td>
-      <td>{booking.exit}</td>
-      <td><span className={`status ${booking.status}`}>{booking.status.charAt(0).toUpperCase() + booking.status.slice(1)}</span></td>
-      {/* charAt(0) means k first index character ko capital kr do or slice(1) means k index 1 say end tak value ko combine kr do */}
-      <td><button className="qr-btn">Download</button></td>
+      <td>{booking.area}</td>
+      <td>{booking.plan}</td>
+      <td>Rs. {booking.price}</td>
+      <td>{booking.bookingdate}</td>
+      <td>{booking.bookingtime}</td>
+      <td>{booking.enddate}</td>
+      <td>{booking.endtime}</td>
+      <td>{booking.duration}</td>
+
+      <td>
+        <span className={`status ${booking.status}`}>
+          {booking.status.charAt(0).toUpperCase() +
+            booking.status.slice(1)}
+            {/* charAt(0) means k first index character ko capital kr do or slice(1) means k index 1 say end tak value ko combine kr do */}
+        </span>
+      </td>
+
+      <td>
+                          <button className="vehical-button-primary btn-primary">
+                            <FaEdit className="icon" />
+                          </button>
+                          <button className="vehical-button-danger btn-danger">
+                            <FaTrash className="icon" />
+                          </button>
+                        </td>
     </tr>
   ))}
 </tbody>
+          </table>
+        </motion.div>
+      </div>
 
-    </table>
-
-  </motion.div>
-
-</div>
-
-{/* FOOTER */}
-        <footer className="login-footer">
-          <div className="login-footer-container">
-
-            {/* LEFT */}
-            <div className="login-footer-section">
-              <div className="login-footer-brand">
-                <div className="login-logo">
-                  <img src="/logo.png" alt="Logo" />
-                </div>
-                <h2>ParkFlow</h2>
+      {/* FOOTER */}
+      <footer className="login-footer">
+        <div className="login-footer-container">
+          {/* LEFT */}
+          <div className="login-footer-section">
+            <div className="login-footer-brand">
+              <div className="login-logo">
+                <img src="/logo.png" alt="Logo" />
               </div>
-              <p>Smart parking solution to find and book parking spaces efficiently.</p>
+              <h2>ParkFlow</h2>
             </div>
+            <p>
+              Smart parking solution to find and book parking spaces
+              efficiently.
+            </p>
+          </div>
 
-            {/* CENTER */}
-            <div className="login-footer-section">
-              <div className="login-company-policies">
-                <h3>Company Policies</h3>
-                <ul>
-                  <li>
-                    <NavLink to="#" className="login-policy-link">Privacy Policy</NavLink>
-                  </li>
-                  <li>
-                    <NavLink to="#" className="login-policy-link">Terms of Service</NavLink>
-                  </li>
-                  <li>
-                    <NavLink to="#" className="login-policy-link">Refund Policy</NavLink>
-                  </li>
-                </ul>
-              </div>
-            </div>
-
-            {/* RIGHT */}
-            <div className="login-footer-section">
-              <h3>Contact Us</h3>
-              <a href="mailto:support@parkflow.com" className="login-gmail">
-                support@parkflow.com
-              </a>
-              <br />
-              <a
-                href="https://wa.me/923001234567"
-                target="_blank"
-                className="login-whatsapp"
-                rel="noreferrer"
-              >
-                +92 300 1234567
-              </a>
+          {/* CENTER */}
+          <div className="login-footer-section">
+            <div className="login-company-policies">
+              <h3>Company Policies</h3>
+              <ul>
+                <li>
+                  <NavLink to="#" className="login-policy-link">
+                    Privacy Policy
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink to="#" className="login-policy-link">
+                    Terms of Service
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink to="#" className="login-policy-link">
+                    Refund Policy
+                  </NavLink>
+                </li>
+              </ul>
             </div>
           </div>
 
-          {/* BOTTOM */}
-          <div className="login-footer-bottom">
-            <p>© 2026 ParkFlow. All Rights Reserved.</p>
+          {/* RIGHT */}
+          <div className="login-footer-section">
+            <h3>Contact Us</h3>
+            <a href="mailto:support@parkflow.com" className="login-gmail">
+              support@parkflow.com
+            </a>
+            <br />
+            <a
+              href="https://wa.me/923001234567"
+              target="_blank"
+              className="login-whatsapp"
+              rel="noreferrer"
+            >
+              +92 300 1234567
+            </a>
           </div>
-        </footer>
+        </div>
+
+        {/* BOTTOM */}
+        <div className="login-footer-bottom">
+          <p>© 2026 ParkFlow. All Rights Reserved.</p>
+        </div>
+      </footer>
     </>
   );
 };
