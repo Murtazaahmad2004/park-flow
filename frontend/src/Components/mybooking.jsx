@@ -1,8 +1,15 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import axios from "axios";
 import { NavLink, useNavigate } from "react-router-dom";
 import "./styling/mybooking.css";
-import { FaCalendarCheck, FaEdit, FaParking, FaSignOutAlt, FaTrash } from "react-icons/fa";
+import {
+  FaCalendarCheck,
+  FaEdit,
+  FaParking,
+  FaSignOutAlt,
+  FaTrash,
+} from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
 
 const fadeUp = {
@@ -23,9 +30,16 @@ const scrollToTop = () => {
   window.scrollTo({ top: 0, behavior: "smooth" });
 };
 
-const MyBooking = () => {
+function MyBooking () {
+  const [bookings, setBookings] = useState([]);
+
   useEffect(() => {
     document.title = "My Booking - ParkFlow";
+
+    axios
+      .get("http://localhost:3001/bookings")
+      .then((result) => setBookings(result.data))
+      .catch((err) => console.log(err));
   }, []);
 
   const navigate = useNavigate();
@@ -36,66 +50,6 @@ const MyBooking = () => {
 
     navigate("/loginsignup");
   };
-
-  const bookings = [
-  {
-    userid: "USER-1001",
-    bookingid: "BOOK-2001",
-    name: "Ali Khan",
-    email: "ali@example.com",
-    cnic: "35202-1234567-1",
-    vehiclenumber: "ABC-1234",
-    vehicletype: "Car",
-    slot: "A-01",
-    area: "Basement",
-    plan: "Hourly",
-    price: 300,
-    bookingdate: "03 Jul 2026",
-    bookingtime: "10:00 AM",
-    enddate: "03 Jul 2026",
-    endtime: "01:00 PM",
-    duration: "3 Hours",
-    status: "confirmed",
-  },
-  {
-    userid: "USER-1002",
-    bookingid: "BOOK-2002",
-    name: "Ahmed Raza",
-    email: "ahmed@example.com",
-    cnic: "37405-9876543-2",
-    vehiclenumber: "XYZ-5678",
-    vehicletype: "Bike",
-    slot: "B-05",
-    area: "Ground Floor",
-    plan: "Daily",
-    price: 800,
-    bookingdate: "04 Jul 2026",
-    bookingtime: "09:30 AM",
-    enddate: "05 Jul 2026",
-    endtime: "09:30 AM",
-    duration: "1 Day",
-    status: "pending",
-  },
-  {
-    userid: "USER-1003",
-    bookingid: "BOOK-2003",
-    name: "Usman Ali",
-    email: "usman@example.com",
-    cnic: "35201-1112233-4",
-    vehiclenumber: "LMN-9999",
-    vehicletype: "Truck",
-    slot: "C-10",
-    area: "Roof Top",
-    plan: "Weekly",
-    price: 3500,
-    bookingdate: "05 Jul 2026",
-    bookingtime: "08:00 AM",
-    enddate: "12 Jul 2026",
-    endtime: "08:00 AM",
-    duration: "7 Days",
-    status: "confirmed",
-  },
-];
   return (
     <>
       {/* HEADER */}
@@ -187,75 +141,67 @@ const MyBooking = () => {
           animate="visible"
           transition={{ duration: 0.6 }}
         >
-          <table className="booking-table">
-            <thead>
-              <tr>
-                <th>Sr.No</th>
-                <th>User ID</th>
-                <th>Booking ID</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>CNIC</th>
-                <th>Vehicle Number</th>
-                <th>Vehicle Type</th>
-                <th>Slot Number</th>
-                <th>Parking Area</th>
-                <th>Plan</th>
-                <th>Price</th>                
-                <th>Booking Date</th>
-                <th>Booking Time</th>
-                <th>Ending Date</th>
-                <th>Ending Time</th>
-                <th>Duration</th>
-                <th>Status</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-
-            <tbody>
+           <table className="booking-table">
+                      <thead>
+                        <tr>
+                          <th>Sr.No</th>
+                          <th>User ID</th>
+                          <th>Booking ID</th>
+                          <th>Name</th>
+                          <th>Email</th>
+                          <th>CNIC</th>
+                          <th>Vehicle Number</th>
+                          <th>Vehicle Type</th>
+                          <th>Slot Number</th>
+                          <th>Parking Area</th>
+                          <th>Plan</th>
+                          <th>Price</th>
+                          <th>Booking Date</th>
+                          <th>Booking Time</th>
+                          <th>Ending Date</th>
+                          <th>Ending Time</th>
+                          <th>Duration</th>
+                          <th>Status</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+          
+                      <tbody>
                         {/* booking current item ha */}
-              {/* bookings array ha */}
-              {/* index current item ka number ha */}
-  {bookings.map((booking, index) => (
-    <tr key={booking.bookingid}>
-      <td>{index + 1}</td>
-      <td>{booking.userid}</td>
-      <td>{booking.bookingid}</td>
-      <td>{booking.name}</td>
-      <td>{booking.email}</td>
-      <td>{booking.cnic}</td>
-      <td>{booking.vehiclenumber}</td>
-      <td>{booking.vehicletype}</td>
-      <td>{booking.slot}</td>
-      <td>{booking.area}</td>
-      <td>{booking.plan}</td>
-      <td>Rs. {booking.price}</td>
-      <td>{booking.bookingdate}</td>
-      <td>{booking.bookingtime}</td>
-      <td>{booking.enddate}</td>
-      <td>{booking.endtime}</td>
-      <td>{booking.duration}</td>
-
-      <td>
-        <span className={`status ${booking.status}`}>
-          {booking.status.charAt(0).toUpperCase() +
-            booking.status.slice(1)}
-            {/* charAt(0) means k first index character ko capital kr do or slice(1) means k index 1 say end tak value ko combine kr do */}
-        </span>
-      </td>
-
-      <td>
-                          <button className="vehical-button-primary btn-primary">
-                            <FaEdit className="icon" />
-                          </button>
-                          <button className="vehical-button-danger btn-danger">
-                            <FaTrash className="icon" />
-                          </button>
-                        </td>
-    </tr>
-  ))}
-</tbody>
-          </table>
+                        {/* bookings array ha */}
+                        {/* index current item ka number ha */}
+                        {bookings.map((booking, index) => (
+                          <tr key={booking.id}>
+                            <td>{index + 1}</td> {/* ✅ Auto Sr.No */}
+                            <td>{booking.userid}</td>
+                            <td>{booking.bookingid}</td>
+                            <td>{booking.name}</td>
+                            <td>{booking.email}</td>
+                            <td>{booking.cnic}</td>
+                            <td>{booking.vehiclenumber}</td>
+                            <td>{booking.vehicletype}</td>
+                            <td>{booking.slot}</td>
+                            <td>{booking.area}</td>
+                            <td>{booking.plan}</td>
+                            <td>Rs. {booking.price}</td>
+                            <td>{booking.bookingdate}</td>
+                            <td>{booking.bookingtime}</td>
+                            <td>{booking.enddate}</td>
+                            <td>{booking.endtime}</td>
+                            <td>{booking.duration}</td>
+                            <td>{booking.status}</td>
+                            <td>
+                              <button className="vehical-button-primary btn-primary">
+                                <FaEdit className="icon" />
+                              </button>
+                              <button className="vehical-button-danger btn-danger">
+                                <FaTrash className="icon" />
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
         </motion.div>
       </div>
 

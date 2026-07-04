@@ -6,7 +6,8 @@ import {
   FaUserTie,
   FaCar,
   FaBookmark,
-  FaTicketAlt ,
+  FaTicketAlt,
+  FaPlus,
 } from "react-icons/fa";
 import {
   LineChart,
@@ -23,8 +24,9 @@ import {
   Bar,
 } from "recharts"; // Dashboard graphs banane ke liye.
 import { NavLink, useNavigate } from "react-router-dom";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import axios from "axios";
 import { MdDashboard } from "react-icons/md";
 
 const fadeUp = {
@@ -79,10 +81,25 @@ const scrollToTop = () => {
     behavior: "smooth",
   });
 };
-const AdminDashboard = () => {
+
+function AdminDashboard() {
+  const [totalSlots, setTotalSlots] = useState(0);
+  const [availableSlots, setAvailableSlots] = useState(0);
+
   useEffect(() => {
     document.title = "Admin Dashboard - ParkFlow";
-  });
+
+    axios
+      .get("http://localhost:3001/api/slots/count")
+      .then((res) => {
+        setTotalSlots(res.data.totalSlots);
+        setAvailableSlots(res.data.availableSlots);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -133,7 +150,7 @@ const AdminDashboard = () => {
               >
                 <NavLink to="/adminbooking" className="user-nav-item">
                   <li>
-                    <FaTicketAlt  className="icon" />
+                    <FaTicketAlt className="icon" />
                     Booking Management
                   </li>
                 </NavLink>
@@ -179,6 +196,17 @@ const AdminDashboard = () => {
                   <li>
                     <FaParking className="icon" />
                     Slot Management
+                  </li>
+                </NavLink>
+              </motion.div>
+              <motion.div
+                variants={fadeUp}
+                whileHover={{ x: 10 }} // Hover karne pe element 10px right move karega
+              >
+                <NavLink to="/plan" className="user-nav-item">
+                  <li>
+                    <FaPlus className="icon" />
+                    Add Plan
                   </li>
                 </NavLink>
               </motion.div>
@@ -235,7 +263,7 @@ const AdminDashboard = () => {
               </div>
               <div className="stat-info">
                 <p className="stat-label">Total Slots</p>
-                <h3 className="stat-number">50</h3>
+                <h3 className="stat-number">{totalSlots}</h3>
                 <p className="stat-sub">All Parking Slots</p>
               </div>
             </motion.div>
@@ -250,7 +278,7 @@ const AdminDashboard = () => {
               </div>
               <div className="stat-info">
                 <p className="stat-label">Available Slots</p>
-                <h3 className="stat-number">38</h3>
+                <h3 className="stat-number">{availableSlots}</h3>
                 <p className="stat-sub">Slots Available</p>
               </div>
             </motion.div>
@@ -265,7 +293,7 @@ const AdminDashboard = () => {
               </div>
               <div className="stat-info">
                 <p className="stat-label">Booked Slots</p>
-                <h3 className="stat-number">7</h3>
+                <h3 className="stat-number">12</h3>
                 <p className="stat-sub">Currently Booked</p>
               </div>
             </motion.div>
@@ -494,5 +522,5 @@ const AdminDashboard = () => {
       </footer>
     </>
   );
-};
+}
 export default AdminDashboard;

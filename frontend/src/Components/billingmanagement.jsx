@@ -1,19 +1,20 @@
 import {
   FaCar,
-  FaEdit,
   FaFileInvoiceDollar,
   FaParking,
+  FaPlus,
   FaSignOutAlt,
   FaTicketAlt,
   FaTrash,
   FaUserPlus,
   FaUserTie,
 } from "react-icons/fa";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import axios from "axios";
 import { NavLink, useNavigate } from "react-router-dom";
-import "./styling/billingmanagement.css";
 import { MdDashboard } from "react-icons/md";
+import "./styling/billingmanagement.css";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 60 },
@@ -36,9 +37,16 @@ const scrollToTop = () => {
   });
 };
 
-const BillingManagement = () => {
+function BillingManagement() {
+  const [billings, setBillings] = useState([]);
+
   useEffect(() => {
     document.title = "Billing  Management - ParkFlow";
+
+    axios
+      .get("http://localhost:3001/bookings")
+      .then((result) => setBillings(result.data))
+      .catch((err) => console.log(err));
   }, []);
 
   const navigate = useNavigate();
@@ -49,37 +57,6 @@ const BillingManagement = () => {
 
     navigate("/loginsignup");
   };
-
-  const billings = [
-    {
-      userid: "1234567890",
-      billingid: "BILLING-2004",
-      name: "Basic",
-      price: "600",
-      sdate: "11 May 2026",
-      edate: "12 May 2026",
-      stime: "06:00 PM",
-    },
-    {
-      userid: "6789054321",
-      billingid: "BILLING-6545",
-      name: "Premium",
-      price: "7500",
-      sdate: "17 April 2026",
-      edate: "17 April 2027",
-      stime: "09:00 PM",
-    },
-    {
-      userid: "1289034567",
-      billingid: "BILLING-3404",
-      name: "Standard",
-      price: "1500",
-      sdate: "19 June 2026",
-      edate: "19 July 2026",
-      stime: "06:00 AM",
-    },
-  ];
-
   return (
     <>
       {/* HEADER */}
@@ -175,6 +152,17 @@ const BillingManagement = () => {
                 variants={fadeUp}
                 whileHover={{ x: 10 }} // Hover karne pe element 10px right move karega
               >
+                <NavLink to="/plan" className="user-nav-item">
+                  <li>
+                    <FaPlus className="icon" />
+                    Add Plan
+                  </li>
+                </NavLink>
+              </motion.div>
+              <motion.div
+                variants={fadeUp}
+                whileHover={{ x: 10 }} // Hover karne pe element 10px right move karega
+              >
                 <NavLink to="/billingmanagement" className="user-nav-item">
                   <li>
                     <FaFileInvoiceDollar className="icon" />
@@ -219,12 +207,10 @@ const BillingManagement = () => {
               <tr>
                 <th>Sr.No</th>
                 <th>User ID</th>
-                <th>Billing ID</th>
                 <th>Plan Name</th>
                 <th>Plan Price</th>
                 <th>Plan Starting Date</th>
                 <th>Plan Ending Date</th>
-                <th>Plan Starting Time</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -234,16 +220,11 @@ const BillingManagement = () => {
                 <tr key={billing.id}>
                   <td>{index + 1}</td>
                   <td>{billing.userid}</td>
-                  <td>{billing.billingid}</td>
                   <td>{billing.name}</td>
                   <td>{billing.price}</td>
-                  <td>{billing.sdate}</td>
-                  <td>{billing.edate}</td>
-                  <td>{billing.stime}</td>
+                  <td>{billing.bookingdate}</td>
+                  <td>{billing.enddate}</td>
                   <td>
-                    <button className="billing-button-primary btn-primary">
-                      <FaEdit className="icon" />
-                    </button>
                     <button className="billing-button-danger btn-danger">
                       <FaTrash className="icon" />
                     </button>
@@ -320,6 +301,6 @@ const BillingManagement = () => {
       </footer>
     </>
   );
-};
+}
 
 export default BillingManagement;

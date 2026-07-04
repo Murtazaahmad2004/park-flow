@@ -3,17 +3,19 @@ import {
   FaEdit,
   FaFileInvoiceDollar,
   FaParking,
+  FaPlus,
   FaSignOutAlt,
   FaTicketAlt,
   FaTrash,
   FaUserPlus,
   FaUserTie,
 } from "react-icons/fa";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { NavLink, useNavigate } from "react-router-dom";
-import "./styling/slotmanagement.css";
 import { MdDashboard } from "react-icons/md";
+import axios from "axios";
+import "./styling/slotmanagement.css";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 60 },
@@ -37,8 +39,15 @@ const scrollToTop = () => {
 };
 
 const SlotMnagement = () => {
+  const [slots, setSlots] = useState([]);
+
   useEffect(() => {
     document.title = "Slot Management - ParkFlow";
+
+    axios
+      .get("http://localhost:3001/bookings")
+      .then((result) => setSlots(result.data))
+      .catch((err) => console.log(err));
   }, []);
 
   const navigate = useNavigate();
@@ -49,28 +58,6 @@ const SlotMnagement = () => {
 
     navigate("/loginsignup");
   };
-
-  const slots = [
-    {
-      slotno: "Slot 01",
-      vtype: "Car",
-      vowner: "Muhammad Ahmad",
-      ownerno: "03314567890",
-    },
-    {
-      slotno: "Slot 02",
-      vtype: "Jeep",
-      vowner: "Asad Ali",
-      ownerno: "03320912873",
-    },
-    {
-      slotno: "Slot 03",
-      vtype: "Truck",
-      vowner: "Ahmad Nadeem",
-      ownerno: "03331000114",
-    },
-  ];
-
   return (
     <>
       {/* HEADER */}
@@ -166,6 +153,17 @@ const SlotMnagement = () => {
                 variants={fadeUp}
                 whileHover={{ x: 10 }} // Hover karne pe element 10px right move karega
               >
+                <NavLink to="/plan" className="user-nav-item">
+                  <li>
+                    <FaPlus className="icon" />
+                    Add Plan
+                  </li>
+                </NavLink>
+              </motion.div>
+              <motion.div
+                variants={fadeUp}
+                whileHover={{ x: 10 }} // Hover karne pe element 10px right move karega
+              >
                 <NavLink to="/billingmanagement" className="user-nav-item">
                   <li>
                     <FaFileInvoiceDollar className="icon" />
@@ -210,6 +208,7 @@ const SlotMnagement = () => {
                 <th>Sr.No</th>
                 <th>Slot Number</th>
                 <th>Vehical Type</th>
+                <th>Vehical Number</th>
                 <th>Vehical Owner</th>
                 <th>Owner Phone Number</th>
                 <th>Action</th>
@@ -220,15 +219,16 @@ const SlotMnagement = () => {
               {slots.map((slot, index) => (
                 <tr key={slot.id}>
                   <td>{index + 1}</td>
-                  <td>{slot.slotno}</td>
-                  <td>{slot.vtype}</td>
-                  <td>{slot.vowner}</td>
-                  <td>{slot.ownerno}</td>
+                  <td>{slot.slot}</td>
+                  <td>{slot.vehicletype}</td>
+                  <td>{slot.vehiclenumber}</td>
+                  <td>{slot.name}</td>
+                  <td>{slot.phonenumber}</td>
                   <td>
-                    <button className="staff-button-primary btn-primary">
+                    <button className="slot-button-primary btn-primary">
                       <FaEdit className="icon" />
                     </button>
-                    <button className="staff-button-danger btn-danger">
+                    <button className="slot-button-danger btn-danger">
                       <FaTrash className="icon" />
                     </button>
                   </td>

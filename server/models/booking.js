@@ -25,6 +25,11 @@ const BookingFormSchema = new mongoose.Schema({
     required: true,
     unique:true,
   },
+  phonenumber: {
+    type: Number,
+    required: true,
+    unique:true,
+  },
   vehiclenumber: {
     type: String,
     required: true,

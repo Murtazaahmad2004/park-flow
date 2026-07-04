@@ -1,50 +1,43 @@
-import React, { useEffect, useState } from "react";
-import { motion } from "framer-motion";
-import { NavLink, useNavigate } from "react-router-dom";
-import "./styling/mybooking.css";
 import {
-  FaCar,
-  FaEdit,
   FaFileInvoiceDollar,
   FaParking,
-  FaPlus,
   FaSignOutAlt,
-  FaTicketAlt,
-  FaTrash,
   FaUserPlus,
   FaUserTie,
+  FaCar,
+  FaTicketAlt,
+  FaPlus,
 } from "react-icons/fa";
-import { MdDashboard } from "react-icons/md";
+import { NavLink, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import axios from "axios";
+import { MdDashboard } from "react-icons/md";
+import "./styling/plan.css"
 
 const fadeUp = {
-  hidden: { opacity: 0, y: 60 },
+  hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0 },
 };
-
 const container = {
   hidden: {},
   visible: {
     transition: {
-      staggerChildren: 0.2, // har child element 0.2 seconds ke gap se animate hoga
+      staggerChildren: 0.2,
     },
   },
 };
 
 const scrollToTop = () => {
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
 };
 
-function MyBooking() {
-  const [bookings, setBookings] = useState([]);
-
+function PlanForm() {
   useEffect(() => {
-    document.title = "Booking - ParkFlow";
-
-    axios
-      .get("http://localhost:3001/bookings")
-      .then((result) => setBookings(result.data))
-      .catch((err) => console.log(err));
+    document.title = "Plan Page - ParkFlow";
   }, []);
 
   const navigate = useNavigate();
@@ -56,9 +49,81 @@ function MyBooking() {
     navigate("/loginsignup");
   };
 
+  const [planname, setPlanname] = useState("");
+  const [price, setPrice] = useState("");
+  const [features, setFeatures] = useState([]);
+  const [duration, setDuration] = useState("");
+  const [durationtype, setDurationtype] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      await axios.post("http://localhost:3001/plan", {
+        planname,
+        price,
+        features,
+        duration,
+        durationtype,
+      });
+
+      alert("Plan Added Successfully");
+
+      setPlanname("");
+      setPrice("");
+      setFeatures([]);
+      setDuration("");
+      setDurationtype("");
+    } catch (err) {
+      console.log(err);
+      alert("Error");
+    }
+  };
+  
+  const handleFeatureChange = (e) => {
+  const { value, checked } = e.target;
+
+  if (checked) {
+    setFeatures([...features, value]);
+  } else {
+    setFeatures(features.filter((item) => item !== value));
+  }
+};
+const featureList = [
+  "Standard Parking Slot",
+  "Reserved Parking Slot",
+  "Priority Parking Slot",
+  "VIP Parking Near Entrance",
+
+  "Unlimited Times Parking within Duration",
+
+  "Digital Parking Ticket",
+  "Digital + Printable Ticket",
+
+  "QR Code Entry",
+  "QR Code Access",
+
+  "Suitable for Short Visits",
+
+  "Online Booking Access",
+  "Instant Online Booking",
+  "Instant Booking + QR Access",
+
+  "Basic Security Monitoring",
+  "CCTV Security Monitoring",
+  "24/7 High-Level Security",
+
+  "SMS & Email Notifications",
+
+  "Full Vehicle Safety Guarantee",
+
+  "Priority Customer Support",
+
+  "Real-Time Alerts & Updates",
+];
   return (
     <>
-      {/* HEADER */}
+      {/* HEADER AND NAVIGATION */}
       <div className="home-header">
         <div className="home-nav-bar">
           <div className="home-logo">
@@ -71,7 +136,6 @@ function MyBooking() {
           <h1>ParkFlow</h1>
         </div>
       </div>
-
       {/* SIDEBAR */}
       <div className="side-bar">
         <div className="side-bar-container">
@@ -193,77 +257,87 @@ function MyBooking() {
         </div>
       </div>
 
-      {/* BOOKING ROWS */}
-      <div className="booking-page">
-        <motion.div
-          className="booking-table-container"
-          variants={fadeUp}
-          initial="hidden"
-          animate="visible"
-          transition={{ duration: 0.6 }}
-        >
-          <table className="booking-table">
-            <thead>
-              <tr>
-                <th>Sr.No</th>
-                <th>User ID</th>
-                <th>Booking ID</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>CNIC</th>
-                <th>Vehicle Number</th>
-                <th>Vehicle Type</th>
-                <th>Slot Number</th>
-                <th>Parking Area</th>
-                <th>Plan</th>
-                <th>Price</th>
-                <th>Booking Date</th>
-                <th>Booking Time</th>
-                <th>Ending Date</th>
-                <th>Ending Time</th>
-                <th>Duration</th>
-                <th>Status</th>
-                <th>Action</th>
-              </tr>
-            </thead>
+      <div className="add-staff-form-container">
+        <div className="add-staff-form">
+          <h2>Add New Plan</h2>
+          <form onSubmit={handleSubmit}>
+  <motion.div
+    className="plan-form-content"
+    variants={fadeUp}
+    initial="hidden"
+    animate="visible"
+    transition={{ duration: 0.8 }}
+  >
+    <label>Plan Name</label>
+    <input
+      type="text"
+      id="pname"
+      name="planName"
+      value={planname}
+      onChange={(e) => setPlanname(e.target.value)}
+      placeholder="Plan Name"
+      required
+    />
 
-            <tbody>
-              {/* booking current item ha */}
-              {/* bookings array ha */}
-              {/* index current item ka number ha */}
-              {bookings.map((booking, index) => (
-                <tr key={booking.id}>
-                  <td>{index + 1}</td> {/* ✅ Auto Sr.No */}
-                  <td>{booking.userid}</td>
-                  <td>{booking.bookingid}</td>
-                  <td>{booking.name}</td>
-                  <td>{booking.email}</td>
-                  <td>{booking.cnic}</td>
-                  <td>{booking.vehiclenumber}</td>
-                  <td>{booking.vehicletype}</td>
-                  <td>{booking.slot}</td>
-                  <td>{booking.area}</td>
-                  <td>{booking.plan}</td>
-                  <td>Rs. {booking.price}</td>
-                  <td>{booking.bookingdate}</td>
-                  <td>{booking.bookingtime}</td>
-                  <td>{booking.enddate}</td>
-                  <td>{booking.endtime}</td>
-                  <td>{booking.duration}</td>
-                  <td>{booking.status}</td>
-                  <td>
-                    <button className="vehical-button-primary btn-primary">
-                      <FaEdit className="icon" />
-                    </button>
-                    <button className="vehical-button-danger btn-danger">
-                      <FaTrash className="icon" />
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </motion.div>
+    <label>Price</label>
+    <input
+      type="number"
+      id="price"
+      name="price"
+      value={price}
+      onChange={(e) => setPrice(e.target.value)}
+      placeholder="Price"
+      required
+    />
+
+    <label>Features</label>
+
+    <div className="feature-list">
+      {featureList.map((feature) => (
+        <label key={feature} className="feature-item">
+          <input
+            type="checkbox"
+            value={feature}
+            checked={features.includes(feature)}
+            onChange={handleFeatureChange}
+          />
+          <span>{feature}</span>
+        </label>
+      ))}
+    </div>
+
+    <label>Duration</label>
+    <input
+      type="number"
+      id="duration"
+      name="duration"
+      value={duration}
+      onChange={(e) => setDuration(e.target.value)}
+      placeholder="Duration"
+      required
+    />
+
+    <label>Duration Type</label>
+    <select
+      id="durationtype"
+      name="durationtype"
+      value={durationtype}
+      onChange={(e) => setDurationtype(e.target.value)}
+      required
+    >
+      <option value="">Select Duration Type</option>
+      <option value="day">Day</option>
+      <option value="month">Month</option>
+      <option value="year">Year</option>
+    </select>
+
+    <button type="submit" className="pay-subscribe-btn">
+      <FaPlus className="pay-icon" />
+      Add Plan
+    </button>
+  </motion.div>
+</form>
+        </div>
       </div>
 
       {/* FOOTER */}
@@ -333,5 +407,4 @@ function MyBooking() {
     </>
   );
 }
-
-export default MyBooking;
+export default PlanForm;

@@ -119,7 +119,7 @@ transition={{ duration: 0.8 }}
    transition={{ duration: 0.1 }}
    >
    <h2>Basic</h2>
-   <p className="price">Rs 600<span>/day</span></p>
+   <p className="price">Rs 800<span>/month</span></p>
    <ul>
       <li>🅿️ Standard parking slot</li>
       <li>⏰ Unlimited parking duration</li>

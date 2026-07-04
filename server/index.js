@@ -5,6 +5,8 @@ const SignupModel = require("./models/signup");
 const LoginHistory = require("./models/loginhistory");
 const BookingForm = require("./models/booking");
 const AddStaff = require("./models/addstaff");
+const slotRoutes = require("./routes/slotRoutes");
+const Plan = require("./models/plan");
 
 const app = express(); //Express ko use karke application banai ja rahi hai.
 app.use(express.json()); // Frontend say data JSON format ma send krna
@@ -102,6 +104,7 @@ app.post("/bookingform", async (req, res) => {
       name,
       email,
       cnic,
+      phonenumber,
       vehiclenumber,
       vehicletype,
       slot,
@@ -122,6 +125,7 @@ app.post("/bookingform", async (req, res) => {
       name,
       email,
       cnic,
+      phonenumber,
       vehiclenumber,
       vehicletype,
       slot,
@@ -167,10 +171,55 @@ app.post("/addstaff", async (req, res) => {
   }
 });
 
+// ADD NEW PLAN
+app.post("/plan", async (req, res) => {
+  try {
+    const {  planname, price, features, duration, durationtype,  } = req.body;
+
+    const plan = await Plan.create({
+      planname,
+      price,
+      features,
+      duration,
+      durationtype,
+    });
+    res.json({
+      status: "Success",
+      plan,
+    });
+  } catch (err) {
+    res.status(500).json(err)
+  }
+});
+
+// ---------- GET BOOKINGS ----------
 app.get("/bookings", async (req, res) => {
   try {
     const bookings = await BookingForm.find();
     res.json(bookings);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+// ---------- GET STAFF ----------
+app.get("/addstaff", async (req, res) => {
+  try {
+    const staff = await AddStaff.find();
+    res.json(staff);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+// ---------- GET SLOTS FROM API (POSTMAN) ----------
+app.use("/api", slotRoutes);
+
+// GET PLAN PRICE IN FORM
+app.get("/plans", async (req, res) => {
+  try {
+    const plans = await Plan.find();
+    res.json(plans);
   } catch (err) {
     res.status(500).json(err);
   }

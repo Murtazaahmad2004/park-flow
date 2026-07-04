@@ -3,6 +3,7 @@ import {
   FaEdit,
   FaFileInvoiceDollar,
   FaParking,
+  FaPlus,
   FaSignOutAlt,
   FaTicketAlt,
   FaTrash,
@@ -145,6 +146,17 @@ function VehicalManagement() {
                   <li>
                     <FaParking className="icon" />
                     Slot Management
+                  </li>
+                </NavLink>
+              </motion.div>
+              <motion.div
+                variants={fadeUp}
+                whileHover={{ x: 10 }} // Hover karne pe element 10px right move karega
+              >
+                <NavLink to="/plan" className="user-nav-item">
+                  <li>
+                    <FaPlus className="icon" />
+                    Add Plan
                   </li>
                 </NavLink>
               </motion.div>

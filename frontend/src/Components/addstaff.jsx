@@ -51,7 +51,7 @@ const AddStaff = () => {
     navigate("/loginsignup");
   };
 
-  const [staffid, setUserid] = useState("");
+  const [staffid, setStaffid] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [role, setRole] = useState("");
@@ -78,7 +78,7 @@ const AddStaff = () => {
 
       alert("Staff added successfully!");
 
-      setUserid("");
+      setStaffid("");
       setName("");
       setEmail("");
       setRole("");
@@ -186,6 +186,17 @@ const AddStaff = () => {
                 variants={fadeUp}
                 whileHover={{ x: 10 }} // Hover karne pe element 10px right move karega
               >
+                <NavLink to="/plan" className="user-nav-item">
+                  <li>
+                    <FaPlus className="icon" />
+                    Add Plan
+                  </li>
+                </NavLink>
+              </motion.div>
+              <motion.div
+                variants={fadeUp}
+                whileHover={{ x: 10 }} // Hover karne pe element 10px right move karega
+              >
                 <NavLink to="/billingmanagement" className="user-nav-item">
                   <li>
                     <FaFileInvoiceDollar className="icon" />
@@ -235,7 +246,7 @@ const AddStaff = () => {
                   id="sid"
                   name="staffid"
                   value={staffid}
-                  onChange={(e) => setUserid(e.target.value)}
+                  onChange={(e) => setStaffid(e.target.value)}
                   placeholder="Staff ID"
                   required
                 />
@@ -271,13 +282,13 @@ const AddStaff = () => {
                   required
                 >
                   <option value="">Select Option</option>
-                  <option>Employee</option>
-                  <option>Security Guard</option>
-                  <option>IT Operator</option>
-                  <option>Parking Manager</option>
-                  <option>Parking Attendant</option>
-                  <option>Cashier</option>
-                  <option>Customer Support Staff</option>
+                  <option value="employee">Employee</option>
+                  <option value="guard">Security Guard</option>
+                  <option value="it">IT Operator</option>
+                  <option value="pmanager">Parking Manager</option>
+                  <option value="pattendant">Parking Attendant</option>
+                  <option value="cashier">Cashier</option>
+                  <option value="csupport">Customer Support Staff</option>
                 </select>
 
                 <label htmlFor="staffSalary">Salary:</label>

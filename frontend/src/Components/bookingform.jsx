@@ -28,9 +28,30 @@ const container = {
   },
 };
 
-const BookingForm = () => {
+function BookingForm () {
+  const [userid, setUserid] = useState("");
+  const [bookingid, setBookingid] = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [cnic, setCnic] = useState("");
+  const [phonenumber, setPhonenumber] = useState("");
+  const [vehiclenumber, setVehiclenumber] = useState("");
+  const [vehicletype, setVehicletype] = useState("");
+  const [slot, setSlot] = useState("");
+  const [area, setArea] = useState("");
+  const [plan, setPlan] = useState("");
+  const [price, setPrice] = useState("");
+  const [bookingdate, setBookingdate] = useState("");
+  const [enddate, setEnddate] = useState("");
+  const [bookingtime, setBookingtime] = useState("");
+  const [endtime, setEndtime] = useState("");
+
   useEffect(() => {
     document.title = "Booking Form - ParkFlow";
+
+    axios.get("http://localhost:3001/plans")
+    .then((result) => setPrice(result.data))
+    .catch((err) => console.log(err));
   }, []);
 
   const navigate = useNavigate();
@@ -50,22 +71,35 @@ const BookingForm = () => {
     });
   };
 
-  const [userid, setUserid] = useState("");
-  const [bookingid, setBookingid] = useState("");
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [cnic, setCnic] = useState("");
-  const [vehiclenumber, setVehiclenumber] = useState("");
-  const [vehicletype, setVehicletype] = useState("");
-  const [slot, setSlot] = useState("");
-  const [area, setArea] = useState("");
-  const [plan, setPlan] = useState("");
-  const [price, setPrice] = useState("");
-  const [bookingdate, setBookingdate] = useState("");
-  const [enddate, setEnddate] = useState("");
-  const [bookingtime, setBookingtime] = useState("");
-  const [endtime, setEndtime] = useState("");
-  const [duration, setDuration] = useState("");
+  const handlePlanChange = (e) => {
+    const selectedPlan = e.target.value;
+    setPlan(selectedPlan);
+
+    const today = new Date();
+    setBookingdate(today.toISOString().split("T")[0]);
+
+    const currentTime =
+      String(today.getHours()).padStart(2, "0") +
+      ":" +
+      String(today.getMinutes()).padStart(2, "0");
+
+    setBookingtime(currentTime);
+
+    const end = new Date(today);
+
+    if (
+      selectedPlan === "basic" ||
+      selectedPlan === "standard" ||
+      selectedPlan === "advanced"
+    ) {
+      end.setMonth(end.getMonth() + 1);
+    } else if (selectedPlan === "premium") {
+      end.setFullYear(end.getFullYear() + 1);
+    }
+    setEnddate(end.toISOString().split("T")[0]);
+
+    setEndtime("23:59");
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -77,6 +111,7 @@ const BookingForm = () => {
         name,
         email,
         cnic,
+        phonenumber,
         vehiclenumber,
         vehicletype,
         slot,
@@ -87,7 +122,6 @@ const BookingForm = () => {
         enddate,
         bookingtime,
         endtime,
-        duration,
       });
 
       console.log(result.data);
@@ -99,6 +133,7 @@ const BookingForm = () => {
       setName("");
       setEmail("");
       setCnic("");
+      setPhonenumber("");
       setVehiclenumber("");
       setVehicletype("");
       setSlot("");
@@ -109,7 +144,6 @@ const BookingForm = () => {
       setEnddate("");
       setBookingtime("");
       setEndtime("");
-      setDuration("");
     } catch (err) {
       console.log(err);
       alert("Booking Failed!");
@@ -258,6 +292,16 @@ const BookingForm = () => {
                   required
                 />
 
+                <label htmlFor="p-no">Phone Number:</label>
+                <input
+                  type="number"
+                  id="p-no"
+                  value={phonenumber}
+                  onChange={(e) => setPhonenumber(e.target.value)}
+                  placeholder="Phone Number"
+                  required
+                />
+
                 <label htmlFor="v-no">Vehicle Number:</label>
                 <input
                   type="text"
@@ -319,7 +363,7 @@ const BookingForm = () => {
                   id="plan"
                   name="plan"
                   value={plan}
-                  onChange={(e) => setPlan(e.target.value)}
+                  onChange={handlePlanChange}
                   required
                 >
                   <option value="">Select Plan</option>
@@ -346,8 +390,7 @@ const BookingForm = () => {
                   id="booking-date"
                   name="booking-date"
                   value={bookingdate}
-                  onChange={(e) => setBookingdate(e.target.value)}
-                  required
+                  readOnly
                 />
 
                 <label htmlFor="end-date">Ending Date:</label>
@@ -356,39 +399,21 @@ const BookingForm = () => {
                   id="end-date"
                   name="end-date"
                   value={enddate}
-                  onChange={(e) => setEnddate(e.target.value)}
-                  required
+                  readOnly
                 />
 
-                <label htmlFor="Booking-time">Booking Time:</label>
-                <input
-                  type="time"
-                  id="Booking-time"
-                  name="Booking-time"
-                  value={bookingtime}
-                  onChange={(e) => setBookingtime(e.target.value)}
-                  required
+                <label>Booking Time:</label>
+                <input 
+                type="time" 
+                value={bookingtime} 
+                readOnly 
                 />
 
-                <label htmlFor="end-time">Ending Time:</label>
-                <input
-                  type="time"
-                  id="end-time"
-                  name="end-time"
-                  value={endtime}
-                  onChange={(e) => setEndtime(e.target.value)}
-                  required
-                />
-
-                <label htmlFor="duration">Duration (hours):</label>
-                <input
-                  type="number"
-                  id="duration"
-                  name="duration"
-                  value={duration}
-                  onChange={(e) => setDuration(e.target.value)}
-                  placeholder="Duration (hours)"
-                  required
+                <label>Ending Time:</label>
+                <input 
+                type="time" 
+                value={endtime} 
+                readOnly 
                 />
 
                 <button type="submit" className="pay-subscribe-btn">

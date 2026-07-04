@@ -3,15 +3,17 @@ import {
   FaEdit,
   FaFileInvoiceDollar,
   FaParking,
+  FaPlus,
   FaSignOutAlt,
   FaTicketAlt,
   FaTrash,
   FaUserPlus,
   FaUserTie,
 } from "react-icons/fa";
+import axios from "axios";
 import { NavLink, useNavigate } from "react-router-dom";
 import ScrollToTop from "./scroll-top";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { MdDashboard } from "react-icons/md";
 import "./styling/staffmanagement.css";
@@ -37,9 +39,16 @@ const scrollToTop = () => {
   });
 };
 
-const StaffManagement = () => {
+function StaffManagement() {
+  const [staffs, setStaffs] = useState([]);
+
   useEffect(() => {
     document.title = "Staff Management - ParkFlow";
+
+    axios
+      .get("http://localhost:3001/addstaff")
+      .then((result) => setStaffs(result.data))
+      .catch((err) => console.log(err));
   }, []);
 
   const navigate = useNavigate();
@@ -50,39 +59,6 @@ const StaffManagement = () => {
 
     navigate("/loginsignup");
   };
-
-  const staffs = [
-    {
-      id: "STAFF-1020",
-      name: "Ali",
-      email: "ali@gmail.com",
-      role: "IT Operator",
-      salary: "70000",
-      cnic: "3730101293847",
-      num: "03319000003",
-      age: "35",
-    },
-    {
-      id: "STAFF-5678",
-      name: "Ahamd",
-      email: "ahmad@gmail.com",
-      role: "Security Gaurd",
-      salary: "35000",
-      cnic: "3730111220093",
-      num: "03420011876",
-      age: "38",
-    },
-    {
-      id: "STAFF-9999",
-      name: "Asad",
-      email: "asad@gmail.com",
-      role: "Parking Manager",
-      salary: "85000",
-      cnic: "3730166901034",
-      num: "03339887123",
-      age: "43",
-    },
-  ];
   return (
     <>
       {/* HEADER */}
@@ -179,6 +155,17 @@ const StaffManagement = () => {
                 variants={fadeUp}
                 whileHover={{ x: 10 }} // Hover karne pe element 10px right move karega
               >
+                <NavLink to="/plan" className="user-nav-item">
+                  <li>
+                    <FaPlus className="icon" />
+                    Add Plan
+                  </li>
+                </NavLink>
+              </motion.div>
+              <motion.div
+                variants={fadeUp}
+                whileHover={{ x: 10 }} // Hover karne pe element 10px right move karega
+              >
                 <NavLink to="/billingmanagement" className="user-nav-item">
                   <li>
                     <FaFileInvoiceDollar className="icon" />
@@ -238,13 +225,13 @@ const StaffManagement = () => {
               {staffs.map((staff, index) => (
                 <tr key={staff.id}>
                   <td>{index + 1}</td>
-                  <td>{staff.id}</td>
+                  <td>{staff.staffid}</td>
                   <td>{staff.name}</td>
                   <td>{staff.email}</td>
                   <td>{staff.role}</td>
                   <td>{staff.salary}</td>
                   <td>{staff.cnic}</td>
-                  <td>{staff.num}</td>
+                  <td>{staff.phone}</td>
                   <td>{staff.age}</td>
                   <td>
                     <button className="staff-button-primary">
@@ -327,5 +314,5 @@ const StaffManagement = () => {
       </footer>
     </>
   );
-};
+}
 export default StaffManagement;

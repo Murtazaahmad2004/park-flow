@@ -14,6 +14,7 @@ import StaffManagement from "./Components/staffmanagement";
 import SlotManagement from "./Components/slotmanagement";
 import BillingManagement from "./Components/billingmanagement";
 import AdminBooking from "./Components/adminbooking";
+import PlanForm from "./Components/plan";
 import ScrollToTop from "./Components/scroll-top";
 import ProtectedRoute from "./Components/protectedroute";
 
@@ -125,6 +126,15 @@ function App() {
           element={
             <ProtectedRoute>
               <AdminBooking />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/plan"
+          element={
+            <ProtectedRoute>
+              <PlanForm/>
             </ProtectedRoute>
           }
         />
