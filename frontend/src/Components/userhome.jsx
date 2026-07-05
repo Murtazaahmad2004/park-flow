@@ -9,7 +9,7 @@ import {
   FaSignOutAlt,
 } from "react-icons/fa"; // icons import kar rahi hai.
 import { MdAlarm, MdDashboard, MdSubscriptions } from "react-icons/md"; // Material Design icons import ho rahe hain.
-import React, { useEffect } from "react"; // page title set karne ke liye use hua hai.
+import React, { useEffect, useState } from "react"; // page title set karne ke liye use hua hai.
 import { NavLink, useNavigate } from "react-router-dom"; // Pages ke darmiyan navigation.
 import { motion } from "framer-motion"; // Elements ko animate karta hai.
 import {
@@ -25,6 +25,7 @@ import {
   Cell,
 } from "recharts"; // Dashboard graphs banane ke liye.
 import "./styling/userhome.css"; // CSS file import.
+import axios from "axios";
 // FADE UP Ye animation object hai.
 const fadeUp = {
   hidden: { opacity: 0, y: 60 }, // simple 60 mean 60px ha (element 60px neeche shift hoga (vertical position down))
@@ -44,11 +45,25 @@ const scaleUp = {
   hidden: { opacity: 0, scale: 0.8 },
   visible: { opacity: 1, scale: 1 },
 };
-const UserHome = () => {
+function UserHome() {
+  const [totalSlots, setTotalSlots] = useState(0);
+  const [availableSlots, setAvailableSlots] = useState(0);
+
   // PAGE TITLE
   useEffect(() => {
     document.title = "User DashBoard - ParkFlow";
+
+    axios
+    .get("http://localhost:3001/api/slots/count")
+    .then((result) => {
+      setTotalSlots((result.data.totalSlots));
+      setAvailableSlots((result.data.availableSlots))
+    })
+    .catch((err) => {
+      console.log(err);
+    });
   }, []);
+  
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -183,7 +198,7 @@ const UserHome = () => {
               </div>
               <div className="stat-info">
                 <p className="stat-label">Total Slots</p>
-                <h3 className="stat-number">50</h3>
+                <h3 className="stat-number">{totalSlots}</h3>
                 <p className="stat-sub">All Parking Slots</p>
               </div>
             </motion.div>
@@ -198,7 +213,7 @@ const UserHome = () => {
               </div>
               <div className="stat-info">
                 <p className="stat-label">Available Slots</p>
-                <h3 className="stat-number">38</h3>
+                <h3 className="stat-number">{availableSlots}</h3>
                 <p className="stat-sub">Slots Available</p>
               </div>
             </motion.div>

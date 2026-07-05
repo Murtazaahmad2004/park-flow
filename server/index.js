@@ -7,6 +7,7 @@ const BookingForm = require("./models/booking");
 const AddStaff = require("./models/addstaff");
 const slotRoutes = require("./routes/slotRoutes");
 const Plan = require("./models/plan");
+const Slot = require("./models/slot");
 
 const app = express(); //Express ko use karke application banai ja rahi hai.
 app.use(express.json()); // Frontend say data JSON format ma send krna
@@ -220,6 +221,16 @@ app.get("/plans", async (req, res) => {
   try {
     const plans = await Plan.find();
     res.json(plans);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+
+app.get("/slots", async (req, res) => {
+  try {
+    const slots = await Slot.find();
+    res.json(slots);
   } catch (err) {
     res.status(500).json(err);
   }

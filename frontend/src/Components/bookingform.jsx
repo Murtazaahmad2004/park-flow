@@ -12,8 +12,6 @@ import {
 import "./styling/bookingform.css";
 import { MdDashboard } from "react-icons/md";
 
-const slots = Array.from({ length: 50 }, (_, i) => ({ id: i + 1 }));
-
 const fadeUp = {
   hidden: { opacity: 0, y: 60 }, // simple 60 mean 60px ha (element 60px neeche shift hoga (vertical position down))
   visible: { opacity: 1, y: 0 },
@@ -38,6 +36,7 @@ function BookingForm () {
   const [vehiclenumber, setVehiclenumber] = useState("");
   const [vehicletype, setVehicletype] = useState("");
   const [slot, setSlot] = useState("");
+  const [slots, setSlots] = useState([]);
   const [area, setArea] = useState("");
   const [plan, setPlan] = useState("");
   const [plans, setPlans] = useState([]);
@@ -59,6 +58,16 @@ function BookingForm () {
     .catch((err) => console.log(err));
 }, []);
 
+  useEffect(() => {
+    axios
+    .get("http://localhost:3001/slots")
+    .then((result) => {
+      console.log(result.data);
+      setSlots(result.data);
+    })
+    .catch((err) => console.log(err));
+  }, []);
+  
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -342,9 +351,9 @@ function BookingForm () {
                   required
                 >
                   <option value="">Select Slot</option>
-                  {slots.map((slot, index) => (
-                    <option key={index} value={slot.id}>
-                      Slot {slot.id}
+                  {slots.map((slot) => (
+                    <option key={slot._id} value={slot.slot}>
+                      {slot.slot}
                     </option>
                   ))}
                 </select>
