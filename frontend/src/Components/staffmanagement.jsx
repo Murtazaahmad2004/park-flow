@@ -1,5 +1,6 @@
 import {
   FaCar,
+  FaClipboardList,
   FaEdit,
   FaFileInvoiceDollar,
   FaParking,
@@ -159,6 +160,17 @@ function StaffManagement() {
                   <li>
                     <FaPlus className="icon" />
                     Add Plan
+                  </li>
+                </NavLink>
+              </motion.div>
+              <motion.div
+                variants={fadeUp}
+                whileHover={{ x: 10 }} // Hover karne pe element 10px right move karega
+              >
+                <NavLink to="/planmanagement" className="user-nav-item">
+                  <li>
+                    <FaClipboardList className="icon" />
+                    Plan Management
                   </li>
                 </NavLink>
               </motion.div>

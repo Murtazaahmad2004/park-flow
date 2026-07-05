@@ -40,6 +40,7 @@ function BookingForm () {
   const [slot, setSlot] = useState("");
   const [area, setArea] = useState("");
   const [plan, setPlan] = useState("");
+  const [plans, setPlans] = useState([]);
   const [price, setPrice] = useState("");
   const [bookingdate, setBookingdate] = useState("");
   const [enddate, setEnddate] = useState("");
@@ -47,12 +48,16 @@ function BookingForm () {
   const [endtime, setEndtime] = useState("");
 
   useEffect(() => {
-    document.title = "Booking Form - ParkFlow";
+  document.title = "Booking Form - ParkFlow";
 
-    axios.get("http://localhost:3001/plans")
-    .then((result) => setPrice(result.data))
+  axios
+    .get("http://localhost:3001/plans")
+    .then((result) => {
+      console.log(result.data);
+      setPlans(result.data);
+    })
     .catch((err) => console.log(err));
-  }, []);
+}, []);
 
   const navigate = useNavigate();
 
@@ -75,29 +80,30 @@ function BookingForm () {
     const selectedPlan = e.target.value;
     setPlan(selectedPlan);
 
+    //plans array me us object ko dhoondo jiska planname user ke selected plan ke barabar ho.
+    const selected = plans.find((plan) => plan.planname === selectedPlan);
+    if(!selected) return;
+
+    setPrice(selected.price);
+
     const today = new Date();
     setBookingdate(today.toISOString().split("T")[0]);
 
-    const currentTime =
-      String(today.getHours()).padStart(2, "0") +
-      ":" +
-      String(today.getMinutes()).padStart(2, "0");
+    const CurrentTime = 
+    String(today.getHours()).padStart(2, "0") + 
+    ":" + 
+    String(today.getMinutes()).padStart(2, "0");
 
-    setBookingtime(currentTime);
+    setBookingtime(CurrentTime);
 
-    const end = new Date(today);
+    const end = new Date (today);
 
-    if (
-      selectedPlan === "basic" ||
-      selectedPlan === "standard" ||
-      selectedPlan === "advanced"
-    ) {
-      end.setMonth(end.getMonth() + 1);
-    } else if (selectedPlan === "premium") {
-      end.setFullYear(end.getFullYear() + 1);
+    if(selected.durationtype === "month") {
+      end.setMonth(end.getMonth() + selected.duration);
+    } if(selected.durationtype === "year") {
+      end.setFullYear(end.getFullYear() + selected.duration);
     }
     setEnddate(end.toISOString().split("T")[0]);
-
     setEndtime("23:59");
   };
 
@@ -367,10 +373,11 @@ function BookingForm () {
                   required
                 >
                   <option value="">Select Plan</option>
-                  <option value="basic">Basic</option>
-                  <option value="standard">Standard</option>
-                  <option value="advanced">Advanced</option>
-                  <option value="premium">Premium</option>
+                    {plans.map((plan) => (
+                        <option key={plan._id} value={plan.planname}>
+                        {plan.planname}
+                    </option>
+                  ))}
                 </select>
 
                 <label htmlFor="price">Price:</label>

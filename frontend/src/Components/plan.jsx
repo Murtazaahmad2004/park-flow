@@ -7,13 +7,14 @@ import {
   FaCar,
   FaTicketAlt,
   FaPlus,
+  FaClipboardList,
 } from "react-icons/fa";
 import { NavLink, useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import axios from "axios";
 import { MdDashboard } from "react-icons/md";
-import "./styling/plan.css"
+import "./styling/plan.css";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },
@@ -79,48 +80,45 @@ function PlanForm() {
       alert("Error");
     }
   };
-  
+
   const handleFeatureChange = (e) => {
-  const { value, checked } = e.target;
+    const { value, checked } = e.target;
 
-  if (checked) {
-    setFeatures([...features, value]);
-  } else {
-    setFeatures(features.filter((item) => item !== value));
-  }
-};
-const featureList = [
-  "Standard Parking Slot",
-  "Reserved Parking Slot",
-  "Priority Parking Slot",
-  "VIP Parking Near Entrance",
+    if (checked) {
+      setFeatures([...features, value]);
+    } else {
+      setFeatures(features.filter((item) => item !== value));
+    }
+  };
+  const featureList = [
+    "Standard Parking Slot",
+    "Reserved Parking Slot",
+    "Priority Parking Slot",
+    "VIP Parking Near Entrance",
 
-  "Unlimited Times Parking within Duration",
+    "24/7 Parking Access",
+    "Unlimited Parking Duration",
 
-  "Digital Parking Ticket",
-  "Digital + Printable Ticket",
+    "QR Code Entry",
 
-  "QR Code Entry",
-  "QR Code Access",
+    "Printable + Digital Ticket",
 
-  "Suitable for Short Visits",
+    "Booking Cancellation Any Time",
 
-  "Online Booking Access",
-  "Instant Online Booking",
-  "Instant Booking + QR Access",
+    "Email Notifications",
 
-  "Basic Security Monitoring",
-  "CCTV Security Monitoring",
-  "24/7 High-Level Security",
+    "CCTV Security Monitoring",
+    "24/7 Security Monitoring",
+    "Complete Security Coverage",
 
-  "SMS & Email Notifications",
+    "Vehicle Safety Guarantee",
 
-  "Full Vehicle Safety Guarantee",
+    "Premium Parking Zone Access",
 
-  "Priority Customer Support",
+    "Dedicated Support Manager",
 
-  "Real-Time Alerts & Updates",
-];
+    "Highest Priority Entry",
+  ];
   return (
     <>
       {/* HEADER AND NAVIGATION */}
@@ -227,6 +225,17 @@ const featureList = [
                 variants={fadeUp}
                 whileHover={{ x: 10 }} // Hover karne pe element 10px right move karega
               >
+                <NavLink to="/planmanagement" className="user-nav-item">
+                  <li>
+                    <FaClipboardList className="icon" />
+                    Plan Management
+                  </li>
+                </NavLink>
+              </motion.div>
+              <motion.div
+                variants={fadeUp}
+                whileHover={{ x: 10 }} // Hover karne pe element 10px right move karega
+              >
                 <NavLink to="/billingmanagement" className="user-nav-item">
                   <li>
                     <FaFileInvoiceDollar className="icon" />
@@ -261,82 +270,81 @@ const featureList = [
         <div className="add-staff-form">
           <h2>Add New Plan</h2>
           <form onSubmit={handleSubmit}>
-  <motion.div
-    className="plan-form-content"
-    variants={fadeUp}
-    initial="hidden"
-    animate="visible"
-    transition={{ duration: 0.8 }}
-  >
-    <label>Plan Name</label>
-    <input
-      type="text"
-      id="pname"
-      name="planName"
-      value={planname}
-      onChange={(e) => setPlanname(e.target.value)}
-      placeholder="Plan Name"
-      required
-    />
+            <motion.div
+              className="plan-form-content"
+              variants={fadeUp}
+              initial="hidden"
+              animate="visible"
+              transition={{ duration: 0.8 }}
+            >
+              <label>Plan Name</label>
+              <input
+                type="text"
+                id="pname"
+                name="planName"
+                value={planname}
+                onChange={(e) => setPlanname(e.target.value)}
+                placeholder="Plan Name"
+                required
+              />
 
-    <label>Price</label>
-    <input
-      type="number"
-      id="price"
-      name="price"
-      value={price}
-      onChange={(e) => setPrice(e.target.value)}
-      placeholder="Price"
-      required
-    />
+              <label>Price</label>
+              <input
+                type="number"
+                id="price"
+                name="price"
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+                placeholder="Price"
+                required
+              />
 
-    <label>Features</label>
+              <label>Features</label>
 
-    <div className="feature-list">
-      {featureList.map((feature) => (
-        <label key={feature} className="feature-item">
-          <input
-            type="checkbox"
-            value={feature}
-            checked={features.includes(feature)}
-            onChange={handleFeatureChange}
-          />
-          <span>{feature}</span>
-        </label>
-      ))}
-    </div>
+              <div className="feature-list">
+                {featureList.map((feature) => (
+                  <label key={feature} className="feature-item">
+                    <input
+                      type="checkbox"
+                      value={feature}
+                      checked={features.includes(feature)}
+                      onChange={handleFeatureChange}
+                    />
+                    <span>{feature}</span>
+                  </label>
+                ))}
+              </div>
 
-    <label>Duration</label>
-    <input
-      type="number"
-      id="duration"
-      name="duration"
-      value={duration}
-      onChange={(e) => setDuration(e.target.value)}
-      placeholder="Duration"
-      required
-    />
+              <label>Duration</label>
+              <input
+                type="number"
+                id="duration"
+                name="duration"
+                value={duration}
+                onChange={(e) => setDuration(e.target.value)}
+                placeholder="Duration"
+                required
+              />
 
-    <label>Duration Type</label>
-    <select
-      id="durationtype"
-      name="durationtype"
-      value={durationtype}
-      onChange={(e) => setDurationtype(e.target.value)}
-      required
-    >
-      <option value="">Select Duration Type</option>
-      <option value="day">Day</option>
-      <option value="month">Month</option>
-      <option value="year">Year</option>
-    </select>
+              <label>Duration Type</label>
+              <select
+                id="durationtype"
+                name="durationtype"
+                value={durationtype}
+                onChange={(e) => setDurationtype(e.target.value)}
+                required
+              >
+                <option value="">Select Duration Type</option>
+                <option value="month">Month</option>
+                <option value="year">Year</option>
+              </select>
 
-    <button type="submit" className="pay-subscribe-btn">
-      <FaPlus className="pay-icon" />
-      Add Plan
-    </button>
-  </motion.div>
-</form>
+              <button type="submit" className="pay-subscribe-btn">
+                <FaPlus className="pay-icon" />
+                Add Plan
+              </button>
+            </motion.div>
+          </form>
         </div>
       </div>
 
