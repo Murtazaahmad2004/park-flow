@@ -46,6 +46,28 @@ function BookingForm () {
   const [bookingtime, setBookingtime] = useState("");
   const [endtime, setEndtime] = useState("");
 
+const generateUserId = () => {
+  const user = "PF-2026-USER";
+
+  const randomId = Math.floor(1000 + Math.random() * 9000);
+  const userId = `${user}-${randomId}`;
+
+  console.log(userId);
+  
+  setUserid(userId);
+};
+
+const generateBookId = () => {
+  const book = "PF-2026-BOOK";
+
+  const randomId = Math.floor(1000 + Math.random() * 9000);
+  const bookingId = `${book}-${randomId}`;
+
+  console.log(bookingId);
+
+  setBookingid(bookingId);
+};
+
   useEffect(() => {
   document.title = "Booking Form - ParkFlow";
 
@@ -163,7 +185,10 @@ function BookingForm () {
       console.log(err);
       alert("Booking Failed!");
     }
+    generateUserId();
+    generateBookId();
   };
+
   return (
     <>
       {/* HEADER AND NAVIGATION */}
@@ -259,21 +284,19 @@ function BookingForm () {
               <div className="booking-form-content">
                 <label htmlFor="userid">User ID:</label>
                 <input
-                  type="number"
+                  type="text"
                   id="userid"
                   value={userid}
-                  onChange={(e) => setUserid(e.target.value)}
-                  placeholder="User ID"
+                  readOnly
                   required
                 />
 
                 <label htmlFor="bookingid">Booking ID:</label>
                 <input
-                  type="number"
+                  type="text"
                   id="bookingid"
                   value={bookingid}
-                  onChange={(e) => setBookingid(e.target.value)}
-                  placeholder="Booking ID"
+                  readOnly
                   required
                 />
 

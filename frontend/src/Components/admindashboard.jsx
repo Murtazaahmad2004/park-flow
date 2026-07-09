@@ -28,7 +28,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import axios from "axios";
-import { MdDashboard } from "react-icons/md";
+import { MdDashboard, MdTrendingUp } from "react-icons/md";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },
@@ -271,6 +271,21 @@ function AdminDashboard() {
               transition={{ duration: 0.3 }} // animation 0.3 seconds ma complete hoga
             >
               <div className="stat-icon">
+                <MdTrendingUp />
+              </div>
+              <div className="stat-info">
+                <p className="stat-label">Total Revenue</p>
+                <h3 className="stat-number">PKR 12,000</h3>
+                <p className="stat-sub">Total Revenue</p>
+              </div>
+            </motion.div>
+            <motion.div
+              className="stat-card"
+              variants={fadeUp}
+              whileHover={{ y: -10, scale: 1.03 }} // Hover karne pe element 10px upar move karega aur 1.03px zoom hoga
+              transition={{ duration: 0.3 }} // animation 0.3 seconds ma complete hoga
+            >
+              <div className="stat-icon">
                 <FaParking />
               </div>
               <div className="stat-info">
@@ -307,21 +322,6 @@ function AdminDashboard() {
                 <p className="stat-label">Booked Slots</p>
                 <h3 className="stat-number">12</h3>
                 <p className="stat-sub">Currently Booked</p>
-              </div>
-            </motion.div>
-            <motion.div
-              className="stat-card"
-              variants={fadeUp}
-              whileHover={{ y: -10, scale: 1.03 }} // Hover karne pe element 10px upar move karega aur 1.03px zoom hoga
-              transition={{ duration: 0.3 }} // animation 0.3 seconds ma complete hoga
-            >
-              <div className="stat-icon">
-                <FaUserPlus />
-              </div>
-              <div className="stat-info">
-                <p className="stat-label">Add Staff</p>
-                <h3 className="stat-number">10</h3>
-                <p className="stat-sub">Currently Added Staff</p>
               </div>
             </motion.div>
           </motion.div>

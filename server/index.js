@@ -8,6 +8,7 @@ const AddStaff = require("./models/addstaff");
 const slotRoutes = require("./routes/slotRoutes");
 const Plan = require("./models/plan");
 const Slot = require("./models/slot");
+const bcrypt = require("bcryptjs");
 
 const app = express(); //Express ko use karke application banai ja rahi hai.
 app.use(express.json()); // Frontend say data JSON format ma send krna
@@ -19,9 +20,9 @@ mongoose.connect("mongodb://localhost:27017/parkflow");
 // ---------- SIGN UP ----------
 app.post("/signup", async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { userid, name, email, password } = req.body;
 
-    if (!name || !email || !password) {
+    if (!userid || !name || !email || !password) {
       return res.json({
         status: "Please fill all fields",
       });
@@ -35,10 +36,13 @@ app.post("/signup", async (req, res) => {
       });
     }
 
+    const hashedPassword = await bcrypt.hash(password, 10)
+
     const user = await SignupModel.create({
+      userid,
       name,
       email,
-      password,
+      password: hashedPassword,
     });
 
     res.json({
@@ -72,9 +76,12 @@ app.post("/login", async (req, res) => {
       });
     }
 
-    if (user.password !== password) {
+    const isMatch = await bcrypt.compare(password, user.password);
+
+
+    if (!isMatch) {
       return res.json({
-        status: "Incorrect Password",
+        status: "Invalid Email Password",
       });
     }
 
@@ -225,7 +232,6 @@ app.get("/plans", async (req, res) => {
     res.status(500).json(err);
   }
 });
-
 
 app.get("/slots", async (req, res) => {
   try {

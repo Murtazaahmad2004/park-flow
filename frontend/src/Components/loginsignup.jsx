@@ -27,16 +27,29 @@ const fadeUp = {
 function LoginSignup() {
   // ==================== States ====================
   const [action, setAction] = useState("Sign Up");
+  const [userid, setUserid] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
 
+  const generateUserId = () => {
+    const user = "PF-2026-USER";
+
+    const randomId = Math.floor(1000 + Math.random() * 9000);
+    const userId = `${user}-${randomId}`;
+
+    console.log(userId);
+
+    setUserid(userId);
+  };
+
   // ==================== Page Title ====================
   useEffect(() => {
     document.title =
       action === "Login" ? "Login Page - ParkFlow" : "Signup Page - ParkFlow";
+      generateUserId();
   }, [action]);
 
   const handleSignup = (e) => {
@@ -61,13 +74,17 @@ function LoginSignup() {
     if (action === "Sign Up") {
       axios
         .post("http://localhost:3001/signup", {
+          userid,
           name,
           email,
           password,
         })
         .then((result) => {
-          console.log(result);
-
+          if (result.data.status === "Email already exists") {
+            alert("Email already exists!")
+            return;
+          }
+          // setUserid("");
           setName("");
           setEmail("");
           setPassword("");
@@ -75,7 +92,7 @@ function LoginSignup() {
         .catch((err) => {
           console.log(err);
         });
-
+        generateUserId();
       return;
     }
 
@@ -104,8 +121,6 @@ function LoginSignup() {
       });
   };
 
-  // baqi axios wala code
-
   return (
     <>
       {/* MAIN WRAPPER */}
@@ -124,98 +139,165 @@ function LoginSignup() {
 
         {/* FORM */}
         <form onSubmit={handleSubmit}>
+  <motion.div
+    className="login-form-wrapper"
+    variants={fadeUp}
+    initial="hidden"
+    animate="visible"
+    transition={{ duration: 0.8 }}
+  >
+    <div className="login-container">
+
+      {/* HEADER */}
+      <motion.div
+        className="login-header"
+        variants={fadeUp}
+        initial="hidden"
+        animate="visible"
+        transition={{ delay: 0.1 }}
+      >
+        <div className="login-text">{action}</div>
+        <div className="login-underline"></div>
+      </motion.div>
+
+      {/* INPUTS */}
+      <div className="login-inputs">
+           {/* Username */}
+        {action !== "Login" && (
+          <>
+          {/* UserID */}
+        <motion.div
+          className="login-input"
+          variants={fadeUp}
+          initial="hidden"
+          animate="visible"
+          transition={{ delay: 0.3 }}
+        >
+          <FaUser className="login-icon" />
+
+          <input
+            type="text"
+            id="userid"
+            value={userid}
+            required
+            readOnly
+          />
+        </motion.div>
+
           <motion.div
-            className="login-form-wrapper"
+            className="login-input"
             variants={fadeUp}
             initial="hidden"
             animate="visible"
-            transition={{ duration: 0.8 }}
+            transition={{ delay: 0.2 }}
           >
-            <div className="login-container">
-              {/* HEADER */}
-              <div className="login-header">
-                <div className="login-text">{action}</div>
-                <div className="login-underline"></div>
-              </div>
+            <FaUser className="login-icon" />
 
-              {/* INPUTS */}
-              <div className="login-inputs">
-                {/* Username */}
-                {action !== "Login" && (
-                  <div className="login-input">
-                    <FaUser className="login-icon" />
-
-                    <input
-                      type="text"
-                      placeholder="Username"
-                      value={name}
-                      required
-                      onChange={(e) => setName(e.target.value)}
-                    />
-                  </div>
-                )}
-
-                {/* Email */}
-                <div className="login-input">
-                  <FaEnvelope className="login-icon" />
-
-                  <input
-                    type="email"
-                    placeholder="Email"
-                    value={email}
-                    required
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
-                </div>
-
-                {/* Password */}
-                <div className="login-input">
-                  <FaLock className="login-icon" />
-
-                  <input
-                    type="password"
-                    placeholder="Password"
-                    value={password}
-                    required
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-                </div>
-              </div>
-
-              {/* Forgot Password */}
-              {action === "Login" && (
-                <div className="login-forget-password">
-                  Lost Password?
-                  <Link to="/resetpassword">
-                    <span> Click Here!</span>
-                  </Link>
-                </div>
-              )}
-
-              {/* Buttons */}
-              <div className="login-submit-container">
-                <button
-                  type={action === "Sign Up" ? "submit" : "button"}
-                  className={`submit ${action === "Sign Up" ? "active" : "gray"}`}
-                  onClick={handleSignup}
-                >
-                  <FaUserPlus className="icon" />
-                  Sign Up
-                </button>
-
-                <button
-                  type={action === "Login" ? "submit" : "button"}
-                  className={`submit ${action === "Login" ? "active" : "gray"}`}
-                  onClick={handleLogin}
-                >
-                  <FaSignInAlt className="icon" />
-                  Login
-                </button>
-              </div>
-            </div>
+            <input
+              type="text"
+              placeholder="Username"
+              value={name}
+              required
+              onChange={(e) => setName(e.target.value)}
+            />
           </motion.div>
-        </form>
+        </>
+        )}
 
+        {/* Email */}
+        <motion.div
+          className="login-input"
+          variants={fadeUp}
+          initial="hidden"
+          animate="visible"
+          transition={{ delay: 0.3 }}
+        >
+          <FaEnvelope className="login-icon" />
+
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            required
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </motion.div>
+
+        {/* Password */}
+        <motion.div
+          className="login-input"
+          variants={fadeUp}
+          initial="hidden"
+          animate="visible"
+          transition={{ delay: 0.4 }}
+        >
+          <FaLock className="login-icon" />
+
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            required
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </motion.div>
+
+      </div>
+
+      {/* Forgot Password */}
+      {action === "Login" && (
+        <motion.div
+          className="login-forget-password"
+          variants={fadeUp}
+          initial="hidden"
+          animate="visible"
+          transition={{ delay: 0.5 }}
+        >
+          Lost Password?
+          <Link to="/resetpassword">
+            <span> Click Here!</span>
+          </Link>
+        </motion.div>
+      )}
+
+      {/* Buttons */}
+      <motion.div
+        className="login-submit-container"
+        variants={fadeUp}
+        initial="hidden"
+        animate="visible"
+        transition={{ delay: 0.6 }}
+      >
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          type={action === "Sign Up" ? "submit" : "button"}
+          className={`submit ${
+            action === "Sign Up" ? "active" : "gray"
+          }`}
+          onClick={handleSignup}
+        >
+          <FaUserPlus className="icon" />
+          Sign Up
+        </motion.button>
+
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          type={action === "Login" ? "submit" : "button"}
+          className={`submit ${
+            action === "Login" ? "active" : "gray"
+          }`}
+          onClick={handleLogin}
+        >
+          <FaSignInAlt className="icon" />
+          Login
+        </motion.button>
+      </motion.div>
+
+    </div>
+  </motion.div>
+</form>
         {/* FOOTER */}
         <footer className="login-footer">
           <div className="login-footer-container">
