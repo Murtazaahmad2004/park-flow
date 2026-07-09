@@ -111,10 +111,6 @@ function UserHome() {
             </NavLink>
             <h1>ParkFlow</h1>
           </div>
-
-          {/* PROFILE NAME AND DROPDOWN DATA */}
-          
-
         </div>
       </div>
       {/* sidebar */}
