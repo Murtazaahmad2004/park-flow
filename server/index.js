@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express"); // Express ek framework hai jo server banana bahut aasaan kar deta hai.
 const mongoose = require("mongoose"); // Ye MongoDB ko use karne ke liye hai Mongoose ek bridge hai.
 const cors = require("cors"); // Frontend ko backend se request bhejne ki permission hai
@@ -9,6 +10,7 @@ const slotRoutes = require("./routes/slotRoutes");
 const Plan = require("./models/plan");
 const Slot = require("./models/slot");
 const bcrypt = require("bcryptjs");
+const emailRoutes = require("./routes/emailRoutes");
 
 const app = express(); //Express ko use karke application banai ja rahi hai.
 app.use(express.json()); // Frontend say data JSON format ma send krna
@@ -60,6 +62,11 @@ app.post("/signup", async (req, res) => {
 
 app.post("/login", async (req, res) => {
   try {
+
+    const pakistanDate = new Date().toLocaleString("sv-SE", {
+      timeZone: "Asia/Karachi",
+    });
+
     const { email, password } = req.body;
 
     if (!email || !password) {
@@ -87,16 +94,22 @@ app.post("/login", async (req, res) => {
 
     // ---------- LOGIN HISTORY ----------
     await LoginHistory.create({
-      userId: user._id,
+      userid: user.userid,
       name: user.name,
       email: user.email,
       role: user.role,
       status: "Success",
+      loginTime: pakistanDate,
     });
 
     res.json({
       status: "Success",
-      role: user.role,
+      user: {
+        userid: user.userid,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+      },
     });
   } catch (err) {
     res.status(500).json(err);
@@ -220,8 +233,10 @@ app.get("/addstaff", async (req, res) => {
   }
 });
 
-// ---------- GET SLOTS FROM API (POSTMAN) ----------
+// ---------- GET ROUTES ----------
 app.use("/api", slotRoutes);
+
+app.use("/email", emailRoutes);
 
 // GET PLAN PRICE IN FORM
 app.get("/plans", async (req, res) => {
@@ -241,6 +256,9 @@ app.get("/slots", async (req, res) => {
     res.status(500).json(err);
   }
 });
+
+// console.log("EMAIL_USER:", process.env.EMAIL_USER);
+// console.log("EMAIL_PASS:", process.env.EMAIL_PASS);
 
 app.listen(3001, () => {
   console.log("server is running");

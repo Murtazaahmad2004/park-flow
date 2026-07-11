@@ -8,7 +8,11 @@ const fadeUp = {
   visible: { opacity: 1, y: 0 }
 };
 
-const PaymentScreen = () => {
+function PaymentScreen() {
+  const bookingData = JSON.parse(localStorage.getItem("bookingData") || null );
+
+  console.log(bookingData);
+
   useEffect(() => {
     document.title = "Payment Page";
   }, []);

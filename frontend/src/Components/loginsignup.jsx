@@ -106,6 +106,11 @@ function LoginSignup() {
         if (result.data.status === "Success") {
           localStorage.setItem("isLoggedIn", "true");
           localStorage.setItem("role", result.data.role);
+
+          localStorage.setItem(
+            "user", 
+            JSON.stringify(result.data.user)
+          );
           
           if (result.data.role === "admin") {
             navigate("/admindashboard");

@@ -3,6 +3,7 @@ import {
   FaCalendarCheck,
   FaCar,
   FaCheck,
+  FaChevronDown,
   FaCreditCard,
   FaHistory,
   FaParking,
@@ -46,6 +47,9 @@ const scaleUp = {
   visible: { opacity: 1, scale: 1 },
 };
 function UserHome() {
+  const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
+  const [user, setUser] = useState("");
   const [totalSlots, setTotalSlots] = useState(0);
   const [availableSlots, setAvailableSlots] = useState(0);
 
@@ -54,21 +58,28 @@ function UserHome() {
     document.title = "User DashBoard - ParkFlow";
 
     axios
-    .get("http://localhost:3001/api/slots/count")
-    .then((result) => {
-      setTotalSlots((result.data.totalSlots));
-      setAvailableSlots((result.data.availableSlots))
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+      .get("http://localhost:3001/api/slots/count")
+      .then((result) => {
+        setTotalSlots(result.data.totalSlots);
+        setAvailableSlots(result.data.availableSlots);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
-  
-  const navigate = useNavigate();
+
+  useEffect(() => {
+    const loggedInUser = JSON.parse(localStorage.getItem("user"));
+
+    if(loggedInUser) {
+      setUser(loggedInUser);
+    }
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("isLoggedIn");
     localStorage.removeItem("role");
+    localStorage.removeItem("user");
 
     navigate("/loginsignup");
   };
@@ -110,6 +121,52 @@ function UserHome() {
               </div>
             </NavLink>
             <h1>ParkFlow</h1>
+          </div>
+
+          {/* DROPDOWN */}
+          <div
+            className="dropdown-container"
+            onClick={(e) => {
+              e.stopPropagation();
+              setOpen(!open);
+            }}
+          >
+            <span className="user-name">{user.name}</span>
+            <FaChevronDown className="icon" />
+            {open && (
+              <div className="dropdown-menu">
+                <div className="dropdown-header">
+                  <div className="dropdown-logo">
+                    <img src="/logo.png" alt="Logo" />
+                  </div>
+
+                  <div className="dropdown-user-info">
+                    <h3>{user.name}</h3>
+                    <p>{user.email}</p>
+                    <p>{user.userid}</p>
+                  </div>
+                </div>
+                <hr />
+                <motion.div
+                variants={fadeUp}
+                whileHover={{ x: 10 }} // Hover karne pe element 10px right move karega
+              >
+                <NavLink
+                  to="/loginsignup"
+                  className="user-nav-item"
+                  onClick={() => {
+                    scrollToTop();
+                    handleLogout();
+                  }}
+                >
+                  <li>
+                    <FaSignOutAlt className="icon" />
+                    Logout
+                  </li>
+                </NavLink>
+              </motion.div>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -153,24 +210,6 @@ function UserHome() {
                   <li>
                     <FaCalendarCheck className="icon" />
                     My Booking
-                  </li>
-                </NavLink>
-              </motion.div>
-              <motion.div
-                variants={fadeUp}
-                whileHover={{ x: 10 }} // Hover karne pe element 10px right move karega
-              >
-                <NavLink
-                  to="/loginsignup"
-                  className="user-nav-item"
-                  onClick={() => {
-                    scrollToTop();
-                    handleLogout();
-                  }}
-                >
-                  <li>
-                    <FaSignOutAlt className="icon" />
-                    Logout
                   </li>
                 </NavLink>
               </motion.div>
@@ -462,5 +501,5 @@ function UserHome() {
       </footer>
     </>
   );
-};
+}
 export default UserHome;

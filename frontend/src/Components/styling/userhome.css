@@ -549,3 +549,90 @@ body {
     border-top:1px solid rgba(255,255,255,.1);
     color:#94a3b8;
 }
+
+/* Dropdown Parent */
+.dropdown-container{
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: auto;
+    cursor: pointer;
+    color: #fff;
+}
+
+/* User Name */
+.user-name{
+    font-size: 16px;
+    font-weight: 600;
+}
+
+/* Down Arrow */
+.icon{
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+/* Dropdown Box */
+.dropdown-menu{
+    position: absolute;
+    top: 45px;
+    right: 0;
+    width: auto;
+    text-align: center;
+    background: #fff;
+    color: #333;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    padding: 18px;
+    z-index: 1000;
+    animation: dropdown .25s ease;
+}
+
+/* Header */
+.dropdown-header{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    text-align: left;
+}
+
+/* Logo */
+.dropdown-logo{
+    width: 55px;
+    height: 55px;
+    flex-shrink: 0;
+}
+
+.dropdown-logo img{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #185FA5;
+}
+
+/* User Info */
+.dropdown-user-info{
+    display: flex;
+    flex-direction: column;
+}
+
+.dropdown-user-info h3{
+    margin: 0;
+    font-size: 18px;
+    color: #222;
+}
+
+.dropdown-user-info p{
+    margin-top: 4px;
+    font-size: 14px;
+    color: #666;
+}
+
+/* Line */
+.dropdown-menu hr{
+    margin: 15px 0;
+    border: none;
+    border-top: 2px solid #141414;
+}

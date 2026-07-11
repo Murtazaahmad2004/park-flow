@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 
 const LoginHistorySchema = new mongoose.Schema({
-  userId: {
-    type: mongoose.Schema.Types.ObjectId,
+  userid: {
+    type: String,
     ref: "signup",
   },
   name: {
@@ -18,8 +18,7 @@ const LoginHistorySchema = new mongoose.Schema({
     required: true,
   },
   loginTime: {
-    type: Date,
-    default: Date.now,
+    type: String,
   },
   status: String,
 });

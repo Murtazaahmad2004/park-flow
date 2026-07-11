@@ -5,6 +5,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import "./styling/mybooking.css";
 import {
   FaCalendarCheck,
+  FaChevronDown,
   FaCloudDownloadAlt,
   FaParking,
   FaSignOutAlt,
@@ -30,7 +31,10 @@ const scrollToTop = () => {
 };
 
 function MyBooking () {
-  const [bookings, setBookings] = useState([]);
+   const navigate = useNavigate();
+    const [open, setOpen] = useState(false);
+    const [user, setUser] = useState("");
+    const [bookings, setBookings] = useState([]);
 
   useEffect(() => {
     document.title = "My Booking - ParkFlow";
@@ -41,11 +45,18 @@ function MyBooking () {
       .catch((err) => console.log(err));
   }, []);
 
-  const navigate = useNavigate();
+    useEffect(() => {
+      const loggedInUser = JSON.parse(localStorage.getItem("user"));
+  
+      if(loggedInUser) {
+        setUser(loggedInUser);
+      }
+    }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("isLoggedIn");
     localStorage.removeItem("role");
+    localStorage.removeItem("user");
 
     navigate("/loginsignup");
   };
@@ -62,6 +73,52 @@ function MyBooking () {
             </NavLink>
           </div>
           <h1>ParkFlow</h1>
+          
+           {/* DROPDOWN */}
+                    <div
+                      className="dropdown-container"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setOpen(!open);
+                      }}
+                    >
+                      <span className="user-name">{user.name}</span>
+                      <FaChevronDown className="icon" />
+                      {open && (
+                        <div className="dropdown-menu">
+                          <div className="dropdown-header">
+                            <div className="dropdown-logo">
+                              <img src="/logo.png" alt="Logo" />
+                            </div>
+          
+                            <div className="dropdown-user-info">
+                              <h3>{user.name}</h3>
+                              <p>{user.email}</p>
+                              <p>{user.userid}</p>
+                            </div>
+                          </div>
+                          <hr />
+                          <motion.div
+                          variants={fadeUp}
+                          whileHover={{ x: 10 }} // Hover karne pe element 10px right move karega
+                        >
+                          <NavLink
+                            to="/loginsignup"
+                            className="user-nav-item"
+                            onClick={() => {
+                              scrollToTop();
+                              handleLogout();
+                            }}
+                          >
+                            <li>
+                              <FaSignOutAlt className="icon" />
+                              Logout
+                            </li>
+                          </NavLink>
+                        </motion.div>
+                        </div>
+                      )}
+                    </div>
         </div>
       </div>
 
@@ -105,24 +162,6 @@ function MyBooking () {
                   <li>
                     <FaCalendarCheck className="icon" />
                     My Booking
-                  </li>
-                </NavLink>
-              </motion.div>
-              <motion.div
-                variants={fadeUp}
-                whileHover={{ x: 10 }} // Hover karne pe element 10px right move karega
-              >
-                <NavLink
-                  to="/loginsignup"
-                  className="user-nav-item"
-                  onClick={() => {
-                    scrollToTop();
-                    handleLogout();
-                  }}
-                >
-                  <li>
-                    <FaSignOutAlt className="icon" />
-                    Logout
                   </li>
                 </NavLink>
               </motion.div>

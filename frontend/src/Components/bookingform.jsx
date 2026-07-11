@@ -6,6 +6,7 @@ import axios from "axios";
 import {
   FaCalendarCheck,
   FaCheck,
+  FaChevronDown,
   FaParking,
   FaSignOutAlt,
 } from "react-icons/fa";
@@ -27,35 +28,27 @@ const container = {
 };
 
 function BookingForm () {
-  const [userid, setUserid] = useState("");
-  const [bookingid, setBookingid] = useState("");
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [cnic, setCnic] = useState("");
-  const [phonenumber, setPhonenumber] = useState("");
-  const [vehiclenumber, setVehiclenumber] = useState("");
-  const [vehicletype, setVehicletype] = useState("");
-  const [slot, setSlot] = useState("");
-  const [slots, setSlots] = useState([]);
-  const [area, setArea] = useState("");
-  const [plan, setPlan] = useState("");
-  const [plans, setPlans] = useState([]);
-  const [price, setPrice] = useState("");
-  const [bookingdate, setBookingdate] = useState("");
-  const [enddate, setEnddate] = useState("");
-  const [bookingtime, setBookingtime] = useState("");
-  const [endtime, setEndtime] = useState("");
-
-const generateUserId = () => {
-  const user = "PF-2026-USER";
-
-  const randomId = Math.floor(1000 + Math.random() * 9000);
-  const userId = `${user}-${randomId}`;
-
-  console.log(userId);
-  
-  setUserid(userId);
-};
+  const navigate = useNavigate();
+    const [open, setOpen] = useState(false);
+    const [user, setUser] = useState("");
+    const [email, setEmail] = useState("");
+    const [userid, setUserid] = useState("");
+    const [bookingid, setBookingid] = useState("");
+    const [name, setName] = useState("");
+    const [cnic, setCnic] = useState("");
+    const [phonenumber, setPhonenumber] = useState("");
+    const [vehiclenumber, setVehiclenumber] = useState("");
+    const [vehicletype, setVehicletype] = useState("");
+    const [slot, setSlot] = useState("");
+    const [slots, setSlots] = useState([]);
+    const [area, setArea] = useState("");
+    const [plan, setPlan] = useState("");
+    const [plans, setPlans] = useState([]);
+    const [price, setPrice] = useState("");
+    const [bookingdate, setBookingdate] = useState("");
+    const [enddate, setEnddate] = useState("");
+    const [bookingtime, setBookingtime] = useState("");
+    const [endtime, setEndtime] = useState("");
 
 const generateBookId = () => {
   const book = "PF-2026-BOOK";
@@ -88,13 +81,22 @@ const generateBookId = () => {
       setSlots(result.data);
     })
     .catch((err) => console.log(err));
+    generateBookId();
   }, []);
+
+    useEffect(() => {
+      const loggedInUser = JSON.parse(localStorage.getItem("user"));
   
-  const navigate = useNavigate();
+      if(loggedInUser) {
+        setUser(loggedInUser);
+        setUserid(loggedInUser.userid);
+      }
+    }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("isLoggedIn");
     localStorage.removeItem("role");
+    localStorage.removeItem("user");
 
     navigate("/loginsignup");
   };
@@ -141,8 +143,27 @@ const generateBookId = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      const result = await axios.post("http://localhost:3001/bookingform", {
+    if (
+      !userid ||
+      !bookingid ||
+      !name ||
+      !email ||
+      !cnic ||
+      !phonenumber ||
+      !vehiclenumber ||
+      !vehicletype ||
+      !slot ||
+      !area ||
+      !plan ||
+      !price ||
+      !bookingdate ||
+      !enddate ||
+      !bookingtime ||
+      !endtime 
+    ) 
+    return;
+
+      const result = {
         userid,
         bookingid,
         name,
@@ -159,34 +180,10 @@ const generateBookId = () => {
         enddate,
         bookingtime,
         endtime,
-      });
+      };
 
-      console.log(result.data);
-
-      alert("Booking Successful!");
-
-      setUserid("");
-      setBookingid("");
-      setName("");
-      setEmail("");
-      setCnic("");
-      setPhonenumber("");
-      setVehiclenumber("");
-      setVehicletype("");
-      setSlot("");
-      setArea("");
-      setPlan("");
-      setPrice("");
-      setBookingdate("");
-      setEnddate("");
-      setBookingtime("");
-      setEndtime("");
-    } catch (err) {
-      console.log(err);
-      alert("Booking Failed!");
-    }
-    generateUserId();
-    generateBookId();
+      localStorage.setItem("bookingData", JSON.stringify(result));
+      navigate("/paymentscreen");
   };
 
   return (
@@ -202,6 +199,52 @@ const generateBookId = () => {
             </NavLink>
           </div>
           <h1>ParkFlow</h1>
+
+           {/* DROPDOWN */}
+                    <div
+                      className="dropdown-container"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setOpen(!open);
+                      }}
+                    >
+                      <span className="user-name">{user.name}</span>
+                      <FaChevronDown className="icon" />
+                      {open && (
+                        <div className="dropdown-menu">
+                          <div className="dropdown-header">
+                            <div className="dropdown-logo">
+                              <img src="/logo.png" alt="Logo" />
+                            </div>
+          
+                            <div className="dropdown-user-info">
+                              <h3>{user.name}</h3>
+                              <p>{user.email}</p>
+                              <p>{user.userid}</p>
+                            </div>
+                          </div>
+                          <hr />
+                          <motion.div
+                          variants={fadeUp}
+                          whileHover={{ x: 10 }} // Hover karne pe element 10px right move karega
+                        >
+                          <NavLink
+                            to="/loginsignup"
+                            className="user-nav-item"
+                            onClick={() => {
+                              scrollToTop();
+                              handleLogout();
+                            }}
+                          >
+                            <li>
+                              <FaSignOutAlt className="icon" />
+                              Logout
+                            </li>
+                          </NavLink>
+                        </motion.div>
+                        </div>
+                      )}
+                    </div>
         </div>
       </div>
       {/* sidebar */}
@@ -247,24 +290,6 @@ const generateBookId = () => {
                   </li>
                 </NavLink>
               </motion.div>
-              <motion.div
-                variants={fadeUp}
-                whileHover={{ x: 10 }} // Hover karne pe element 10px right move karega
-              >
-                <NavLink
-                  to="/loginsignup"
-                  className="user-nav-item"
-                  onClick={() => {
-                    scrollToTop();
-                    handleLogout();
-                  }}
-                >
-                  <li>
-                    <FaSignOutAlt className="icon" />
-                    Logout
-                  </li>
-                </NavLink>
-              </motion.div>
             </motion.ul>
           </motion.div>
         </div>
@@ -286,7 +311,7 @@ const generateBookId = () => {
                 <input
                   type="text"
                   id="userid"
-                  value={userid}
+                  value={user.userid}
                   readOnly
                   required
                 />
@@ -430,6 +455,7 @@ const generateBookId = () => {
                   name="booking-date"
                   value={bookingdate}
                   readOnly
+                  required
                 />
 
                 <label htmlFor="end-date">Ending Date:</label>
@@ -439,6 +465,7 @@ const generateBookId = () => {
                   name="end-date"
                   value={enddate}
                   readOnly
+                  required
                 />
 
                 <label>Booking Time:</label>
@@ -446,6 +473,7 @@ const generateBookId = () => {
                 type="time" 
                 value={bookingtime} 
                 readOnly 
+                required
                 />
 
                 <label>Ending Time:</label>
@@ -453,9 +481,10 @@ const generateBookId = () => {
                 type="time" 
                 value={endtime} 
                 readOnly 
+                required
                 />
 
-                <button type="submit" className="pay-subscribe-btn">
+                <button type="submit" className="pay-subscribe-btn" >
                   <FaCheck className="pay-icon" />
                   Confirm Booking
                 </button>
