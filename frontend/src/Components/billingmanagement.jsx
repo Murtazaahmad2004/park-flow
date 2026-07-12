@@ -42,7 +42,7 @@ function BillingManagement() {
   const [billings, setBillings] = useState([]);
 
   useEffect(() => {
-    document.title = "Billing  Management - ParkFlow";
+    document.title = "Admin || Billing  Management - ParkFlow";
 
     axios
       .get("http://localhost:3001/bookings")
@@ -291,8 +291,8 @@ function BillingManagement() {
           {/* RIGHT */}
           <div className="login-footer-section">
             <h3>Contact Us</h3>
-            <a href="mailto:support@parkflow.com" className="login-gmail">
-              support@parkflow.com
+            <a href="mailto:parkflow101@gmail.com" className="login-gmail">
+              parkflow101@gmail.com
             </a>
             <br />
             <a

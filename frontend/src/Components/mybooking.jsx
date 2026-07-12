@@ -39,8 +39,10 @@ function MyBooking () {
   useEffect(() => {
     document.title = "My Booking - ParkFlow";
 
+    const userid = localStorage.getItem("userid");
+
     axios
-      .get("http://localhost:3001/bookings")
+      .get(`http://localhost:3001/mybookings/${userid}`)
       .then((result) => setBookings(result.data))
       .catch((err) => console.log(err));
   }, []);
@@ -198,8 +200,6 @@ function MyBooking () {
                           <th>Booking Time</th>
                           <th>Ending Date</th>
                           <th>Ending Time</th>
-                          <th>Duration</th>
-                          <th>Status</th>
                           <th>QR Code</th>
                         </tr>
                       </thead>
@@ -209,7 +209,7 @@ function MyBooking () {
                         {/* bookings array ha */}
                         {/* index current item ka number ha */}
                         {bookings.map((booking, index) => (
-                          <tr key={booking.id}>
+                          <tr key={booking._id}>
                             <td>{index + 1}</td> {/* ✅ Auto Sr.No */}
                             <td>{booking.userid}</td>
                             <td>{booking.bookingid}</td>
@@ -226,8 +226,6 @@ function MyBooking () {
                             <td>{booking.bookingtime}</td>
                             <td>{booking.enddate}</td>
                             <td>{booking.endtime}</td>
-                            <td>{booking.duration}</td>
-                            <td>{booking.status}</td>
                             <td>
                               <button className="vehical-button-primary btn-primary">
                                 <FaCloudDownloadAlt className="icon" />
@@ -284,8 +282,8 @@ function MyBooking () {
           {/* RIGHT */}
           <div className="login-footer-section">
             <h3>Contact Us</h3>
-            <a href="mailto:support@parkflow.com" className="login-gmail">
-              support@parkflow.com
+            <a href="mailto:parkflow101@gmail.com" className="login-gmail">
+              parkflow101@gmail.com
             </a>
             <br />
             <a

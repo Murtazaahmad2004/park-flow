@@ -38,7 +38,7 @@ const scrollToTop = () => {
 
 function PlanForm() {
   useEffect(() => {
-    document.title = "Plan Page - ParkFlow";
+    document.title = "Admin || Plan - ParkFlow";
   }, []);
 
   const navigate = useNavigate();
@@ -392,8 +392,8 @@ function PlanForm() {
           {/* RIGHT */}
           <div className="login-footer-section">
             <h3>Contact Us</h3>
-            <a href="mailto:support@parkflow.com" className="login-gmail">
-              support@parkflow.com
+            <a href="mailto:parkflow101@gmail.com" className="login-gmail">
+              parkflow101@gmail.com
             </a>
             <br />
             <a

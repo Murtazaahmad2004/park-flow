@@ -15,8 +15,10 @@ import SlotManagement from "./Components/slotmanagement";
 import BillingManagement from "./Components/billingmanagement";
 import AdminBooking from "./Components/adminbooking";
 import PlanForm from "./Components/plan";
+import OTPVerification from "./Components/otpverification";
 import ScrollToTop from "./Components/scroll-top";
 import ProtectedRoute from "./Components/protectedroute";
+
 
 function App() {
   return (
@@ -135,6 +137,15 @@ function App() {
           element={
             <ProtectedRoute>
               <PlanForm/>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/otpverification"
+          element={
+            <ProtectedRoute>
+              <OTPVerification/>
             </ProtectedRoute>
           }
         />

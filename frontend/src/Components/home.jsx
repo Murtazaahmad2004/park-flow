@@ -129,7 +129,7 @@ transition={{ duration: 0.8 }}
       <li className="disabled">❌ No priority support</li>
       <li className="disabled">❌ No security monitoring</li>
    </ul>
-   <NavLink to="/paymentscreen" className="plan-buttons">Get Basic Plan</NavLink>
+   <NavLink to="/loginsignup" className="plan-buttons">Get Basic Plan</NavLink>
    </motion.div>
    {/* STANDARD */}
    <motion.div
@@ -152,7 +152,7 @@ transition={{ duration: 0.8 }}
       <li>🔐 Basic security monitoring</li>
       <li className="disabled">❌ No priority support</li>
    </ul>
-   <NavLink to="/paymentscreen" className="plan-buttons">Get Standard Plan</NavLink>
+   <NavLink to="/loginsignup" className="plan-buttons">Get Standard Plan</NavLink>
    </motion.div>
    {/* ADVANCED */}
    <motion.div
@@ -176,7 +176,7 @@ transition={{ duration: 0.8 }}
       <li>🧾 Digital + printable ticket</li>
       <li>📷 QR code access</li>
    </ul>
-   <NavLink to="/paymentscreen" className="plan-buttons">Get Advanced Plan</NavLink>
+   <NavLink to="/loginsignup" className="plan-buttons">Get Advanced Plan</NavLink>
    </motion.div>
    {/* PREMIUM */}
    <motion.div
@@ -199,7 +199,7 @@ transition={{ duration: 0.8 }}
       <li>🛎️ Priority customer support</li>
       <li>🔔 Real-time alerts & updates</li>
    </ul>
-   <NavLink to="/paymentscreen" className="plan-buttons">Get Premium Plan</NavLink>
+   <NavLink to="/loginsignup" className="plan-buttons">Get Premium Plan</NavLink>
    </motion.div>
 </div>
 {/* Product & Services Card */}
@@ -320,8 +320,8 @@ transition={{ duration: 0.8 }}
             {/* RIGHT */}
             <div className="login-footer-section">
               <h3>Contact Us</h3>
-              <a href="mailto:support@parkflow.com" className="login-gmail">
-                support@parkflow.com
+              <a href="mailto:parkflow101@gmail.com" className="login-gmail">
+                parkflow101@gmail.com
               </a>
               <br />
               <a

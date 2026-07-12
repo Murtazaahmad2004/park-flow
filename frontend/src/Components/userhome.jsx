@@ -313,7 +313,7 @@ function UserHome() {
                 stroke="#185FA5"
                 strokeWidth={2}
                 dot={{ r: 4 }}
-              />{" "}
+              />
               {/* monotype smooth curved line banata hai. */}
               <Line
                 type="monotone"
@@ -332,10 +332,8 @@ function UserHome() {
           >
             <h3 className="chart-title">Parking Overview</h3>
             <ResponsiveContainer width="100%" height={290}>
-              {" "}
               {/* Responsive Container Different screen sizes pe adjust hota ha */}
               <PieChart>
-                {" "}
                 {/* pie chart ka main container */}
                 <Pie
                   data={donutdata}
@@ -479,8 +477,8 @@ function UserHome() {
           {/* RIGHT */}
           <div className="login-footer-section">
             <h3>Contact Us</h3>
-            <a href="mailto:support@parkflow.com" className="login-gmail">
-              support@parkflow.com
+            <a href="mailto:parkflow101@gmail.com" className="login-gmail">
+              parkflow101@gmail.com
             </a>
             <br />
             <a

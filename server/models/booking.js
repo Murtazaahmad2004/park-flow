@@ -72,10 +72,6 @@ const BookingFormSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  duration: {
-    type: Number,
-    required: true,
-  },
 });
  
 module.exports = mongoose.model("booking", BookingFormSchema);

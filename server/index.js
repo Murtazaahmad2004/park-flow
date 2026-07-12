@@ -11,6 +11,7 @@ const Plan = require("./models/plan");
 const Slot = require("./models/slot");
 const bcrypt = require("bcryptjs");
 const emailRoutes = require("./routes/emailRoutes");
+const booking = require("./models/booking");
 
 const app = express(); //Express ko use karke application banai ja rahi hai.
 app.use(express.json()); // Frontend say data JSON format ma send krna
@@ -97,6 +98,7 @@ app.post("/login", async (req, res) => {
       userid: user.userid,
       name: user.name,
       email: user.email,
+      password: user.password,
       role: user.role,
       status: "Success",
       loginTime: pakistanDate,
@@ -163,9 +165,14 @@ app.post("/bookingform", async (req, res) => {
       status: "Success",
       bookingform,
     });
-  } catch (err) {
-    res.status(500).json(err);
-  }
+  } catch(err){
+
+    console.log(err);
+
+    res.status(500).json({
+        error: err.message
+    });
+}
 });
 
 // ---------- ADD STAFF ----------
@@ -257,8 +264,19 @@ app.get("/slots", async (req, res) => {
   }
 });
 
-// console.log("EMAIL_USER:", process.env.EMAIL_USER);
-// console.log("EMAIL_PASS:", process.env.EMAIL_PASS);
+app.get("/mybookings/:userid", async (req, res) => {
+  try {
+    const bookings = await BookingForm.find({
+      userid: req.params.userid,
+    });
+
+    res.json(bookings);
+
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+});
 
 app.listen(3001, () => {
   console.log("server is running");

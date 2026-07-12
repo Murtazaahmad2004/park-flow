@@ -423,7 +423,7 @@ function AdminDashboard() {
                 fill="#4472a0"
                 barSize={30}
                 name="Vehicals Entries"
-              />{" "}
+              />
               {/* monotone smooth curved line banata hai. */}
             </BarChart>
           </motion.div>
@@ -512,8 +512,8 @@ function AdminDashboard() {
           {/* RIGHT */}
           <div className="login-footer-section">
             <h3>Contact Us</h3>
-            <a href="mailto:support@parkflow.com" className="login-gmail">
-              support@parkflow.com
+            <a href="mailto:parkflow101@gmail.com" className="login-gmail">
+              parkflow101@gmail.com
             </a>
             <br />
             <a

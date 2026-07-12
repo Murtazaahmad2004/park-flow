@@ -311,7 +311,7 @@ const generateBookId = () => {
                 <input
                   type="text"
                   id="userid"
-                  value={user.userid}
+                  value={userid}
                   readOnly
                   required
                 />
@@ -537,8 +537,8 @@ const generateBookId = () => {
           {/* RIGHT */}
           <div className="login-footer-section">
             <h3>Contact Us</h3>
-            <a href="mailto:support@parkflow.com" className="login-gmail">
-              support@parkflow.com
+            <a href="mailto:parkflow101@gmail.com" className="login-gmail">
+              parkflow101@gmail.com
             </a>
             <br />
             <a

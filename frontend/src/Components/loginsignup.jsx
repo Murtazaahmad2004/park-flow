@@ -98,32 +98,46 @@ function LoginSignup() {
 
     // ---------- LOGIN ----------
     axios
-      .post("http://localhost:3001/login", {
-        email,
-        password,
-      })
-      .then((result) => {
-        if (result.data.status === "Success") {
-          localStorage.setItem("isLoggedIn", "true");
-          localStorage.setItem("role", result.data.role);
+  .post("http://localhost:3001/login", {
+    email,
+    password,
+  })
+  .then((result) => {
 
-          localStorage.setItem(
-            "user", 
-            JSON.stringify(result.data.user)
-          );
-          
-          if (result.data.role === "admin") {
-            navigate("/admindashboard");
-          } else {
-            navigate("/userhome");
-          }
-        } else {
-          alert("Invalid Email or Password");
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    if (result.data.status === "Success") {
+
+      // Login Status
+      localStorage.setItem("isLoggedIn", "true");
+      localStorage.setItem("userid", result.data.user.userid);
+      localStorage.setItem("email", result.data.user.email);
+
+      // User Object Save
+      localStorage.setItem(
+        "user",
+        JSON.stringify(result.data.user)
+      );
+
+      // Role Save
+      localStorage.setItem(
+        "role",
+        result.data.user.role
+      );
+
+      // Redirect
+      if (result.data.user.role === "admin") {
+        navigate("/admindashboard");
+      } else {
+        navigate("/userhome");
+      }
+
+    } else {
+      alert("Invalid Email or Password");
+    }
+
+  })
+  .catch((err) => {
+    console.log(err);
+  });
   };
 
   return (
@@ -353,8 +367,8 @@ function LoginSignup() {
             <div className="login-footer-section">
               <h3>Contact Us</h3>
 
-              <a href="mailto:support@parkflow.com" className="login-gmail">
-                support@parkflow.com
+              <a href="mailto:parkflow101@gmail.com" className="login-gmail">
+                parkflow101@gmail.com
               </a>
 
               <br />

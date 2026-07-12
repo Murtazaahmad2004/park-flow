@@ -44,7 +44,7 @@ function StaffManagement() {
   const [staffs, setStaffs] = useState([]);
 
   useEffect(() => {
-    document.title = "Staff Management - ParkFlow";
+    document.title = "Admin || Staff Management - ParkFlow";
 
     axios
       .get("http://localhost:3001/addstaff")
@@ -304,8 +304,8 @@ function StaffManagement() {
           {/* RIGHT */}
           <div className="login-footer-section">
             <h3>Contact Us</h3>
-            <a href="mailto:support@parkflow.com" className="login-gmail">
-              support@parkflow.com
+            <a href="mailto:parkflow101@gmail.com" className="login-gmail">
+              parkflow101@gmail.com
             </a>
             <br />
             <a

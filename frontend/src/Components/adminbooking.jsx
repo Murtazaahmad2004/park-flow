@@ -40,7 +40,7 @@ function MyBooking() {
   const [bookings, setBookings] = useState([]);
 
   useEffect(() => {
-    document.title = "Booking - ParkFlow";
+    document.title = "Admin || Booking - ParkFlow";
 
     axios
       .get("http://localhost:3001/bookings")
@@ -233,8 +233,6 @@ function MyBooking() {
                 <th>Booking Time</th>
                 <th>Ending Date</th>
                 <th>Ending Time</th>
-                <th>Duration</th>
-                <th>Status</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -244,8 +242,8 @@ function MyBooking() {
               {/* bookings array ha */}
               {/* index current item ka number ha */}
               {bookings.map((booking, index) => (
-                <tr key={booking.id}>
-                  <td>{index + 1}</td> {/* ✅ Auto Sr.No */}
+                <tr key={booking._id}>
+                  <td>{index + 1}</td>
                   <td>{booking.userid}</td>
                   <td>{booking.bookingid}</td>
                   <td>{booking.name}</td>
@@ -261,8 +259,6 @@ function MyBooking() {
                   <td>{booking.bookingtime}</td>
                   <td>{booking.enddate}</td>
                   <td>{booking.endtime}</td>
-                  <td>{booking.duration}</td>
-                  <td>{booking.status}</td>
                   <td>
                     <button className="vehical-button-primary btn-primary">
                       <FaEdit className="icon" />
@@ -322,8 +318,8 @@ function MyBooking() {
           {/* RIGHT */}
           <div className="login-footer-section">
             <h3>Contact Us</h3>
-            <a href="mailto:support@parkflow.com" className="login-gmail">
-              support@parkflow.com
+            <a href="mailto:parkflow101@gmail.com" className="login-gmail">
+              parkflow101@gmail.com
             </a>
             <br />
             <a

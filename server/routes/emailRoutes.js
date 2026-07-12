@@ -21,10 +21,10 @@ router.post("/send-otp", async (req, res) => {
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
 
     // Memory me save (5 minutes)
-    OtpStore[email] = {
-        otp,
-        expires: Date.now() + 5 * 60 * 1000,
-    };
+   OtpStore[email] = {
+    otp,
+    expires: Date.now() + 5 * 60 * 1000,
+};
 
     // Email bhejo
     await sendOTPEmail(email, otp);
@@ -32,19 +32,20 @@ router.post("/send-otp", async (req, res) => {
         status: "OTP sent successfully",
     });
     } catch (error) {
-        console.log(error);
+    console.error("SEND OTP ERROR:", error);
 
-        res.status(500).json({
-            status: "Server Error"
-        });
-    }
+    res.status(500).json({
+        status: "Server Error",
+        message: error.message,
+    });
+}
 });
 
 // ================= VERIFY OTP =================
 router.post("/verify-otp", (req, res) => {
   const { email, otp } = req.body;
 
-  const data = otpStore[email];
+  const data = OtpStore[email];
 
   if (!data) {
     return res.json({
@@ -53,7 +54,7 @@ router.post("/verify-otp", (req, res) => {
   }
 
   if (Date.now() > data.expires) {
-    delete otpStore[email];
+    delete OtpStore[email];
 
     return res.json({
       status: "OTP Expired",
@@ -67,7 +68,7 @@ router.post("/verify-otp", (req, res) => {
   }
 
   // OTP verify ho gaya
-  delete otpStore[email];
+  delete OtpStore[email];
 
   res.json({
     status: "Verified",
