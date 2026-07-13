@@ -50,23 +50,36 @@ function UserHome() {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [user, setUser] = useState("");
-  const [totalSlots, setTotalSlots] = useState(0);
-  const [availableSlots, setAvailableSlots] = useState(0);
+  const [booking, setBooking] = useState("");
+  const [stats, setStats] = useState({
+    totalSlots: 0,
+    availableSlots: 0,
+    bookedSlots: 0,
+  });
 
   // PAGE TITLE
   useEffect(() => {
     document.title = "User DashBoard - ParkFlow";
 
     axios
-      .get("http://localhost:3001/api/slots/count")
+      .get("http://localhost:3001/booked-slots")
       .then((result) => {
-        setTotalSlots(result.data.totalSlots);
-        setAvailableSlots(result.data.availableSlots);
+        setStats(result.data);
       })
-      .catch((err) => {
+      .catch ((err) => {
         console.log(err);
       });
   }, []);
+
+  useEffect(() => {
+    const userid = localStorage.getItem("userid");
+  axios
+    .get(`http://localhost:3001/bookings/${userid}`)
+    .then((result) => {
+      setBooking(result.data);
+    })
+    .catch((err) => console.log(err));
+}, []);
 
   useEffect(() => {
     const loggedInUser = JSON.parse(localStorage.getItem("user"));
@@ -237,7 +250,7 @@ function UserHome() {
               </div>
               <div className="stat-info">
                 <p className="stat-label">Total Slots</p>
-                <h3 className="stat-number">{totalSlots}</h3>
+                <h3 className="stat-number">{stats.totalSlots}</h3>
                 <p className="stat-sub">All Parking Slots</p>
               </div>
             </motion.div>
@@ -252,7 +265,7 @@ function UserHome() {
               </div>
               <div className="stat-info">
                 <p className="stat-label">Available Slots</p>
-                <h3 className="stat-number">{availableSlots}</h3>
+                <h3 className="stat-number">{stats.availableSlots}</h3>
                 <p className="stat-sub">Slots Available</p>
               </div>
             </motion.div>
@@ -267,7 +280,7 @@ function UserHome() {
               </div>
               <div className="stat-info">
                 <p className="stat-label">Booked Slots</p>
-                <h3 className="stat-number">7</h3>
+                <h3 className="stat-number">{stats.bookedSlots}</h3>
                 <p className="stat-sub">Currently Booked</p>
               </div>
             </motion.div>
@@ -282,7 +295,7 @@ function UserHome() {
               </div>
               <div className="stat-info">
                 <p className="stat-label">Subscription Card</p>
-                <h3 className="stat-number">Basic Plan</h3>
+                <h3 className="stat-number">{booking.plan}</h3>
                 <p className="stat-sub">Currently Active Plan</p>
               </div>
             </motion.div>

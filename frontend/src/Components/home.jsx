@@ -1,8 +1,9 @@
 import { FaGlobe, FaTicketAlt, FaTachometerAlt, FaCreditCard, FaShieldAlt, FaClock, FaHeadset } from "react-icons/fa";
-import { FaCalendarCheck, FaSignInAlt } from 'react-icons/fa'
-import React, { useEffect } from "react"
-import { NavLink } from 'react-router-dom'
+import { FaCalendarCheck, FaSignInAlt } from 'react-icons/fa';
+import React, { useEffect, useState } from "react";
+import { NavLink } from 'react-router-dom';
 import { motion } from "framer-motion";
+import axios from "axios";
 import "./styling/home.css"
 
 // main banner animations //
@@ -28,8 +29,20 @@ behavior: "smooth"
 };
 // page title //
 function Home() {
+   const [plan, setPlan] = useState([]);
+
 useEffect(() => {
 document.title = "Home Page - ParkFlow";
+}, []);
+
+useEffect(() => {
+   axios.get("http://localhost:3001/plans")
+   .then((result) => {
+      setPlan(result.data);
+   })
+   .catch ((err) => {
+      console.log(err);
+   });
 }, []);
 return (
 <>
@@ -108,99 +121,28 @@ transition={{ duration: 0.8 }}
 </motion.div>
 {/* Pricing Plans */}
 <div className="pricing-container">
-   {/* BASIC */}
-   <motion.div
-   className="pricing-card"
-   variants={fadeUp}
-   initial="hidden"
-   whileInView="visible"
-   viewport={{ once: true }}
-   whileHover={{ y: -10, scale: 1.03 }}
-   transition={{ duration: 0.1 }}
-   >
-   <h2>Basic</h2>
-   <p className="price">Rs 800<span>/month</span></p>
-   <ul>
-      <li>🅿️ Standard parking slot</li>
-      <li>⏰ Unlimited parking duration</li>
-      <li>🧾 Digital parking ticket</li>
-      <li>📷 QR code entry</li>
-      <li>🚗 Suitable for short visits</li>
-      <li className="disabled">❌ No priority support</li>
-      <li className="disabled">❌ No security monitoring</li>
-   </ul>
-   <NavLink to="/loginsignup" className="plan-buttons">Get Basic Plan</NavLink>
-   </motion.div>
-   {/* STANDARD */}
-   <motion.div
-   className="pricing-card"
-   variants={fadeUp}
-   initial="hidden"
-   whileInView="visible"
-   viewport={{ once: true }}
-   whileHover={{ y: -10, scale: 1.03 }}
-   transition={{ duration: 0.1}}
-   >
-   <h2>Standard</h2>
-   <p className="price">Rs 1500<span>/month</span></p>
-   <ul>
-      <li>🅿️ Reserved parking slot</li>
-      <li>⏰ Unlimited parking duration</li>
-      <li>📱 Online booking access</li>
-      <li>🧾 Digital + printable ticket</li>
-      <li>📷 QR code access</li>
-      <li>🔐 Basic security monitoring</li>
-      <li className="disabled">❌ No priority support</li>
-   </ul>
-   <NavLink to="/loginsignup" className="plan-buttons">Get Standard Plan</NavLink>
-   </motion.div>
-   {/* ADVANCED */}
-   <motion.div
-   className="pricing-card popular"
-   variants={fadeUp}
-   initial="hidden"
-   whileInView="visible"
-   viewport={{ once: true }}
-   whileHover={{ y: -10, scale: 1.03 }}
-   transition={{ duration: 0.1}}
-   >
-   <span className="badge">Most Popular</span>
-   <h2>Advanced</h2>
-   <p className="price">Rs 2500<span>/month</span></p>
-   <ul>
-      <li>🅿️ Priority parking slot</li>
-      <li>⏰ Unlimited parking duration</li>
-      <li>📱 Instant online booking</li>
-      <li>🔐 CCTV security monitoring</li>
-      <li>🔔 SMS & Email notifications</li>
-      <li>🧾 Digital + printable ticket</li>
-      <li>📷 QR code access</li>
-   </ul>
-   <NavLink to="/loginsignup" className="plan-buttons">Get Advanced Plan</NavLink>
-   </motion.div>
-   {/* PREMIUM */}
-   <motion.div
-   className="pricing-card premium"
-   variants={fadeUp}
-   initial="hidden"
-   whileInView="visible"
-   viewport={{ once: true }}
-   whileHover={{ y: -10, scale: 1.03 }}
-   transition={{ duration: 0.1}}
-   >
-   <h2>Premium</h2>
-   <p className="price">Rs 7500<span>/year</span></p>
-   <ul>
-      <li>🅿️ VIP parking near entrance</li>
-      <li>⏰ Unlimited parking duration</li>
-      <li>📱 Instant booking + QR access</li>
-      <li>🔐 24/7 high-level security</li>
-      <li>🚗 Full vehicle safety guarantee</li>
-      <li>🛎️ Priority customer support</li>
-      <li>🔔 Real-time alerts & updates</li>
-   </ul>
-   <NavLink to="/loginsignup" className="plan-buttons">Get Premium Plan</NavLink>
-   </motion.div>
+   {plan.map((item) => (
+      <motion.div className="pricing-card" key={item._id}>
+         <h2>{item.planname}</h2>
+
+         <p className="price">
+           Rs {item.price}
+         <span>
+            /{item.durationtype}
+         </span>
+         </p>
+
+        <ul>
+         {item.features.map((features, index) => (
+            <li key={index}>{features}</li>
+         ))}
+        </ul>
+
+        <NavLink to="/loginsignup" className="plan-buttons">
+            Get {item.planname} Plan
+        </NavLink>
+      </motion.div>
+   ))}
 </div>
 {/* Product & Services Card */}
 <motion.div

@@ -4,7 +4,6 @@ const BookingFormSchema = new mongoose.Schema({
   userid: {
     type: String,
     required: true,
-    unique:true,
   },
   bookingid: {
     type: String,

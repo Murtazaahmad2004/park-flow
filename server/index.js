@@ -245,7 +245,6 @@ app.use("/api", slotRoutes);
 
 app.use("/email", emailRoutes);
 
-// GET PLAN PRICE IN FORM
 app.get("/plans", async (req, res) => {
   try {
     const plans = await Plan.find();
@@ -264,6 +263,26 @@ app.get("/slots", async (req, res) => {
   }
 });
 
+app.get("/bookings/:userid", async (req, res) => {
+  try {
+    const { userid } = req.params;
+
+    const bookings = await BookingForm.findOne({ userid });
+
+    if(!booking) {
+      return res.status(404).json({
+        message: "Booking Not Found",
+      });
+    }
+    
+    res.json(bookings);
+
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+});
+
 app.get("/mybookings/:userid", async (req, res) => {
   try {
     const bookings = await BookingForm.find({
@@ -275,6 +294,27 @@ app.get("/mybookings/:userid", async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(500).json(err);
+  }
+});
+
+
+app.get("/booked-slots", async (req, res) => {
+  try {
+    const totalSlots = await Slot.countDocuments();
+    const bookedSlots = await BookingForm.countDocuments();
+
+    const availableSlots = totalSlots - bookedSlots;
+
+    res.json({
+      totalSlots,
+      bookedSlots,
+      availableSlots,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      message: "Server Error",
+    });
   }
 });
 
