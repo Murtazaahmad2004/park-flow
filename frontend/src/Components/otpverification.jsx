@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FaKey } from "react-icons/fa";
+import Swal from "sweetalert2";
 import "./styling/otpverification.css";
 
 function OTPVerification() {
@@ -11,6 +12,8 @@ function OTPVerification() {
   // Email signup page se aayegi
   const email =
     location.state?.email || localStorage.getItem("otpEmail") || "";
+  const from = location.state?.from;
+
   const [otp, setOtp] = useState("");
 
   const handleVerifyOTP = async (e) => {
@@ -32,6 +35,13 @@ function OTPVerification() {
 
       if (result.data.status === "Verified") {
         alert("OTP Verified Successfully");
+
+        if (from === "forgetpassword") {
+          navigate("/resetpassword", {
+            state: { email },
+          });
+          return;
+        }
 
         const bookingData = JSON.parse(
             localStorage.getItem("bookingData")
@@ -56,7 +66,14 @@ function OTPVerification() {
     console.log("Error:", err);
     console.log("Response:", err.response?.data);
     console.log("Status:", err.response?.status);
-}
+
+    if (err.response) {
+      Swal.fire({
+        icon: "warning",
+        title: "You already have an active booking. Please wait until it expires.",
+      });
+    }
+  }
   };
 
   return (

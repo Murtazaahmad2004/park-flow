@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const sendOTPEmail = require("../middleware/Email");
+const SignupModel = require("../models/signup");
 
 // OTP temporary memory me store hoga
 const OtpStore = {};
@@ -74,5 +75,45 @@ router.post("/verify-otp", (req, res) => {
     status: "Verified",
   });
 });
+
+router.post("/resetpassword", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    console.log("Email:", email);
+    console.log("Password:", password);
+
+    const user = await SignupModel.findOne({ email });
+
+    console.log("User:", user);
+    
+  if (!user) {
+    return res.json({
+      status: "Error",
+      message: "User Not Found!",
+    });
+  }
+
+  const bcrypt = require("bcryptjs");
+
+  const hashedPassword = await bcrypt.hash(password, 10);
+  user.password = hashedPassword;
+
+  await user.save();
+
+  res.json({
+    status: "Success",
+    message: "New Password Updated."
+  });
+  } catch (error) {
+    console.log(err);
+
+    return res.status(500).json({
+      status: "Error",
+      message: err.message,
+    });
+  }
+});
+
 
 module.exports = router;

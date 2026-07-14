@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import axios from "axios";
 import {
@@ -272,10 +272,12 @@ function LoginSignup() {
           animate="visible"
           transition={{ delay: 0.5 }}
         >
-          Lost Password?
-          <Link to="/resetpassword">
-            <span> Click Here!</span>
-          </Link>
+          <p
+            style={{ cursor: "pointer" }}
+            onClick={() => navigate("/forgetpassword")}
+          >
+            Lost Password?
+          </p>
         </motion.div>
       )}
 

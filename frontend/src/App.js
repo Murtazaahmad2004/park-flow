@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./Components/home";
 import LoginSignup from "./Components/loginsignup";
+import ForgetPassword from "./Components/forgetpassword";
 import ResetPassword from "./Components/resetpassword";
 import UserHome from "./Components/userhome";
 import MyBooking from "./Components/mybooking";
@@ -29,6 +30,7 @@ function App() {
         {/* Public Routes */}
         <Route path="/" element={<Home />} />
         <Route path="/loginsignup" element={<LoginSignup />} />
+        <Route path="/forgetpassword" element={<ForgetPassword />} />
         <Route path="/resetpassword" element={<ResetPassword />} />
 
         {/* Protected User Routes */}

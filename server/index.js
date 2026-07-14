@@ -98,7 +98,6 @@ app.post("/login", async (req, res) => {
       userid: user.userid,
       name: user.name,
       email: user.email,
-      password: user.password,
       role: user.role,
       status: "Success",
       loginTime: pakistanDate,
@@ -121,8 +120,33 @@ app.post("/login", async (req, res) => {
 // ---------- BOOKING FORM ----------
 app.post("/bookingform", async (req, res) => {
   try {
-    const {
+    const { userid } = req.body;
+    const now = new Date();
+
+    const currentDate = now.toISOString().split("T")[0];
+    const currentTime = now.toTimeString().slice(0, 5);
+
+    const existingBooking = await BookingForm.findOne({
       userid,
+      $or: [
+        {
+          enddate: { $gt: currentDate }
+        },
+
+        {
+          enddate: currentDate,
+          endtime: { $gt: currentTime }
+        }
+      ]
+    });
+
+    if (existingBooking) {
+      return res.status(400).json({
+        message: "You already have an active booking. Please wait until it expires."
+      });
+    }
+
+    const {
       bookingid,
       name,
       email,
@@ -134,12 +158,10 @@ app.post("/bookingform", async (req, res) => {
       area,
       plan,
       price,
-      bookingday,
       bookingdate,
       enddate,
       bookingtime,
       endtime,
-      duration,
     } = req.body;
 
     const bookingform = await BookingForm.create({
@@ -159,9 +181,8 @@ app.post("/bookingform", async (req, res) => {
       enddate,
       bookingtime,
       endtime,
-      duration,
     });
-    res.json({
+    return res.json({
       status: "Success",
       bookingform,
     });
@@ -169,7 +190,7 @@ app.post("/bookingform", async (req, res) => {
 
     console.log(err);
 
-    res.status(500).json({
+    return res.status(500).json({
         error: err.message
     });
 }
@@ -317,6 +338,7 @@ app.get("/booked-slots", async (req, res) => {
     });
   }
 });
+
 
 app.listen(3001, () => {
   console.log("server is running");
