@@ -11,7 +11,7 @@ const fadeUp = {
 };
 
 function PaymentScreen() {
-  const bookingData = JSON.parse(localStorage.getItem("bookingData") || null );
+  const bookingData = JSON.parse(sessionStorage.getItem("bookingData") || null );
   
   const navigate = useNavigate();
 
@@ -37,7 +37,7 @@ function PaymentScreen() {
     try {
 
         const bookingData = JSON.parse(
-            localStorage.getItem("bookingData")
+            sessionStorage.getItem("bookingData")
         );
 
         const result = await axios.post(

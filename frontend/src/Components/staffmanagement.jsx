@@ -55,8 +55,8 @@ function StaffManagement() {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.removeItem("isLoggedIn");
-    localStorage.removeItem("role");
+    sessionStorage.removeItem("isLoggedIn");
+    sessionStorage.removeItem("role");
 
     navigate("/loginsignup");
   };

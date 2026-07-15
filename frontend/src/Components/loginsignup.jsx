@@ -107,18 +107,18 @@ function LoginSignup() {
     if (result.data.status === "Success") {
 
       // Login Status
-      localStorage.setItem("isLoggedIn", "true");
-      localStorage.setItem("userid", result.data.user.userid);
-      localStorage.setItem("email", result.data.user.email);
+      sessionStorage.setItem("isLoggedIn", "true");
+      sessionStorage.setItem("userid", result.data.user.userid);
+      sessionStorage.setItem("email", result.data.user.email);
 
       // User Object Save
-      localStorage.setItem(
+      sessionStorage.setItem(
         "user",
         JSON.stringify(result.data.user)
       );
 
       // Role Save
-      localStorage.setItem(
+      sessionStorage.setItem(
         "role",
         result.data.user.role
       );

@@ -11,7 +11,7 @@ function OTPVerification() {
 
   // Email signup page se aayegi
   const email =
-    location.state?.email || localStorage.getItem("otpEmail") || "";
+    location.state?.email || sessionStorage.getItem("otpEmail") || "";
   const from = location.state?.from;
 
   const [otp, setOtp] = useState("");
@@ -44,7 +44,7 @@ function OTPVerification() {
         }
 
         const bookingData = JSON.parse(
-            localStorage.getItem("bookingData")
+            sessionStorage.getItem("bookingData")
         );
 
         const saveResponse = await axios.post(
@@ -56,7 +56,7 @@ function OTPVerification() {
 
         alert("Booking Successful");
 
-        localStorage.removeItem("bookingData");
+        sessionStorage.removeItem("bookingData");
 
         navigate("/mybooking");
       } else {

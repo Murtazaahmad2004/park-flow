@@ -11,7 +11,6 @@ const Plan = require("./models/plan");
 const Slot = require("./models/slot");
 const bcrypt = require("bcryptjs");
 const emailRoutes = require("./routes/emailRoutes");
-const booking = require("./models/booking");
 
 const app = express(); //Express ko use karke application banai ja rahi hai.
 app.use(express.json()); // Frontend say data JSON format ma send krna
@@ -128,6 +127,8 @@ app.post("/bookingform", async (req, res) => {
 
     const existingBooking = await BookingForm.findOne({
       userid,
+      // $or means dono me se koi bhi ek condition true ho
+      // 1st condition true ho gi to 2nd check ho gi
       $or: [
         {
           enddate: { $gt: currentDate }
@@ -182,6 +183,14 @@ app.post("/bookingform", async (req, res) => {
       bookingtime,
       endtime,
     });
+
+    await Slot.findOneAndUpdate(
+      { slot },
+      { 
+        status: "booked"
+      }
+    );
+
     return res.json({
       status: "Success",
       bookingform,
@@ -277,14 +286,17 @@ app.get("/plans", async (req, res) => {
 
 app.get("/slots", async (req, res) => {
   try {
-    const slots = await Slot.find();
+    const slots = await Slot.find({
+      status: "available"
+    });
+    
     res.json(slots);
   } catch (err) {
     res.status(500).json(err);
   }
 });
 
-app.get("/bookings/:userid", async (req, res) => {
+app.get("/booking/:userid", async (req, res) => {
   try {
     const { userid } = req.params;
 
@@ -318,7 +330,6 @@ app.get("/mybookings/:userid", async (req, res) => {
   }
 });
 
-
 app.get("/booked-slots", async (req, res) => {
   try {
     const totalSlots = await Slot.countDocuments();
@@ -339,6 +350,39 @@ app.get("/booked-slots", async (req, res) => {
   }
 });
 
+// DELETE ROUTES 
+app.delete("/booking/:bookingid", async (req, res) => {
+  try {
+    const booking = await BookingForm.findOne({
+      bookingid: req.params.bookingid,
+    });
+
+    if(!booking) {
+      return res.status(404).json({
+        message: "Booking Not Found."
+      });
+    }
+
+    await Slot.findOneAndUpdate(
+      { slot: booking.slot },
+      { status: "available" }
+    );
+
+    await BookingForm.findOneAndUpdate({
+      bookingid: req.params.bookingid,
+    });
+    
+    res.json({
+      status: "Success",
+      message: "Booking Cancelled",
+    });
+
+  } catch (err) {
+    res.status(500).json({
+      err: err.message,
+    });
+  }
+});
 
 app.listen(3001, () => {
   console.log("server is running");

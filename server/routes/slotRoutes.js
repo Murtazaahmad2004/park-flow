@@ -19,11 +19,25 @@ router.post("/slots", async (req, res) => {
   }
 });
 
+router.get("/slots", async (req, res) => {
+  try {
+    const slots = await Slot.find({
+      status: "available",
+    });
+
+    res.json(slots);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 // Get total slots count
 router.get("/slots/count", async (req, res) => {
   try {
     const totalSlots = await Slot.countDocuments();
-    const availableSlots = await Slot.countDocuments();
+    const availableSlots = await Slot.countDocuments({
+      status: "available"
+    });
 
     res.json({
       totalSlots,

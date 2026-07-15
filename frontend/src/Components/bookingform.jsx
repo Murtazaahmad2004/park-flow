@@ -85,7 +85,7 @@ const generateBookId = () => {
   }, []);
 
     useEffect(() => {
-      const loggedInUser = JSON.parse(localStorage.getItem("user"));
+      const loggedInUser = JSON.parse(sessionStorage.getItem("user"));
   
       if(loggedInUser) {
         setUser(loggedInUser);
@@ -94,9 +94,9 @@ const generateBookId = () => {
     }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem("isLoggedIn");
-    localStorage.removeItem("role");
-    localStorage.removeItem("user");
+    sessionStorage.removeItem("isLoggedIn");
+    sessionStorage.removeItem("role");
+    sessionStorage.removeItem("user");
 
     navigate("/loginsignup");
   };
@@ -182,7 +182,7 @@ const generateBookId = () => {
         endtime,
       };
 
-      localStorage.setItem("bookingData", JSON.stringify(result));
+      sessionStorage.setItem("bookingData", JSON.stringify(result));
       navigate("/paymentscreen");
   };
 

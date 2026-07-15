@@ -6,6 +6,11 @@ const slotSchema = new mongoose.Schema({
         required: true,
         unique: true,
     },
+    status: {
+        type: String,
+        enum: ["available", "booked"],
+        default: "available",
+    },
 });
 
 module.exports = mongoose.model("slot", slotSchema);

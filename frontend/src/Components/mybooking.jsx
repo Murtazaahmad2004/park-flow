@@ -10,7 +10,7 @@ import {
   FaParking,
   FaSignOutAlt,
 } from "react-icons/fa";
-import { MdDashboard } from "react-icons/md";
+import { MdCancel, MdDashboard } from "react-icons/md";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 60 },
@@ -30,16 +30,16 @@ const scrollToTop = () => {
   window.scrollTo({ top: 0, behavior: "smooth" });
 };
 
-function MyBooking () {
-   const navigate = useNavigate();
-    const [open, setOpen] = useState(false);
-    const [user, setUser] = useState("");
-    const [bookings, setBookings] = useState([]);
+function MyBooking() {
+  const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
+  const [user, setUser] = useState("");
+  const [bookings, setBookings] = useState([]);
 
   useEffect(() => {
     document.title = "My Booking - ParkFlow";
 
-    const userid = localStorage.getItem("userid");
+    const userid = sessionStorage.getItem("userid");
 
     axios
       .get(`http://localhost:3001/mybookings/${userid}`)
@@ -47,18 +47,31 @@ function MyBooking () {
       .catch((err) => console.log(err));
   }, []);
 
-    useEffect(() => {
-      const loggedInUser = JSON.parse(localStorage.getItem("user"));
-  
-      if(loggedInUser) {
-        setUser(loggedInUser);
-      }
-    }, []);
+  useEffect(() => {
+    const loggedInUser = JSON.parse(sessionStorage.getItem("user"));
 
+    if (loggedInUser) {
+      setUser(loggedInUser);
+    }
+  }, []);
+
+  const cancelBooking = async (bookingid) => {
+    try {
+      await axios.delete(`http://localhost:3001/booking/${bookingid}`);
+      setBookings (
+        bookings.filter (
+          b => b.bookingid!==bookingid
+        )
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  
   const handleLogout = () => {
-    localStorage.removeItem("isLoggedIn");
-    localStorage.removeItem("role");
-    localStorage.removeItem("user");
+    sessionStorage.removeItem("isLoggedIn");
+    sessionStorage.removeItem("role");
+    sessionStorage.removeItem("user");
 
     navigate("/loginsignup");
   };
@@ -75,52 +88,52 @@ function MyBooking () {
             </NavLink>
           </div>
           <h1>ParkFlow</h1>
-          
-           {/* DROPDOWN */}
-                    <div
-                      className="dropdown-container"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setOpen(!open);
-                      }}
-                    >
-                      <span className="user-name">{user.name}</span>
-                      <FaChevronDown className="icon" />
-                      {open && (
-                        <div className="dropdown-menu">
-                          <div className="dropdown-header">
-                            <div className="dropdown-logo">
-                              <img src="/logo.png" alt="Logo" />
-                            </div>
-          
-                            <div className="dropdown-user-info">
-                              <h3>{user.name}</h3>
-                              <p>{user.email}</p>
-                              <p>{user.userid}</p>
-                            </div>
-                          </div>
-                          <hr />
-                          <motion.div
-                          variants={fadeUp}
-                          whileHover={{ x: 10 }} // Hover karne pe element 10px right move karega
-                        >
-                          <NavLink
-                            to="/loginsignup"
-                            className="user-nav-item"
-                            onClick={() => {
-                              scrollToTop();
-                              handleLogout();
-                            }}
-                          >
-                            <li>
-                              <FaSignOutAlt className="icon" />
-                              Logout
-                            </li>
-                          </NavLink>
-                        </motion.div>
-                        </div>
-                      )}
-                    </div>
+
+          {/* DROPDOWN */}
+          <div
+            className="dropdown-container"
+            onClick={(e) => {
+              e.stopPropagation();
+              setOpen(!open);
+            }}
+          >
+            <span className="user-name">{user.name}</span>
+            <FaChevronDown className="icon" />
+            {open && (
+              <div className="dropdown-menu">
+                <div className="dropdown-header">
+                  <div className="dropdown-logo">
+                    <img src="/logo.png" alt="Logo" />
+                  </div>
+
+                  <div className="dropdown-user-info">
+                    <h3>{user.name}</h3>
+                    <p>{user.email}</p>
+                    <p>{user.userid}</p>
+                  </div>
+                </div>
+                <hr />
+                <motion.div
+                  variants={fadeUp}
+                  whileHover={{ x: 10 }} // Hover karne pe element 10px right move karega
+                >
+                  <NavLink
+                    to="/loginsignup"
+                    className="user-nav-item"
+                    onClick={() => {
+                      scrollToTop();
+                      handleLogout();
+                    }}
+                  >
+                    <li>
+                      <FaSignOutAlt className="icon" />
+                      Logout
+                    </li>
+                  </NavLink>
+                </motion.div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
@@ -181,60 +194,68 @@ function MyBooking () {
           animate="visible"
           transition={{ duration: 0.6 }}
         >
-           <table className="booking-table">
-                      <thead>
-                        <tr>
-                          <th>Sr.No</th>
-                          <th>User ID</th>
-                          <th>Booking ID</th>
-                          <th>Name</th>
-                          <th>Email</th>
-                          <th>CNIC</th>
-                          <th>Vehicle Number</th>
-                          <th>Vehicle Type</th>
-                          <th>Slot Number</th>
-                          <th>Parking Area</th>
-                          <th>Plan</th>
-                          <th>Price</th>
-                          <th>Booking Date</th>
-                          <th>Booking Time</th>
-                          <th>Ending Date</th>
-                          <th>Ending Time</th>
-                          <th>QR Code</th>
-                        </tr>
-                      </thead>
-          
-                      <tbody>
-                        {/* booking current item ha */}
-                        {/* bookings array ha */}
-                        {/* index current item ka number ha */}
-                        {bookings.map((booking, index) => (
-                          <tr key={booking._id}>
-                            <td>{index + 1}</td> {/* ✅ Auto Sr.No */}
-                            <td>{booking.userid}</td>
-                            <td>{booking.bookingid}</td>
-                            <td>{booking.name}</td>
-                            <td>{booking.email}</td>
-                            <td>{booking.cnic}</td>
-                            <td>{booking.vehiclenumber}</td>
-                            <td>{booking.vehicletype}</td>
-                            <td>{booking.slot}</td>
-                            <td>{booking.area}</td>
-                            <td>{booking.plan}</td>
-                            <td>Rs. {booking.price}</td>
-                            <td>{booking.bookingdate}</td>
-                            <td>{booking.bookingtime}</td>
-                            <td>{booking.enddate}</td>
-                            <td>{booking.endtime}</td>
-                            <td>
-                              <button className="vehical-button-primary btn-primary">
-                                <FaCloudDownloadAlt className="icon" />
-                              </button>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
+          <table className="booking-table">
+            <thead>
+              <tr>
+                <th>Sr.No</th>
+                <th>User ID</th>
+                <th>Booking ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>CNIC</th>
+                <th>Vehicle Number</th>
+                <th>Vehicle Type</th>
+                <th>Slot Number</th>
+                <th>Parking Area</th>
+                <th>Plan</th>
+                <th>Price</th>
+                <th>Booking Date</th>
+                <th>Booking Time</th>
+                <th>Ending Date</th>
+                <th>Ending Time</th>
+                <th>QR Code</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {/* booking current item ha */}
+              {/* bookings array ha */}
+              {/* index current item ka number ha */}
+              {bookings.map((booking, index) => (
+                <tr key={booking._id}>
+                  <td>{index + 1}</td> {/* ✅ Auto Sr.No */}
+                  <td>{booking.userid}</td>
+                  <td>{booking.bookingid}</td>
+                  <td>{booking.name}</td>
+                  <td>{booking.email}</td>
+                  <td>{booking.cnic}</td>
+                  <td>{booking.vehiclenumber}</td>
+                  <td>{booking.vehicletype}</td>
+                  <td>{booking.slot}</td>
+                  <td>{booking.area}</td>
+                  <td>{booking.plan}</td>
+                  <td>Rs. {booking.price}</td>
+                  <td>{booking.bookingdate}</td>
+                  <td>{booking.bookingtime}</td>
+                  <td>{booking.enddate}</td>
+                  <td>{booking.endtime}</td>
+                  <td>
+                    <button className="vehical-button-primary btn-primary">
+                      <FaCloudDownloadAlt className="icon" />
+                    </button>
+                    <button
+                      className="vehical-button-danger btn-danger"
+                      onClick={() => {
+                        cancelBooking(booking.bookingid);
+                      }}
+                    >
+                      <MdCancel className="icon" />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </motion.div>
       </div>
 
@@ -304,6 +325,6 @@ function MyBooking () {
       </footer>
     </>
   );
-};
+}
 
 export default MyBooking;

@@ -72,7 +72,7 @@ function UserHome() {
   }, []);
 
   useEffect(() => {
-    const userid = localStorage.getItem("userid");
+    const userid = sessionStorage.getItem("userid");
   axios
     .get(`http://localhost:3001/bookings/${userid}`)
     .then((result) => {
@@ -82,7 +82,7 @@ function UserHome() {
 }, []);
 
   useEffect(() => {
-    const loggedInUser = JSON.parse(localStorage.getItem("user"));
+    const loggedInUser = JSON.parse(sessionStorage.getItem("user"));
 
     if(loggedInUser) {
       setUser(loggedInUser);
@@ -90,9 +90,9 @@ function UserHome() {
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem("isLoggedIn");
-    localStorage.removeItem("role");
-    localStorage.removeItem("user");
+    sessionStorage.removeItem("isLoggedIn");
+    sessionStorage.removeItem("role");
+    sessionStorage.removeItem("user");
 
     navigate("/loginsignup");
   };
