@@ -20,7 +20,6 @@ import OTPVerification from "./Components/otpverification";
 import ScrollToTop from "./Components/scroll-top";
 import ProtectedRoute from "./Components/protectedroute";
 
-
 function App() {
   return (
     <BrowserRouter>
@@ -32,6 +31,8 @@ function App() {
         <Route path="/loginsignup" element={<LoginSignup />} />
         <Route path="/forgetpassword" element={<ForgetPassword />} />
         <Route path="/resetpassword" element={<ResetPassword />} />
+        <Route path="/otpverification" element={<OTPVerification />} />
+        <Route path="/paymentscreen" element={<PaymentScreen />} />
 
         {/* Protected User Routes */}
         <Route
@@ -61,14 +62,14 @@ function App() {
           }
         />
 
-        <Route
+        {/* <Route
           path="/paymentscreen"
           element={
             <ProtectedRoute>
               <PaymentScreen />
             </ProtectedRoute>
           }
-        />
+        /> */}
 
         {/* Protected Admin Routes */}
         <Route
@@ -138,16 +139,7 @@ function App() {
           path="/plan"
           element={
             <ProtectedRoute>
-              <PlanForm/>
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/otpverification"
-          element={
-            <ProtectedRoute>
-              <OTPVerification/>
+              <PlanForm />
             </ProtectedRoute>
           }
         />

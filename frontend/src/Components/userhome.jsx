@@ -74,7 +74,7 @@ function UserHome() {
   useEffect(() => {
     const userid = sessionStorage.getItem("userid");
   axios
-    .get(`http://localhost:3001/bookings/${userid}`)
+    .get(`http://localhost:3001/booking/${userid}`)
     .then((result) => {
       setBooking(result.data);
     })

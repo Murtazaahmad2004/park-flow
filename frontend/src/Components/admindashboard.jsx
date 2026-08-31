@@ -84,8 +84,17 @@ const scrollToTop = () => {
 };
 
 function AdminDashboard() {
-  const [totalSlots, setTotalSlots] = useState(0);
-  const [availableSlots, setAvailableSlots] = useState(0);
+  // const [totalSlots, setTotalSlots] = useState(0);
+  // const [availableSlots, setAvailableSlots] = useState(0);
+  // const [stats, setStats] = useState({
+  //   bookedSlots: 0,
+  // });
+
+   const [stats, setStats] = useState({
+      totalSlots: 0,
+      availableSlots: 0,
+      bookedSlots: 0,
+    });
 
   useEffect(() => {
     document.title = "Admin Dashboard - ParkFlow";
@@ -93,8 +102,19 @@ function AdminDashboard() {
     axios
       .get("http://localhost:3001/api/slots/count")
       .then((res) => {
-        setTotalSlots(res.data.totalSlots);
-        setAvailableSlots(res.data.availableSlots);
+        setStats(res.data.stats.totalSlots);
+        setStats(res.data.stats.availableSlots);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:3001/booked-slots")
+      .then((result) => {
+        setStats(result.data);
       })
       .catch((err) => {
         console.log(err);
@@ -290,7 +310,7 @@ function AdminDashboard() {
               </div>
               <div className="stat-info">
                 <p className="stat-label">Total Slots</p>
-                <h3 className="stat-number">{totalSlots}</h3>
+                <h3 className="stat-number">{stats.totalSlots}</h3>
                 <p className="stat-sub">All Parking Slots</p>
               </div>
             </motion.div>
@@ -305,7 +325,7 @@ function AdminDashboard() {
               </div>
               <div className="stat-info">
                 <p className="stat-label">Available Slots</p>
-                <h3 className="stat-number">{availableSlots}</h3>
+                <h3 className="stat-number">{stats.availableSlots}</h3>
                 <p className="stat-sub">Slots Available</p>
               </div>
             </motion.div>
@@ -320,7 +340,7 @@ function AdminDashboard() {
               </div>
               <div className="stat-info">
                 <p className="stat-label">Booked Slots</p>
-                <h3 className="stat-number">12</h3>
+                <h3 className="stat-number">{stats.bookedSlots}</h3>
                 <p className="stat-sub">Currently Booked</p>
               </div>
             </motion.div>
