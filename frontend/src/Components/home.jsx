@@ -133,7 +133,7 @@ function Home() {
         </p>
       </motion.div>
       {/* Pricing Plans */}
-      <div className="plan-detail-container">
+      <div className="pricing-container">
         {plan.map((item) => (
           <motion.div className="pricing-card" key={item._id}>
             <h2>{item.planname}</h2>
